@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedBoost AI — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ee;
+    --accent: #0057ff;
+    --accent2: #00c896;
+    --warn: #ff4757;
+    --mid: #6b7280;
+    --card: #ffffff;
+    --border: #e5e2da;
+    --glow: rgba(0,87,255,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    flex: 0 0 48%;
+    background: linear-gradient(145deg, #0a0a0f 0%, #0b1535 50%, #061028 100%);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .left-panel::before {
+    content: '';
+    position: absolute; top: -40%; left: -20%;
+    width: 80%; height: 80%;
+    background: radial-gradient(circle, rgba(0,87,255,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .left-panel::after {
+    content: '';
+    position: absolute; bottom: -30%; right: -20%;
+    width: 70%; height: 70%;
+    background: radial-gradient(circle, rgba(0,200,150,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Grid pattern overlay */
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .panel-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    text-decoration: none; color: var(--paper);
+    position: relative; z-index: 1;
+  }
+  .panel-logo span { color: var(--accent); }
+
+  .panel-main {
+    position: relative; z-index: 1;
+  }
+
+  .panel-main h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.2rem;
+  }
+
+  .panel-main h2 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .panel-main p {
+    font-size: 1rem; color: rgba(245,243,238,0.5);
+    line-height: 1.65; max-width: 380px;
+    font-weight: 300;
+  }
+
+  .stat-row {
+    display: flex; gap: 2rem; margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {}
+  .stat-item .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--paper); letter-spacing: -0.04em;
+  }
+  .stat-item .lbl {
+    font-size: .78rem; color: rgba(245,243,238,.4);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  .testimonial-block {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .testimonial-block .stars { color: #f59e0b; font-size: .9rem; margin-bottom: .7rem; }
+  .testimonial-block blockquote {
+    font-size: .88rem; color: rgba(245,243,238,.65);
+    line-height: 1.6; font-style: italic; margin-bottom: 1rem;
+  }
+  .testimonial-author { display: flex; align-items: center; gap: .8rem; }
+  .t-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: .8rem; color: white;
+    flex-shrink: 0;
+  }
+  .testimonial-author h4 { font-size: .85rem; font-weight: 600; }
+  .testimonial-author p { font-size: .75rem; color: rgba(245,243,238,.4); }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    flex: 1;
+    background: var(--paper);
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    padding: 3rem 4rem;
+    position: relative;
+  }
+
+  .form-container {
+    width: 100%; max-width: 420px;
+  }
+
+  .form-switch {
+    display: flex; gap: .5rem; margin-bottom: 2.5rem;
+    background: rgba(0,0,0,.06); border-radius: 12px; padding: 4px;
+  }
+
+  .switch-btn {
+    flex: 1; padding: .65rem;
+    border: none; background: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem; font-weight: 500;
+    border-radius: 9px; color: var(--mid);
+    transition: all .2s;
+  }
+
+  .switch-btn.active {
+    background: white; color: var(--ink);
+    box-shadow: 0 1px 8px rgba(0,0,0,.1);
+    font-weight: 600;
+  }
+
+  /* Form header */
+  .form-header { margin-bottom: 2rem; }
+
+  .form-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.9rem; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1.15;
+    margin-bottom: .5rem;
+  }
+
+  .form-header p { font-size: .92rem; color: var(--mid); }
+
+  .form-header a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .form-header a:hover { text-decoration: underline; }
+
+  /* Social login */
+  .social-row {
+    display: flex; gap: .8rem; margin-bottom: 1.5rem;
+  }
+
+  .social-btn {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: .6rem;
+    padding: .8rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px; background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem; font-weight: 500; color: var(--ink);
+    cursor: pointer; text-decoration: none;
+    transition: border-color .2s, transform .15s, box-shadow .2s;
+  }
+
+  .social-btn:hover {
+    border-color: var(--ink); transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  }
+
+  .social-btn svg { flex-shrink: 0; }
+
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: .8rem; color: var(--mid);
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* Form fields */
+  .field { margin-bottom: 1.2rem; }
+
+  .field label {
+    display: block; font-size: .82rem; font-weight: 600;
+    margin-bottom: .45rem; color: var(--ink);
+  }
+
+  .field-wrap {
+    position: relative;
+  }
+
+  .field-wrap .field-icon {
+    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--mid); font-size: .95rem; pointer-events: none;
+  }
+
+  .field-wrap input {
+    width: 100%; padding: .85rem 1rem .85rem 2.8rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem; color: var(--ink);
+    background: white; outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  .field-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,87,255,.08);
+  }
+
+  .field-wrap input.error { border-color: var(--warn); }
+
+  .field-error {
+    font-size: .78rem; color: var(--warn);
+    margin-top: .35rem; display: none;
+  }
+  .field-error.show { display: block; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+
+  /* Password toggle */
+  .toggle-pwd {
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: var(--mid); font-size: .85rem; padding: .2rem;
+  }
+
+  /* Remember / Forgot */
+  .form-extras {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5rem; margin-top: -.2rem;
+  }
+
+  .checkbox-wrap {
+    display: flex; align-items: center; gap: .5rem;
+    font-size: .85rem; color: var(--mid); cursor: pointer;
+  }
+
+  .checkbox-wrap input[type="checkbox"] {
+    width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer;
+  }
+
+  .forgot-link {
+    font-size: .85rem; color: var(--accent);
+    text-decoration: none; font-weight: 500;
+  }
+
+  .forgot-link:hover { text-decoration: underline; }
+
+  /* Password strength */
+  .pwd-strength { margin-top: .5rem; }
+  .strength-bar {
+    height: 3px; background: var(--border); border-radius: 2px; overflow: hidden;
+    margin-bottom: .3rem;
+  }
+  .strength-fill {
+    height: 100%; border-radius: 2px; transition: width .3s, background .3s;
+    width: 0%;
+  }
+  .strength-label { font-size: .75rem; color: var(--mid); }
+
+  /* Terms */
+  .terms-text {
+    font-size: .78rem; color: var(--mid);
+    text-align: center; margin-bottom: 1.2rem; line-height: 1.5;
+  }
+  .terms-text a { color: var(--accent); text-decoration: none; }
+  .terms-text a:hover { text-decoration: underline; }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%; padding: .95rem;
+    background: var(--accent); color: white;
+    border: none; border-radius: 12px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+    transition: transform .15s, box-shadow .2s, background .2s;
+    box-shadow: 0 4px 20px var(--glow);
+    margin-bottom: 1.5rem;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px); box-shadow: 0 8px 30px var(--glow);
+    background: #0045d4;
+  }
+
+  .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  .btn-spinner {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.3);
+    border-top-color: white;
+    animation: spin .7s linear infinite; display: none;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Success state */
+  .success-view {
+    display: none; text-align: center; padding: 2rem;
+  }
+
+  .success-view.show { display: block; }
+
+  .success-icon {
+    width: 72px; height: 72px; background: rgba(0,200,150,.1);
+    border: 2px solid var(--accent2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin: 0 auto 1.5rem;
+    animation: popIn .4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .success-view h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800;
+    margin-bottom: .6rem;
+  }
+
+  .success-view p { font-size: .95rem; color: var(--mid); margin-bottom: 2rem; }
+
+  /* Error banner */
+  .error-banner {
+    background: rgba(255,71,87,.08); border: 1px solid rgba(255,71,87,.2);
+    border-radius: 10px; padding: .8rem 1rem;
+    font-size: .85rem; color: var(--warn);
+    margin-bottom: 1rem; display: none;
+    align-items: center; gap: .6rem;
+  }
+  .error-banner.show { display: flex; }
+
+  /* Plan badge on register */
+  .plan-select {
+    display: flex; gap: .6rem; margin-bottom: 1.2rem;
+  }
+
+  .plan-opt {
+    flex: 1; padding: .8rem .5rem; border: 1.5px solid var(--border);
+    border-radius: 12px; background: white; cursor: pointer;
+    text-align: center; transition: all .2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .plan-opt:hover { border-color: var(--accent); }
+
+  .plan-opt.selected {
+    border-color: var(--accent);
+    background: rgba(0,87,255,.04);
+  }
+
+  .plan-opt .plan-name { font-weight: 600; font-size: .85rem; display: block; }
+  .plan-opt .plan-price { font-size: .78rem; color: var(--mid); }
+  .plan-opt .plan-badge {
+    display: inline-block; background: var(--accent); color: white;
+    font-size: .65rem; font-weight: 700; padding: .15rem .5rem;
+    border-radius: 100px; margin-top: .3rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .left-panel { display: none; }
+    .right-panel { padding: 2rem; }
+  }
+
+  /* Animations */
+  .form-container { animation: fadeIn .4s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Tab views */
+  .auth-view { display: none; }
+  .auth-view.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="left-panel">
+  <div class="grid-overlay"></div>
+
+  <a href="linkedin-ai-optimizer.html" class="panel-logo">Linked<span>Boost</span> AI</a>
+
+  <div class="panel-main">
+    <h2>Grow your<br>LinkedIn <em>10×</em><br>with AI</h2>
+    <p>Thousands of professionals use LinkedBoost to write better posts, optimize their profiles, and land more opportunities.</p>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="num">2,400+</div>
+        <div class="lbl">Active Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">3×</div>
+        <div class="lbl">More Profile Views</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">47k</div>
+        <div class="lbl">Posts Generated</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonial-block">
+    <div class="stars">★★★★★</div>
+    <blockquote>"In 30 days, my connection requests went up 4×. The AI-written posts actually sound like me — not a robot."</blockquote>
+    <div class="testimonial-author">
+      <div class="t-avatar">SK</div>
+      <div>
+        <h4>Sara Kaya</h4>
+        <p>Marketing Director, Dubai</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+  <div class="form-container">
+
+    <!-- TAB SWITCHER -->
+    <div class="form-switch">
+      <button class="switch-btn active" id="tab-login-btn" onclick="showTab('login')">Sign In</button>
+      <button class="switch-btn" id="tab-register-btn" onclick="showTab('register')">Create Account</button>
+    </div>
+
+    <!-- ═══ LOGIN VIEW ═══ -->
+    <div class="auth-view active" id="view-login">
+      <div class="form-header">
+        <h1>Welcome back 👋</h1>
+        <p>Don't have an account? <a href="#" onclick="showTab('register')">Sign up free</a></p>
+      </div>
+
+      <!-- Social -->
+      <div class="social-row">
+        <a href="#" class="social-btn" onclick="socialLogin('Google')">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </a>
+        <a href="#" class="social-btn" onclick="socialLogin('LinkedIn')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+      <div class="divider">or continue with email</div>
+
+      <!-- Error banner -->
+      <div class="error-banner" id="login-error">
+        ⚠️ <span id="login-error-msg">Invalid email or password.</span>
+      </div>
+
+      <div class="field">
+        <label>Email address</label>
+        <div class="field-wrap">
+          <span class="field-icon">✉️</span>
+          <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="field-error" id="login-email-err">Please enter a valid email.</div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+          <button class="toggle-pwd" onclick="togglePwd('login-password', this)" type="button">👁</button>
+        </div>
+        <div class="field-error" id="login-pwd-err">Please enter your password.</div>
+      </div>
+
+      <div class="form-extras">
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="remember-me" checked>
+          Remember me
+        </label>
+        <a href="#" class="forgot-link" onclick="showForgot()">Forgot password?</a>
+      </div>
+
+      <button class="submit-btn" id="login-btn" onclick="handleLogin()">
+        <div class="btn-spinner" id="login-spinner"></div>
+        <span id="login-btn-text">Sign In →</span>
+      </button>
+
+      <p style="text-align:center;font-size:.82rem;color:var(--mid)">
+        New to LinkedBoost? <a href="#" onclick="showTab('register')" style="color:var(--accent);font-weight:500;text-decoration:none">Create a free account</a>
+      </p>
+    </div>
+
+    <!-- ═══ REGISTER VIEW ═══ -->
+    <div class="auth-view" id="view-register">
+      <div class="form-header">
+        <h1>Start growing today 🚀</h1>
+        <p>Already have an account? <a href="#" onclick="showTab('login')">Sign in</a></p>
+      </div>
+
+      <!-- Social -->
+      <div class="social-row">
+        <a href="#" class="social-btn" onclick="socialLogin('Google')">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Sign up with Google
+        </a>
+        <a href="#" class="social-btn" onclick="socialLogin('LinkedIn')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+      <div class="divider">or sign up with email</div>
+
+      <!-- Plan selection -->
+      <div style="margin-bottom:1rem">
+        <label style="font-size:.82rem;font-weight:600;display:block;margin-bottom:.5rem">Choose your plan</label>
+        <div class="plan-select">
+          <div class="plan-opt selected" onclick="selectPlan(this, 'free')">
+            <span class="plan-name">Starter</span>
+            <span class="plan-price">Free forever</span>
+          </div>
+          <div class="plan-opt" onclick="selectPlan(this, 'pro')">
+            <span class="plan-name">Pro</span>
+            <span class="plan-price">$29/mo</span>
+            <span class="plan-badge">Most Popular</span>
+          </div>
+          <div class="plan-opt" onclick="selectPlan(this, 'agency')">
+            <span class="plan-name">Agency</span>
+            <span class="plan-price">$79/mo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error banner -->
+      <div class="error-banner" id="reg-error">
+        ⚠️ <span id="reg-error-msg">Something went wrong.</span>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First name</label>
+          <div class="field-wrap">
+            <span class="field-icon">👤</span>
+            <input type="text" id="reg-fname" placeholder="John" autocomplete="given-name" />
+          </div>
+          <div class="field-error" id="reg-fname-err">Required.</div>
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <div class="field-wrap">
+            <span class="field-icon" style="opacity:0">👤</span>
+            <input type="text" id="reg-lname" placeholder="Doe" autocomplete="family-name" />
+          </div>
+          <div class="field-error" id="reg-lname-err">Required.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email address</label>
+        <div class="field-wrap">
+          <span class="field-icon">✉️</span>
+          <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="field-error" id="reg-email-err">Please enter a valid email.</div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="reg-password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)" />
+          <button class="toggle-pwd" onclick="togglePwd('reg-password', this)" type="button">👁</button>
+        </div>
+        <div class="pwd-strength">
+          <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+          <div class="strength-label" id="strength-label"></div>
+        </div>
+        <div class="field-error" id="reg-pwd-err">Password must be at least 8 characters.</div>
+      </div>
+
+      <div class="terms-text">
+        By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </div>
+
+      <button class="submit-btn" id="reg-btn" onclick="handleRegister()">
+        <div class="btn-spinner" id="reg-spinner"></div>
+        <span id="reg-btn-text">Create Free Account →</span>
+      </button>
+    </div>
+
+    <!-- ═══ SUCCESS VIEW ═══ -->
+    <div class="success-view" id="view-success">
+      <div class="success-icon">🎉</div>
+      <h2>You're in!</h2>
+      <p id="success-message">Welcome to LinkedBoost AI. Let's grow your LinkedIn.</p>
+      <button class="submit-btn" onclick="goToDashboard()">Go to Dashboard →</button>
+    </div>
+
+    <!-- ═══ FORGOT PASSWORD VIEW ═══ -->
+    <div class="auth-view" id="view-forgot">
+      <div class="form-header">
+        <h1>Reset password 🔑</h1>
+        <p>Enter your email and we'll send a reset link.</p>
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <div class="field-wrap">
+          <span class="field-icon">✉️</span>
+          <input type="email" id="forgot-email" placeholder="you@example.com" />
+        </div>
+      </div>
+      <button class="submit-btn" onclick="handleForgot()">
+        <div class="btn-spinner" id="forgot-spinner"></div>
+        <span id="forgot-btn-text">Send Reset Link →</span>
+      </button>
+      <p style="text-align:center;font-size:.85rem">
+        <a href="#" onclick="showTab('login')" style="color:var(--accent);text-decoration:none">← Back to Sign In</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let selectedPlan = 'free';
+let currentView = 'login';
+
+// ── TAB SWITCHING ──
+function showTab(tab) {
+  document.querySelectorAll('.auth-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('tab-login-btn').classList.remove('active');
+  document.getElementById('tab-register-btn').classList.remove('active');
+
+  document.getElementById('view-' + tab).classList.add('active');
+
+  if (tab === 'login') document.getElementById('tab-login-btn').classList.add('active');
+  if (tab === 'register') document.getElementById('tab-register-btn').classList.add('active');
+  currentView = tab;
+}
+
+function showForgot() {
+  document.querySelectorAll('.auth-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-forgot').classList.add('active');
+  document.getElementById('tab-login-btn').classList.remove('active');
+  document.getElementById('tab-register-btn').classList.remove('active');
+}
+
+// ── PLAN SELECTION ──
+function selectPlan(el, plan) {
+  document.querySelectorAll('.plan-opt').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPlan = plan;
+}
+
+// ── PASSWORD VISIBILITY ──
+function togglePwd(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text'; btn.textContent = '🙈';
+  } else {
+    input.type = 'password'; btn.textContent = '👁';
+  }
+}
+
+// ── PASSWORD STRENGTH ──
+function checkStrength(pwd) {
+  const fill = document.getElementById('strength-fill');
+  const label = document.getElementById('strength-label');
+
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (pwd.length >= 12) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+
+  const configs = [
+    { w: '20%', bg: '#ff4757', text: 'Very weak' },
+    { w: '40%', bg: '#ff6b35', text: 'Weak' },
+    { w: '60%', bg: '#ffbd2e', text: 'Fair' },
+    { w: '80%', bg: '#00c896', text: 'Strong' },
+    { w: '100%', bg: '#00c896', text: '💪 Very strong' },
+  ];
+
+  if (pwd.length === 0) { fill.style.width = '0%'; label.textContent = ''; return; }
+
+  const cfg = configs[Math.min(score - 1, 4)];
+  fill.style.width = cfg.w;
+  fill.style.background = cfg.bg;
+  label.textContent = cfg.text;
+  label.style.color = cfg.bg;
+}
+
+// ── VALIDATION HELPERS ──
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function showErr(id, show) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show', show);
+  el.previousElementSibling?.querySelector('input')?.classList.toggle('error', show);
+}
+
+function setLoading(btnId, spinnerId, textId, loading, text) {
+  const btn = document.getElementById(btnId);
+  const spinner = document.getElementById(spinnerId);
+  const txt = document.getElementById(textId);
+  btn.disabled = loading;
+  spinner.style.display = loading ? 'block' : 'none';
+  txt.textContent = loading ? 'Please wait…' : text;
+}
+
+// ── LOGIN ──
+function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  let valid = true;
+
+  document.getElementById('login-error').classList.remove('show');
+
+  // Validation
+  const emailErr = !isValidEmail(email);
+  const pwdErr = password.length < 1;
+
+  if (emailErr) {
+    document.getElementById('login-email-err').classList.add('show');
+    document.getElementById('login-email').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('login-email-err').classList.remove('show');
+    document.getElementById('login-email').classList.remove('error');
+  }
+
+  if (pwdErr) {
+    document.getElementById('login-pwd-err').classList.add('show');
+    document.getElementById('login-password').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('login-pwd-err').classList.remove('show');
+    document.getElementById('login-password').classList.remove('error');
+  }
+
+  if (!valid) return;
+
+  setLoading('login-btn', 'login-spinner', 'login-btn-text', true, 'Sign In →');
+
+  // Simulate API call — replace with real auth later
+  setTimeout(() => {
+    setLoading('login-btn', 'login-spinner', 'login-btn-text', false, 'Sign In →');
+
+    // DEMO: accept any valid email/password combo
+    // In production: call your backend /api/auth/login
+    const users = JSON.parse(localStorage.getItem('lb_users') || '[]');
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user || email === 'demo@linkedboost.ai') {
+      // Save session
+      sessionStorage.setItem('lb_user', JSON.stringify({ email, name: user?.name || 'Demo User', plan: user?.plan || 'free' }));
+      showSuccess('Welcome back! Redirecting to your dashboard…', email);
+    } else {
+      document.getElementById('login-error').classList.add('show');
+      document.getElementById('login-error-msg').textContent = 'Invalid email or password. Try demo@linkedboost.ai';
+    }
+  }, 1200);
+}
+
+// ── REGISTER ──
+function handleRegister() {
+  const fname = document.getElementById('reg-fname').value.trim();
+  const lname = document.getElementById('reg-lname').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pwd = document.getElementById('reg-password').value;
+  let valid = true;
+
+  document.getElementById('reg-error').classList.remove('show');
+
+  if (!fname) {
+    document.getElementById('reg-fname-err').classList.add('show');
+    document.getElementById('reg-fname').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('reg-fname-err').classList.remove('show');
+    document.getElementById('reg-fname').classList.remove('error');
+  }
+
+  if (!lname) {
+    document.getElementById('reg-lname-err').classList.add('show');
+    valid = false;
+  } else {
+    document.getElementById('reg-lname-err').classList.remove('show');
+  }
+
+  if (!isValidEmail(email)) {
+    document.getElementById('reg-email-err').classList.add('show');
+    document.getElementById('reg-email').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('reg-email-err').classList.remove('show');
+    document.getElementById('reg-email').classList.remove('error');
+  }
+
+  if (pwd.length < 8) {
+    document.getElementById('reg-pwd-err').classList.add('show');
+    document.getElementById('reg-password').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('reg-pwd-err').classList.remove('show');
+    document.getElementById('reg-password').classList.remove('error');
+  }
+
+  if (!valid) return;
+
+  setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', true, 'Create Free Account →');
+
+  setTimeout(() => {
+    setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', false, 'Create Free Account →');
+
+    // Check if email already exists
+    const users = JSON.parse(localStorage.getItem('lb_users') || '[]');
+    const exists = users.find(u => u.email === email);
+
+    if (exists) {
+      document.getElementById('reg-error').classList.add('show');
+      document.getElementById('reg-error-msg').textContent = 'This email is already registered. Please sign in.';
+      return;
+    }
+
+    // Save new user
+    const newUser = { name: `${fname} ${lname}`, email, password: pwd, plan: selectedPlan, createdAt: new Date().toISOString() };
+    users.push(newUser);
+    localStorage.setItem('lb_users', JSON.stringify(users));
+    sessionStorage.setItem('lb_user', JSON.stringify({ email, name: newUser.name, plan: selectedPlan }));
+
+    showSuccess(`Welcome, ${fname}! 🎉 Your ${selectedPlan === 'free' ? 'free' : selectedPlan === 'pro' ? 'Pro' : 'Agency'} account is ready.`, email);
+  }, 1400);
+}
+
+// ── FORGOT PASSWORD ──
+function handleForgot() {
+  const email = document.getElementById('forgot-email').value.trim();
+  if (!isValidEmail(email)) { alert('Please enter a valid email.'); return; }
+
+  document.getElementById('forgot-spinner').style.display = 'block';
+  document.getElementById('forgot-btn-text').textContent = 'Sending…';
+
+  setTimeout(() => {
+    document.getElementById('forgot-spinner').style.display = 'none';
+    document.getElementById('forgot-btn-text').textContent = '✅ Reset link sent!';
+    setTimeout(() => {
+      document.getElementById('forgot-btn-text').textContent = 'Send Reset Link →';
+      showTab('login');
+    }, 2500);
+  }, 1000);
+}
+
+// ── SOCIAL LOGIN ──
+function socialLogin(provider) {
+  const btn = event.currentTarget;
+  btn.style.opacity = '0.6';
+  btn.style.pointerEvents = 'none';
+  btn.innerHTML = `<div style="width:16px;height:16px;border-radius:50%;border:2px solid #ccc;border-top-color:#0057ff;animation:spin .7s linear infinite"></div> Connecting…`;
+
+  setTimeout(() => {
+    // Simulate social auth
+    const mockUser = { email: `user@${provider.toLowerCase()}.com`, name: `${provider} User`, plan: 'free' };
+    sessionStorage.setItem('lb_user', JSON.stringify(mockUser));
+    showSuccess(`Signed in with ${provider}! Redirecting…`, mockUser.email);
+  }, 1500);
+}
+
+// ── SHOW SUCCESS ──
+function showSuccess(msg, email) {
+  document.querySelectorAll('.auth-view, .form-switch').forEach(v => v.style.display = 'none');
+  document.getElementById('success-message').textContent = msg;
+  document.getElementById('view-success').classList.add('show');
+}
+
+function goToDashboard() {
+  window.location.href = 'dashboard.html';
+}
+
+// ── CHECK IF ALREADY LOGGED IN ──
+window.addEventListener('DOMContentLoaded', () => {
+  const user = sessionStorage.getItem('lb_user');
+  if (user) {
+    // Auto-redirect to dashboard
+    // window.location.href = 'dashboard.html';
+  }
+});
+</script>
+</body>
+</html>

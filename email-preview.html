@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedBoost AI — Email Templates Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ee;
+    --accent: #0057ff;
+    --accent2: #00c896;
+    --warn: #ff4757;
+    --mid: #6b7280;
+    --card: #ffffff;
+    --border: #e5e2da;
+    --sidebar-w: 280px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #1a1a24;
+    color: var(--ink);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: #111118;
+    border-right: 1px solid rgba(255,255,255,.06);
+    display: flex; flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-top {
+    padding: 1.6rem 1.5rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  .sidebar-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.15rem;
+    letter-spacing: -0.03em; color: white;
+    text-decoration: none; display: block; margin-bottom: .3rem;
+  }
+  .sidebar-logo span { color: var(--accent); }
+
+  .sidebar-sub {
+    font-size: .75rem; color: rgba(255,255,255,.3);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  .sidebar-section {
+    padding: 1.2rem 1.5rem .4rem;
+    font-size: .68rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.2);
+  }
+
+  .email-nav-item {
+    display: flex; align-items: center; gap: .8rem;
+    padding: .75rem 1.5rem; cursor: pointer;
+    border: none; background: none; width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem; font-weight: 500;
+    color: rgba(255,255,255,.4);
+    transition: all .15s; text-align: left;
+    border-left: 3px solid transparent;
+  }
+
+  .email-nav-item:hover { color: rgba(255,255,255,.75); background: rgba(255,255,255,.04); }
+
+  .email-nav-item.active {
+    color: white; background: rgba(0,87,255,.12);
+    border-left-color: var(--accent);
+  }
+
+  .email-nav-item .nav-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+  .email-nav-item .nav-label { flex: 1; }
+
+  .email-nav-item .nav-badge {
+    font-size: .65rem; background: var(--accent2); color: #0a0a0f;
+    padding: .15rem .5rem; border-radius: 100px; font-weight: 700;
+  }
+
+  .sidebar-stats {
+    margin: 1rem 1.5rem;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 12px; padding: 1rem;
+  }
+
+  .stat-row {
+    display: flex; justify-content: space-between;
+    font-size: .78rem; color: rgba(255,255,255,.35);
+    padding: .35rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row strong { color: rgba(255,255,255,.75); }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: #111118;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .topbar-left { display: flex; flex-direction: column; }
+  .topbar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 800;
+    color: white; letter-spacing: -0.02em;
+  }
+  .topbar-sub { font-size: .78rem; color: rgba(255,255,255,.3); }
+
+  .topbar-actions { display: flex; gap: .7rem; }
+
+  .tb-btn {
+    padding: .55rem 1.2rem; border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .82rem; font-weight: 600; cursor: pointer;
+    transition: all .15s;
+  }
+
+  .tb-btn-ghost {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.6);
+  }
+
+  .tb-btn-ghost:hover { background: rgba(255,255,255,.1); color: white; }
+
+  .tb-btn-primary {
+    background: var(--accent); border: none; color: white;
+  }
+
+  .tb-btn-primary:hover { background: #0045d4; }
+
+  /* ── PREVIEW AREA ── */
+  .preview-wrap {
+    flex: 1; overflow-y: auto;
+    padding: 2rem;
+    background: #1a1a24;
+    display: flex; gap: 2rem; align-items: flex-start;
+  }
+
+  /* Device frame */
+  .device-frame {
+    flex: 1; min-width: 0;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+  }
+
+  .device-bar {
+    background: #2a2a35;
+    padding: .6rem 1rem;
+    display: flex; align-items: center; gap: .7rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  .device-dots { display: flex; gap: .35rem; }
+  .device-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .d-r { background: #ff5f57; } .d-y { background: #ffbd2e; } .d-g { background: #28c840; }
+
+  .device-url {
+    flex: 1; background: rgba(255,255,255,.07); border-radius: 6px;
+    padding: .3rem .8rem; font-size: .75rem;
+    color: rgba(255,255,255,.4); font-family: monospace;
+    text-align: center;
+  }
+
+  .email-frame {
+    width: 100%; border: none;
+    min-height: 600px; display: block;
+    background: #f5f3ee;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    width: 300px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 1.2rem;
+  }
+
+  .panel-card {
+    background: #111118;
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 16px; padding: 1.4rem;
+  }
+
+  .panel-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: .82rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: rgba(255,255,255,.3); margin-bottom: 1rem;
+  }
+
+  .info-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: .55rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+    font-size: .82rem;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+
+  .info-row .lbl { color: rgba(255,255,255,.3); }
+  .info-row .val { color: rgba(255,255,255,.75); font-weight: 500; text-align: right; max-width: 60%; }
+
+  .status-dot {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .75rem; font-weight: 600;
+  }
+
+  .status-dot::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: .4; }
+  }
+
+  /* Trigger list */
+  .trigger-item {
+    display: flex; align-items: flex-start; gap: .7rem;
+    padding: .6rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+    font-size: .82rem; color: rgba(255,255,255,.55);
+  }
+
+  .trigger-item:last-child { border-bottom: none; }
+  .trigger-item .t-icon { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* Test button */
+  .test-btn {
+    width: 100%; padding: .75rem;
+    background: var(--accent); color: white; border: none;
+    border-radius: 10px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem; font-weight: 600;
+    transition: all .15s; margin-top: .5rem;
+    display: flex; align-items: center; justify-content: center; gap: .5rem;
+  }
+
+  .test-btn:hover { background: #0045d4; transform: translateY(-1px); }
+
+  .test-btn-ghost {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.6);
+    width: 100%; padding: .65rem;
+    border-radius: 10px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .82rem; font-weight: 500; margin-top: .5rem;
+    transition: all .15s;
+  }
+
+  .test-btn-ghost:hover { background: rgba(255,255,255,.1); color: white; }
+
+  /* Form */
+  .test-form input {
+    width: 100%; padding: .65rem .85rem;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 9px; color: white;
+    font-family: 'DM Sans', sans-serif; font-size: .85rem;
+    outline: none; transition: border-color .2s; margin-bottom: .6rem;
+  }
+
+  .test-form input:focus { border-color: var(--accent); }
+  .test-form input::placeholder { color: rgba(255,255,255,.2); }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(60px);
+    background: var(--ink); color: white; border-radius: 100px;
+    padding: .75rem 1.8rem; font-size: .88rem; font-weight: 600;
+    box-shadow: 0 8px 30px rgba(0,0,0,.4);
+    transition: transform .3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 100; white-space: nowrap;
+    display: flex; align-items: center; gap: .5rem;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <a href="dashboard.html" class="sidebar-logo">Linked<span>Boost</span> AI</a>
+    <div class="sidebar-sub">Email Templates</div>
+  </div>
+
+  <div class="sidebar-section">Email Types</div>
+
+  <button class="email-nav-item active" onclick="switchEmail('welcome', this)">
+    <span class="nav-icon">🎉</span>
+    <span class="nav-label">Welcome Email</span>
+    <span class="nav-badge">AUTO</span>
+  </button>
+
+  <button class="email-nav-item" onclick="switchEmail('receipt', this)">
+    <span class="nav-icon">💳</span>
+    <span class="nav-label">Payment Receipt</span>
+    <span class="nav-badge">AUTO</span>
+  </button>
+
+  <button class="email-nav-item" onclick="switchEmail('weekly', this)">
+    <span class="nav-icon">✍️</span>
+    <span class="nav-label">Weekly Posts</span>
+    <span class="nav-badge">AUTO</span>
+  </button>
+
+  <button class="email-nav-item" onclick="switchEmail('failed', this)">
+    <span class="nav-icon">⚠️</span>
+    <span class="nav-label">Payment Failed</span>
+    <span class="nav-badge">AUTO</span>
+  </button>
+
+  <div class="sidebar-section">Stats (This Month)</div>
+
+  <div class="sidebar-stats">
+    <div class="stat-row"><span>Sent</span><strong>2,847</strong></div>
+    <div class="stat-row"><span>Open Rate</span><strong>48.3%</strong></div>
+    <div class="stat-row"><span>Click Rate</span><strong>12.7%</strong></div>
+    <div class="stat-row"><span>Bounced</span><strong>0.4%</strong></div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topbar-title">Welcome Email</div>
+      <div class="topbar-sub" id="topbar-sub">Sent automatically after user registration</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="tb-btn tb-btn-ghost" onclick="copyEmailHTML()">📋 Copy HTML</button>
+      <button class="tb-btn tb-btn-primary" onclick="showTestForm()">📤 Send Test Email</button>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-wrap">
+
+    <!-- Email Frame -->
+    <div class="device-frame">
+      <div class="device-bar">
+        <div class="device-dots">
+          <span class="d-r"></span><span class="d-y"></span><span class="d-g"></span>
+        </div>
+        <div class="device-url" id="email-subject">Welcome to LinkedBoost AI, Sarah! 🚀</div>
+      </div>
+      <iframe class="email-frame" id="email-preview" srcdoc=""></iframe>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+
+      <!-- Status -->
+      <div class="panel-card">
+        <h3>Email Status</h3>
+        <div class="info-row">
+          <span class="lbl">Status</span>
+          <span class="val"><span class="status-dot">Active</span></span>
+        </div>
+        <div class="info-row">
+          <span class="lbl">Provider</span>
+          <span class="val">Resend</span>
+        </div>
+        <div class="info-row">
+          <span class="lbl">From</span>
+          <span class="val">noreply@linkedboost.ai</span>
+        </div>
+        <div class="info-row">
+          <span class="lbl">Delivery</span>
+          <span class="val" id="info-delivery">Instant (on register)</span>
+        </div>
+        <div class="info-row">
+          <span class="lbl">Audience</span>
+          <span class="val" id="info-audience">All users</span>
+        </div>
+      </div>
+
+      <!-- Trigger -->
+      <div class="panel-card">
+        <h3>Triggers</h3>
+        <div id="trigger-list">
+          <div class="trigger-item">
+            <span class="t-icon">🔔</span>
+            <span>User completes registration form</span>
+          </div>
+          <div class="trigger-item">
+            <span class="t-icon">🔔</span>
+            <span>Social login (Google / LinkedIn)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Send -->
+      <div class="panel-card" id="test-panel">
+        <h3>Send Test</h3>
+        <div class="test-form">
+          <input type="text" id="test-name" placeholder="Your name (e.g. John)" value="John" />
+          <input type="email" id="test-email" placeholder="your@email.com" />
+          <button class="test-btn" onclick="sendTestEmail()">
+            📤 Send to My Inbox
+          </button>
+          <button class="test-btn-ghost" onclick="previewInNewTab()">
+            🔗 Open in New Tab
+          </button>
+        </div>
+        <p style="font-size:.72rem;color:rgba(255,255,255,.2);margin-top:.8rem;line-height:1.5">
+          Requires Resend API key in your backend (.env file). See EMAIL-GUIDE.md.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✅ Copied to clipboard!</div>
+
+<script>
+// ══════════════════════════════════
+// EMAIL HTML TEMPLATES
+// ══════════════════════════════════
+
+const emails = {
+  welcome: {
+    title: 'Welcome Email',
+    sub: 'Sent automatically after user registration',
+    subject: 'Welcome to LinkedBoost AI, Sarah! 🚀',
+    delivery: 'Instant (on register)',
+    audience: 'All users',
+    triggers: [
+      { icon: '🔔', text: 'User completes registration form' },
+      { icon: '🔔', text: 'Social login (Google / LinkedIn)' },
+    ],
+    html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>Welcome to LinkedBoost AI</title></head>
+<body style="margin:0;padding:0;background:#f5f3ee;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ee;padding:40px 20px;">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e2da;box-shadow:0 4px 30px rgba(0,0,0,0.08);">
+
+  <tr><td style="background:#0a0a0f;padding:32px 40px;text-align:center;">
+    <div style="font-family:Georgia,serif;font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.03em;">
+      Linked<span style="color:#0057ff;">Boost</span> AI
+    </div>
+  </td></tr>
+
+  <tr><td style="padding:48px 40px 32px;text-align:center;">
+    <div style="font-size:52px;margin-bottom:16px;">🚀</div>
+    <h1 style="font-family:Georgia,serif;font-size:28px;font-weight:900;color:#0a0a0f;margin:0 0 12px;letter-spacing:-0.03em;">
+      Welcome aboard, Sarah!
+    </h1>
+    <p style="font-size:16px;color:#6b7280;line-height:1.65;margin:0;">
+      Your LinkedBoost AI account is active and ready.<br>
+      Let's grow your LinkedIn presence starting today.
+    </p>
+  </td></tr>
+
+  <tr><td style="padding:0 40px;"><hr style="border:none;border-top:1px solid #e5e2da;"></td></tr>
+
+  <tr><td style="padding:32px 40px;">
+    <h2 style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#9ca3af;margin:0 0 24px;">
+      Get started in 3 steps
+    </h2>
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="width:36px;vertical-align:top;padding-top:3px;">
+          <div style="width:28px;height:28px;background:#0057ff;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:700;color:#fff;">1</div>
+        </td>
+        <td style="padding:0 0 20px 12px;">
+          <div style="font-size:15px;font-weight:600;color:#0a0a0f;margin-bottom:4px;">Analyze your profile</div>
+          <div style="font-size:14px;color:#6b7280;line-height:1.5;">Get your LinkedIn profile score and see exactly what to fix.</div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:36px;vertical-align:top;padding-top:3px;">
+          <div style="width:28px;height:28px;background:#0057ff;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:700;color:#fff;">2</div>
+        </td>
+        <td style="padding:0 0 20px 12px;">
+          <div style="font-size:15px;font-weight:600;color:#0a0a0f;margin-bottom:4px;">Generate your first post</div>
+          <div style="font-size:14px;color:#6b7280;line-height:1.5;">Use the AI generator to write a scroll-stopping post in 10 seconds.</div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:36px;vertical-align:top;padding-top:3px;">
+          <div style="width:28px;height:28px;background:#00c896;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:700;color:#fff;">3</div>
+        </td>
+        <td style="padding:0 0 4px 12px;">
+          <div style="font-size:15px;font-weight:600;color:#0a0a0f;margin-bottom:4px;">Post and watch your reach grow</div>
+          <div style="font-size:14px;color:#6b7280;line-height:1.5;">Copy to LinkedIn, post, and track your growth in the dashboard.</div>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <tr><td style="padding:0 40px 40px;text-align:center;">
+    <a href="#" style="display:inline-block;background:#0057ff;color:#fff;text-decoration:none;font-size:16px;font-weight:700;padding:16px 44px;border-radius:100px;letter-spacing:0.01em;">
+      Go to Your Dashboard →
+    </a>
+    <p style="font-size:13px;color:#9ca3af;margin:16px 0 0;">
+      Current plan: <strong style="color:#0a0a0f;">Free Starter</strong> · 
+      <a href="#" style="color:#0057ff;">Upgrade to Pro</a>
+    </p>
+  </td></tr>
+
+  <tr><td style="background:#f9f8f5;border-top:1px solid #e5e2da;padding:24px 40px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="font-size:11px;color:#9ca3af;">
+          LinkedBoost AI · support@linkedboost.ai<br>
+          <a href="#" style="color:#9ca3af;">Unsubscribe</a> · <a href="#" style="color:#9ca3af;">Privacy Policy</a>
+        </td>
+        <td style="text-align:right;">
+          <div style="font-family:Georgia,serif;font-size:14px;font-weight:800;color:#d1d5db;">
+            Linked<span style="color:#4b7bff;">Boost</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`
+  },
+
+  receipt: {
+    title: 'Payment Receipt',
+    sub: 'Sent automatically after successful payment',
+    subject: 'Your LinkedBoost AI receipt — $29.00',
+    delivery: 'Instant (on payment)',
+    audience: 'Pro + Agency users',
+    triggers: [
+      { icon: '💰', text: 'Stripe invoice.payment_succeeded webhook' },
+      { icon: '🔄', text: 'Monthly / annual billing renewal' },
+      { icon: '🆕', text: 'First payment after free trial' },
+    ],
+    html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"></head>
+<body style="margin:0;padding:0;background:#f5f3ee;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ee;padding:40px 20px;">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e2da;box-shadow:0 4px 30px rgba(0,0,0,0.08);">
+
+  <tr><td style="background:#0a0a0f;padding:28px 40px;text-align:center;">
+    <div style="font-family:Georgia,serif;font-size:20px;font-weight:900;color:#fff;">
+      Linked<span style="color:#0057ff;">Boost</span> AI
+    </div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;letter-spacing:0.12em;text-transform:uppercase;">Payment Receipt</div>
+  </td></tr>
+
+  <tr><td style="padding:48px 40px 32px;text-align:center;background:linear-gradient(160deg,#f0f4ff 0%,#f5f3ee 100%);">
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#9ca3af;margin-bottom:8px;">Amount Paid</div>
+    <div style="font-family:Georgia,serif;font-size:56px;font-weight:900;color:#0a0a0f;letter-spacing:-0.04em;line-height:1;">$29.00</div>
+    <div style="font-size:14px;color:#9ca3af;margin-top:10px;">June 15, 2025</div>
+    <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:700;padding:5px 14px;border-radius:100px;margin-top:10px;">✓ PAYMENT CONFIRMED</div>
+  </td></tr>
+
+  <tr><td style="padding:32px 40px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+      <tr>
+        <td style="font-size:14px;color:#6b7280;padding:12px 0;border-bottom:1px solid #f3f4f6;">Customer</td>
+        <td style="font-size:14px;font-weight:600;color:#0a0a0f;text-align:right;padding:12px 0;border-bottom:1px solid #f3f4f6;">Sarah Johnson</td>
+      </tr>
+      <tr>
+        <td style="font-size:14px;color:#6b7280;padding:12px 0;border-bottom:1px solid #f3f4f6;">Plan</td>
+        <td style="font-size:14px;font-weight:600;color:#0a0a0f;text-align:right;padding:12px 0;border-bottom:1px solid #f3f4f6;">LinkedBoost Pro — Monthly</td>
+      </tr>
+      <tr>
+        <td style="font-size:14px;color:#6b7280;padding:12px 0;border-bottom:1px solid #f3f4f6;">Next billing date</td>
+        <td style="font-size:14px;font-weight:600;color:#0a0a0f;text-align:right;padding:12px 0;border-bottom:1px solid #f3f4f6;">July 15, 2025</td>
+      </tr>
+      <tr>
+        <td style="font-size:14px;color:#6b7280;padding:12px 0;border-bottom:1px solid #f3f4f6;">Invoice ID</td>
+        <td style="font-size:12px;font-family:monospace;color:#9ca3af;text-align:right;padding:12px 0;border-bottom:1px solid #f3f4f6;">in_1PQ2AbCdEfGhIjKl</td>
+      </tr>
+      <tr>
+        <td style="font-size:15px;font-weight:700;color:#0a0a0f;padding:16px 0 0;">Total</td>
+        <td style="font-size:15px;font-weight:700;color:#0057ff;text-align:right;padding:16px 0 0;">$29.00</td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <tr><td style="padding:0 40px 40px;text-align:center;">
+    <a href="#" style="display:inline-block;background:#0057ff;color:#fff;text-decoration:none;font-size:15px;font-weight:700;padding:14px 40px;border-radius:100px;">
+      Go to Dashboard →
+    </a>
+    <p style="font-size:13px;color:#9ca3af;margin:16px 0 0;line-height:1.55;">
+      Questions? <a href="mailto:support@linkedboost.ai" style="color:#0057ff;">support@linkedboost.ai</a><br>
+      <a href="#" style="color:#9ca3af;">Cancel subscription</a> · <a href="#" style="color:#9ca3af;">Billing settings</a>
+    </p>
+  </td></tr>
+
+  <tr><td style="background:#f9f8f5;border-top:1px solid #e5e2da;padding:20px 40px;text-align:center;">
+    <p style="font-size:12px;color:#9ca3af;margin:0;">
+      LinkedBoost AI · <a href="#" style="color:#9ca3af;">Privacy</a> · <a href="#" style="color:#9ca3af;">Terms</a>
+    </p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`
+  },
+
+  weekly: {
+    title: 'Weekly Posts Email',
+    sub: 'Sent every Monday at 8:00 AM to Pro users',
+    subject: "Your 5 LinkedIn posts for this week ✍️",
+    delivery: 'Every Monday 8:00 AM',
+    audience: 'Pro + Agency users only',
+    triggers: [
+      { icon: '⏰', text: 'Cron job: every Monday 08:00 AM EST' },
+      { icon: '🤖', text: 'Claude AI generates 5 personalized posts' },
+      { icon: '📧', text: 'Resend delivers to user inbox' },
+    ],
+    html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"></head>
+<body style="margin:0;padding:0;background:#f5f3ee;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ee;padding:40px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e2da;box-shadow:0 4px 30px rgba(0,0,0,0.08);">
+
+  <tr><td style="background:#0a0a0f;padding:28px 40px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="font-family:Georgia,serif;font-size:20px;font-weight:900;color:#fff;">
+          Linked<span style="color:#0057ff;">Boost</span> AI
+        </td>
+        <td style="text-align:right;font-size:12px;color:rgba(255,255,255,0.3);">Week of June 16</td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <tr><td style="padding:40px 40px 24px;">
+    <h1 style="font-family:Georgia,serif;font-size:26px;color:#0a0a0f;margin:0 0 10px;letter-spacing:-0.03em;">
+      Your 5 posts for this week, Sarah ✍️
+    </h1>
+    <p style="font-size:15px;color:#6b7280;margin:0;line-height:1.55;">
+      Each post is crafted for your industry. Copy, paste, and post at the suggested times.
+    </p>
+  </td></tr>
+
+  <tr><td style="padding:0 40px 40px;">
+
+    <!-- POST 1 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border-radius:14px;overflow:hidden;border:1px solid #e5e2da;">
+      <tr><td style="padding:12px 18px;background:#eff6ff;border-bottom:1px solid #dbeafe;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#0057ff;">Post 1 · Storytelling</td>
+            <td style="text-align:right;font-size:12px;color:#6b7280;">📅 Mon · 8:00 AM</td>
+          </tr>
+        </table>
+      </td></tr>
+      <tr><td style="padding:18px;font-size:14px;color:#374151;line-height:1.7;">
+        I spent 3 years building the wrong thing on LinkedIn.<br><br>
+        I was posting every day. Engagement: zero.<br>
+        Connections: barely moving.<br><br>
+        Then one mentor told me something that changed everything: "Stop writing for LinkedIn. Start writing for <strong>humans</strong>."<br><br>
+        Here are the 5 things I changed that tripled my profile views in 30 days 👇
+      </td></tr>
+    </table>
+
+    <!-- POST 2 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border-radius:14px;overflow:hidden;border:1px solid #e5e2da;">
+      <tr><td style="padding:12px 18px;background:#f0fdf4;border-bottom:1px solid #dcfce7;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#16a34a;">Post 2 · Listicle</td>
+            <td style="text-align:right;font-size:12px;color:#6b7280;">📅 Tue · 7:30 AM</td>
+          </tr>
+        </table>
+      </td></tr>
+      <tr><td style="padding:18px;font-size:14px;color:#374151;line-height:1.7;">
+        5 things nobody tells you about Marketing in 2025 🧵<br><br>
+        1. Authenticity > Polish<br>
+        2. One great post > Seven mediocre ones<br>
+        3. Your network IS your net worth<br>
+        4. Data without empathy = nothing<br>
+        5. Consistency beats perfection every time<br><br>
+        Which one resonated? Drop it below 👇
+      </td></tr>
+    </table>
+
+    <!-- POST 3 (collapsed) -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border-radius:14px;overflow:hidden;border:1px solid #e5e2da;">
+      <tr><td style="padding:12px 18px;background:#fef9ee;border-bottom:1px solid #fde68a;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#d97706;">Post 3 · Hot Take</td>
+            <td style="text-align:right;font-size:12px;color:#6b7280;">📅 Thu · 9:00 AM</td>
+          </tr>
+        </table>
+      </td></tr>
+      <tr><td style="padding:18px;font-size:14px;color:#6b7280;font-style:italic;">
+        Hot take post about your industry... <a href="#" style="color:#0057ff;">View in dashboard</a>
+      </td></tr>
+    </table>
+
+    <div style="text-align:center;padding:16px 0 8px;font-size:13px;color:#9ca3af;">
+      + 2 more posts waiting in your dashboard
+    </div>
+
+  </td></tr>
+
+  <tr><td style="padding:0 40px 40px;text-align:center;border-top:1px solid #f3f4f6;padding-top:32px;">
+    <a href="#" style="display:inline-block;background:#0057ff;color:#fff;text-decoration:none;font-size:15px;font-weight:700;padding:14px 40px;border-radius:100px;">
+      View All 5 Posts →
+    </a>
+  </td></tr>
+
+  <tr><td style="background:#f9f8f5;border-top:1px solid #e5e2da;padding:20px 40px;text-align:center;">
+    <p style="font-size:12px;color:#9ca3af;margin:0;">
+      <a href="#" style="color:#9ca3af;">Unsubscribe from weekly posts</a> · 
+      <a href="#" style="color:#9ca3af;">Update preferences</a>
+    </p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`
+  },
+
+  failed: {
+    title: 'Payment Failed Alert',
+    sub: 'Sent when a card is declined or payment fails',
+    subject: 'Action required: Update your payment method',
+    delivery: 'Instant (on payment failure)',
+    audience: 'Pro + Agency users',
+    triggers: [
+      { icon: '❌', text: 'Stripe invoice.payment_failed webhook' },
+      { icon: '🔄', text: 'Retry after 3, 5, 7 days (Stripe handles)' },
+      { icon: '🔒', text: 'Account downgraded if unpaid 7+ days' },
+    ],
+    html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"></head>
+<body style="margin:0;padding:0;background:#f5f3ee;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ee;padding:40px 20px;">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e2da;box-shadow:0 4px 30px rgba(0,0,0,0.08);">
+
+  <tr><td style="background:#0a0a0f;padding:28px 40px;text-align:center;">
+    <div style="font-family:Georgia,serif;font-size:20px;font-weight:900;color:#fff;">
+      Linked<span style="color:#0057ff;">Boost</span> AI
+    </div>
+  </td></tr>
+
+  <tr><td style="padding:48px 40px 32px;text-align:center;">
+    <div style="width:72px;height:72px;background:#fef2f2;border:2px solid #fecaca;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:32px;line-height:72px;text-align:center;">⚠️</div>
+    <h1 style="font-family:Georgia,serif;font-size:26px;color:#0a0a0f;margin:0 0 12px;letter-spacing:-0.03em;">
+      Payment failed, Sarah
+    </h1>
+    <p style="font-size:15px;color:#6b7280;line-height:1.65;margin:0 0 8px;">
+      We couldn't process your payment of <strong style="color:#0a0a0f;">$29.00</strong> on June 15, 2025.
+    </p>
+    <p style="font-size:14px;color:#9ca3af;margin:0;">
+      Please update your payment method to keep your Pro access.
+    </p>
+  </td></tr>
+
+  <tr><td style="padding:0 40px;"><hr style="border:none;border-top:1px solid #e5e2da;"></td></tr>
+
+  <tr><td style="padding:28px 40px;">
+    <h2 style="font-size:13px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 16px;">What happens next</h2>
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="width:24px;font-size:14px;vertical-align:top;padding-top:2px;">📅</td>
+        <td style="padding:0 0 14px 10px;font-size:14px;color:#374151;line-height:1.5;">
+          Stripe will <strong>retry your card</strong> in 3, 5, and 7 days automatically.
+        </td>
+      </tr>
+      <tr>
+        <td style="width:24px;font-size:14px;vertical-align:top;padding-top:2px;">⚡</td>
+        <td style="padding:0 0 14px 10px;font-size:14px;color:#374151;line-height:1.5;">
+          If payment still fails after 7 days, your account will be moved to <strong>Free plan</strong>.
+        </td>
+      </tr>
+      <tr>
+        <td style="width:24px;font-size:14px;vertical-align:top;padding-top:2px;">💳</td>
+        <td style="padding:0 0 4px 10px;font-size:14px;color:#374151;line-height:1.5;">
+          Update your card now to avoid interruption.
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <tr><td style="padding:0 40px 40px;text-align:center;">
+    <a href="#" style="display:inline-block;background:#ff4757;color:#fff;text-decoration:none;font-size:16px;font-weight:700;padding:16px 44px;border-radius:100px;">
+      Update Payment Method →
+    </a>
+    <p style="font-size:13px;color:#9ca3af;margin:16px 0 0;line-height:1.55;">
+      Need help? <a href="mailto:support@linkedboost.ai" style="color:#0057ff;">support@linkedboost.ai</a>
+    </p>
+  </td></tr>
+
+  <tr><td style="background:#f9f8f5;border-top:1px solid #e5e2da;padding:20px 40px;text-align:center;">
+    <p style="font-size:12px;color:#9ca3af;margin:0;">LinkedBoost AI · <a href="#" style="color:#9ca3af;">Privacy</a></p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`
+  }
+};
+
+// ══════════════════════════════════
+// UI LOGIC
+// ══════════════════════════════════
+
+let currentEmail = 'welcome';
+
+function switchEmail(key, navEl) {
+  currentEmail = key;
+  const email = emails[key];
+
+  // Nav active state
+  document.querySelectorAll('.email-nav-item').forEach(n => n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+
+  // Topbar
+  document.getElementById('topbar-title').textContent = email.title;
+  document.getElementById('topbar-sub').textContent = email.sub;
+  document.getElementById('email-subject').textContent = email.subject;
+
+  // Right panel info
+  document.getElementById('info-delivery').textContent = email.delivery;
+  document.getElementById('info-audience').textContent = email.audience;
+
+  // Triggers
+  document.getElementById('trigger-list').innerHTML = email.triggers.map(t => `
+    <div class="trigger-item">
+      <span class="t-icon">${t.icon}</span>
+      <span>${t.text}</span>
+    </div>
+  `).join('');
+
+  // Preview
+  document.getElementById('email-preview').srcdoc = email.html;
+}
+
+function copyEmailHTML() {
+  const html = emails[currentEmail].html;
+  navigator.clipboard.writeText(html).then(() => {
+    showToast('📋 HTML copied to clipboard!');
+  });
+}
+
+function previewInNewTab() {
+  const html = emails[currentEmail].html;
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  showToast('🔗 Opened in new tab!');
+}
+
+function showTestForm() {
+  document.getElementById('test-email').focus();
+  showToast('📝 Enter your email below and click Send');
+}
+
+function sendTestEmail() {
+  const email = document.getElementById('test-email').value.trim();
+  const name = document.getElementById('test-name').value.trim() || 'there';
+
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ Please enter a valid email address');
+    return;
+  }
+
+  // In production, this would call: POST /api/send-test-email
+  // { type: currentEmail, email, name }
+
+  showToast(`📤 Test email sent to ${email}! Check your inbox.`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Init: load welcome email
+window.addEventListener('DOMContentLoaded', () => {
+  switchEmail('welcome');
+});
+</script>
+</body>
+</html>

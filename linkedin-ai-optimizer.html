@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedBoost AI — Grow Your LinkedIn Presence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ee;
+    --accent: #0057ff;
+    --accent2: #00c896;
+    --warn: #ff4757;
+    --mid: #6b7280;
+    --card: #ffffff;
+    --border: #e5e2da;
+    --glow: rgba(0,87,255,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: .4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(245,243,238,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.35rem;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  nav ul {
+    list-style: none; display: flex; gap: 2.5rem;
+  }
+
+  nav ul a {
+    text-decoration: none; color: var(--mid);
+    font-size: .9rem; font-weight: 500;
+    transition: color .2s;
+  }
+
+  nav ul a:hover { color: var(--ink); }
+
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper) !important;
+    padding: .55rem 1.4rem;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    transition: background .2s, transform .15s !important;
+  }
+
+  .nav-cta:hover { background: var(--accent) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 5% 5rem;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 100px; padding: .4rem 1rem;
+    font-size: .8rem; font-weight: 500; color: var(--mid);
+    margin-bottom: 2rem;
+    animation: fadeUp .6s ease both;
+  }
+
+  .hero-badge .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1.03;
+    letter-spacing: -0.04em;
+    max-width: 900px;
+    animation: fadeUp .7s .1s ease both;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+
+  h1 em::after {
+    content: '';
+    position: absolute; bottom: 4px; left: 0; right: 0; height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    animation: lineIn .5s .8s ease forwards;
+  }
+
+  @keyframes lineIn { to { transform: scaleX(1); } }
+
+  .hero-sub {
+    margin-top: 1.8rem;
+    font-size: 1.2rem; color: var(--mid);
+    max-width: 580px; line-height: 1.65;
+    font-weight: 300;
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center;
+    margin-top: 2.8rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp .7s .3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border: none; cursor: pointer;
+    padding: .9rem 2.2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: .6rem;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 20px var(--glow);
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--glow); }
+
+  .btn-ghost {
+    background: transparent; border: 1.5px solid var(--border);
+    color: var(--ink); padding: .9rem 2rem;
+    border-radius: 100px; font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: border-color .2s, transform .2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+  .hero-proof {
+    margin-top: 3.5rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap; justify-content: center;
+    animation: fadeUp .7s .4s ease both;
+  }
+
+  .avatars {
+    display: flex;
+  }
+
+  .avatars span {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2.5px solid var(--paper);
+    margin-left: -10px; font-size: .7rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white;
+  }
+
+  .avatars span:nth-child(1) { background: #6c63ff; margin-left: 0; }
+  .avatars span:nth-child(2) { background: #f59e0b; }
+  .avatars span:nth-child(3) { background: #10b981; }
+  .avatars span:nth-child(4) { background: #ef4444; }
+
+  .proof-text { font-size: .88rem; color: var(--mid); }
+  .proof-text strong { color: var(--ink); }
+
+  /* ── FLOATING CARDS ── */
+  .hero-float {
+    display: flex; gap: 1.2rem; flex-wrap: wrap;
+    justify-content: center; margin-top: 4rem;
+    animation: fadeUp .7s .5s ease both;
+  }
+
+  .float-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.6rem;
+    display: flex; align-items: center; gap: .9rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    font-size: .9rem;
+  }
+
+  .float-card .ico {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .ico-blue { background: rgba(0,87,255,.1); }
+  .ico-green { background: rgba(0,200,150,.1); }
+  .ico-orange { background: rgba(251,146,60,.1); }
+
+  .float-card strong { display: block; font-weight: 600; }
+  .float-card span { color: var(--mid); font-size: .8rem; }
+
+  /* ── SECTION BASICS ── */
+  section { padding: 6rem 5%; }
+
+  .section-label {
+    font-size: .78rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.12; max-width: 600px;
+  }
+
+  .section-sub {
+    margin-top: 1rem; font-size: 1.05rem;
+    color: var(--mid); max-width: 520px;
+    line-height: 1.6; font-weight: 300;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .steps .section-title { color: var(--paper); }
+  .steps .section-sub { color: rgba(245,243,238,.55); }
+  .steps .section-label { color: var(--accent2); }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px; margin-top: 4rem;
+    border: 2px solid rgba(255,255,255,.08);
+    border-radius: 20px; overflow: hidden;
+  }
+
+  .step-item {
+    padding: 2.5rem 2rem;
+    background: rgba(255,255,255,.03);
+    border-right: 1px solid rgba(255,255,255,.06);
+    transition: background .25s;
+  }
+
+  .step-item:last-child { border-right: none; }
+  .step-item:hover { background: rgba(0,87,255,.12); }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 800;
+    color: rgba(255,255,255,.07);
+    line-height: 1;
+    margin-bottom: 1.2rem;
+  }
+
+  .step-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+
+  .step-item h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem; font-weight: 700;
+    margin-bottom: .6rem;
+  }
+
+  .step-item p { font-size: .9rem; color: rgba(245,243,238,.5); line-height: 1.6; }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; margin-top: 4rem;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    transition: transform .2s, box-shadow .2s;
+    position: relative; overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s;
+  }
+
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+  .feature-card:hover::before { transform: scaleX(1); }
+
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.2rem;
+    background: linear-gradient(135deg, rgba(0,87,255,.1), rgba(0,200,150,.1));
+  }
+
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    margin-bottom: .6rem;
+  }
+
+  .feature-card p { font-size: .9rem; color: var(--mid); line-height: 1.6; }
+
+  /* ── DEMO / APP SECTION ── */
+  .app-demo {
+    background: linear-gradient(135deg, #0a0a0f 0%, #0d1a3a 100%);
+    color: var(--paper);
+  }
+
+  .demo-container {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 5rem; align-items: center; margin-top: 4rem;
+  }
+
+  @media (max-width: 900px) {
+    .demo-container { grid-template-columns: 1fr; }
+    .demo-mockup { order: -1; }
+  }
+
+  .demo-text .section-title { color: var(--paper); }
+  .demo-text .section-sub { color: rgba(245,243,238,.55); }
+  .demo-text .section-label { color: var(--accent2); }
+
+  .demo-checks { margin-top: 2rem; display: flex; flex-direction: column; gap: .9rem; }
+
+  .check-item {
+    display: flex; align-items: flex-start; gap: .9rem;
+  }
+
+  .check-item .chk {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(0,200,150,.2); border: 1.5px solid var(--accent2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+    font-size: .7rem; color: var(--accent2);
+  }
+
+  .check-item p { font-size: .95rem; color: rgba(245,243,238,.7); line-height: 1.5; }
+  .check-item strong { color: var(--paper); }
+
+  /* ── MOCKUP ── */
+  .demo-mockup {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 24px; overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,.4);
+  }
+
+  .mockup-header {
+    background: rgba(255,255,255,.06);
+    padding: 1rem 1.5rem;
+    display: flex; align-items: center; gap: .7rem;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+
+  .mockup-dots { display: flex; gap: .4rem; }
+  .mockup-dots span { width: 11px; height: 11px; border-radius: 50%; }
+  .dot-r { background: #ff5f56; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #27c93f; }
+
+  .mockup-title { font-size: .8rem; color: rgba(255,255,255,.4); margin-left: .5rem; }
+
+  .mockup-body { padding: 1.8rem; }
+
+  .score-ring {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 1.8rem;
+    padding: 1.2rem; background: rgba(255,255,255,.04);
+    border-radius: 14px; border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .ring-svg { flex-shrink: 0; }
+
+  .ring-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--paper); margin-bottom: .3rem;
+  }
+
+  .ring-text p { font-size: .8rem; color: rgba(245,243,238,.4); }
+
+  .insight-list { display: flex; flex-direction: column; gap: .8rem; }
+
+  .insight-item {
+    display: flex; align-items: center; gap: .8rem;
+    padding: .8rem 1rem;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 10px;
+    font-size: .85rem; color: rgba(245,243,238,.7);
+  }
+
+  .ins-badge {
+    font-size: .7rem; font-weight: 600;
+    padding: .2rem .6rem; border-radius: 100px;
+    flex-shrink: 0;
+  }
+
+  .badge-red { background: rgba(255,71,87,.2); color: #ff4757; }
+  .badge-yellow { background: rgba(255,189,46,.2); color: #ffbd2e; }
+  .badge-green { background: rgba(39,201,63,.2); color: #27c93f; }
+
+  .post-preview {
+    margin-top: 1rem; padding: 1rem;
+    background: rgba(0,87,255,.08);
+    border: 1px solid rgba(0,87,255,.2);
+    border-radius: 12px;
+  }
+
+  .post-preview-label {
+    font-size: .72rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--accent); margin-bottom: .6rem;
+  }
+
+  .post-preview p { font-size: .82rem; color: rgba(245,243,238,.65); line-height: 1.5; }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 4rem; max-width: 1000px;
+  }
+
+  .price-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 2.5rem 2rem;
+    position: relative; transition: transform .2s;
+  }
+
+  .price-card:hover { transform: translateY(-4px); }
+
+  .price-card.featured {
+    background: var(--ink); color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .price-badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: white;
+    font-size: .75rem; font-weight: 700;
+    padding: .3rem 1rem; border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .price-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: var(--mid); margin-bottom: .5rem;
+  }
+
+  .price-card.featured .price-name { color: rgba(245,243,238,.5); }
+
+  .price-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.2rem; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1;
+  }
+
+  .price-amount sup { font-size: 1.2rem; vertical-align: top; margin-top: .6rem; display: inline-block; }
+  .price-amount sub { font-size: .9rem; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--mid); }
+  .price-card.featured .price-amount sub { color: rgba(245,243,238,.4); }
+
+  .price-desc { font-size: .9rem; color: var(--mid); margin: .8rem 0 1.8rem; line-height: 1.5; }
+  .price-card.featured .price-desc { color: rgba(245,243,238,.5); }
+
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: .7rem; margin-bottom: 2rem; }
+
+  .price-features li {
+    display: flex; align-items: center; gap: .7rem;
+    font-size: .9rem;
+  }
+
+  .price-features li::before {
+    content: '✓'; width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(0,200,150,.15); color: var(--accent2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; flex-shrink: 0;
+    border: 1px solid rgba(0,200,150,.3);
+  }
+
+  .price-card.featured .price-features li { color: rgba(245,243,238,.8); }
+
+  .price-btn {
+    width: 100%; padding: .95rem;
+    border-radius: 100px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem; font-weight: 600;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .price-btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+
+  .price-btn-outline:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+  .price-btn-solid {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 20px var(--glow);
+  }
+
+  .price-btn-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--glow); }
+
+  .price-btn-dark {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .price-btn-dark:hover { transform: translateY(-2px); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--ink); color: var(--paper); }
+  .testimonials .section-title { color: var(--paper); }
+  .testimonials .section-label { color: var(--accent2); }
+
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; margin-top: 4rem;
+  }
+
+  .testi-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px; padding: 2rem;
+    transition: background .2s;
+  }
+
+  .testi-card:hover { background: rgba(255,255,255,.07); }
+
+  .stars { color: #f59e0b; font-size: 1rem; margin-bottom: 1rem; }
+
+  .testi-card blockquote {
+    font-size: .95rem; line-height: 1.65;
+    color: rgba(245,243,238,.75);
+    margin-bottom: 1.5rem; font-style: italic;
+  }
+
+  .testi-author { display: flex; align-items: center; gap: .9rem; }
+
+  .testi-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .85rem; color: white;
+  }
+
+  .testi-author h4 { font-size: .9rem; font-weight: 600; }
+  .testi-author p { font-size: .8rem; color: rgba(245,243,238,.4); }
+
+  /* ── CTA ── */
+  .final-cta {
+    text-align: center; padding: 8rem 5%;
+    background: linear-gradient(160deg, rgba(0,87,255,.06) 0%, transparent 60%);
+  }
+
+  .final-cta .section-title { max-width: 700px; margin: 0 auto; }
+
+  .final-cta .section-sub { margin: 1.5rem auto 3rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(245,243,238,.4);
+    padding: 3rem 5%; font-size: .85rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+
+  footer .logo { color: var(--paper); }
+
+  footer nav { background: none; position: static; border: none; padding: 0; }
+  footer nav ul { gap: 1.5rem; }
+  footer nav ul a { color: rgba(245,243,238,.4); font-size: .82rem; }
+  footer nav ul a:hover { color: var(--paper); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MODAL / APP ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,10,15,.85);
+    backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--card); border-radius: 24px;
+    width: 100%; max-width: 680px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 40px 80px rgba(0,0,0,.3);
+    animation: fadeUp .3s ease;
+  }
+
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.8rem 2rem; border-bottom: 1px solid var(--border);
+  }
+
+  .modal-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 800;
+  }
+
+  .modal-close {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--border); background: none; cursor: pointer;
+    font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+
+  .modal-close:hover { background: var(--border); }
+
+  .modal-body { padding: 2rem; }
+
+  .form-group { margin-bottom: 1.5rem; }
+
+  .form-group label {
+    display: block; font-size: .85rem; font-weight: 600;
+    margin-bottom: .5rem; color: var(--ink);
+  }
+
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: .85rem 1.1rem;
+    border: 1.5px solid var(--border); border-radius: 12px;
+    font-family: 'DM Sans', sans-serif; font-size: .95rem;
+    background: var(--paper); color: var(--ink);
+    outline: none; transition: border-color .2s;
+    resize: vertical;
+  }
+
+  .form-group input:focus, .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--accent); }
+
+  .form-hint { font-size: .78rem; color: var(--mid); margin-top: .4rem; }
+
+  .result-area {
+    background: var(--paper); border: 1.5px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    min-height: 180px; display: none;
+  }
+
+  .result-area.show { display: block; }
+
+  .result-section { margin-bottom: 1.5rem; }
+
+  .result-section h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: .95rem; font-weight: 700;
+    margin-bottom: .8rem; color: var(--accent);
+  }
+
+  .result-section p, .result-section li {
+    font-size: .9rem; line-height: 1.6; color: var(--ink);
+  }
+
+  .result-section ul { padding-left: 1.2rem; }
+
+  .result-section ul li { margin-bottom: .4rem; }
+
+  .tag-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .5rem; }
+
+  .tag {
+    background: rgba(0,87,255,.1); color: var(--accent);
+    border: 1px solid rgba(0,87,255,.2);
+    padding: .3rem .8rem; border-radius: 100px;
+    font-size: .8rem; font-weight: 500;
+  }
+
+  .loading {
+    display: flex; align-items: center; gap: .8rem;
+    color: var(--mid); font-size: .9rem;
+    padding: 1.5rem;
+  }
+
+  .spinner {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    animation: spin .7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .tabs {
+    display: flex; gap: 0; margin-bottom: 1.5rem;
+    background: var(--paper); border-radius: 12px; padding: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .tab {
+    flex: 1; padding: .6rem;
+    border: none; background: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 500;
+    border-radius: 9px; color: var(--mid); transition: all .2s;
+  }
+
+  .tab.active {
+    background: var(--card); color: var(--ink);
+    box-shadow: 0 1px 6px rgba(0,0,0,.08);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .steps-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Linked<span>Boost</span> AI</a>
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#" class="nav-cta" onclick="openApp()">Try Free →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="dot"></span>
+    AI-Powered LinkedIn Growth Tool — 2025
+  </div>
+
+  <h1>Your LinkedIn<br>on <em>autopilot</em></h1>
+
+  <p class="hero-sub">
+    Paste your LinkedIn URL. Get an instant profile score, actionable fixes,
+    and a week's worth of high-engagement posts — written by AI in your voice.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#" class="btn-primary" onclick="openApp()">
+      ⚡ Analyze My Profile Free
+    </a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+
+  <div class="hero-proof">
+    <div class="avatars">
+      <span>JM</span><span>AS</span><span>RK</span><span>TL</span>
+    </div>
+    <p class="proof-text"><strong>2,400+ professionals</strong> grew their reach this month</p>
+  </div>
+
+  <div class="hero-float">
+    <div class="float-card">
+      <div class="ico ico-blue">📊</div>
+      <div>
+        <strong>Profile Score</strong>
+        <span>Instant 0-100 analysis</span>
+      </div>
+    </div>
+    <div class="float-card">
+      <div class="ico ico-green">✍️</div>
+      <div>
+        <strong>AI Posts</strong>
+        <span>5 posts per week</span>
+      </div>
+    </div>
+    <div class="float-card">
+      <div class="ico ico-orange">📈</div>
+      <div>
+        <strong>Growth Tracking</strong>
+        <span>Weekly performance report</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps" id="how">
+  <p class="section-label">How it works</p>
+  <h2 class="section-title">Three steps to LinkedIn dominance</h2>
+  <p class="section-sub">No LinkedIn expertise needed. Our AI does the heavy lifting.</p>
+
+  <div class="steps-grid">
+    <div class="step-item">
+      <div class="step-num">01</div>
+      <div class="step-icon">🔗</div>
+      <h3>Paste Your Profile URL</h3>
+      <p>Enter your LinkedIn profile link. Our AI scrapes your headline, about section, experience, and more in seconds.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">02</div>
+      <div class="step-icon">🧠</div>
+      <h3>AI Deep Analysis</h3>
+      <p>Get a detailed profile score (0–100), specific improvement suggestions, and predicted engagement rate changes.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">03</div>
+      <div class="step-icon">📝</div>
+      <h3>Receive Weekly Posts</h3>
+      <p>Every Monday, 5 ready-to-publish posts arrive in your inbox — tailored to your industry, written in your tone.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">04</div>
+      <div class="step-icon">🚀</div>
+      <h3>Watch Your Reach Grow</h3>
+      <p>Track impressions, profile views, and connection growth in your personal dashboard. A/B test headlines automatically.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <p class="section-label">Features</p>
+  <h2 class="section-title">Everything you need to dominate LinkedIn</h2>
+  <p class="section-sub">Built for solo professionals, founders, and creators who are serious about LinkedIn growth.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>Profile Optimization Score</h3>
+      <p>Get a 0–100 score with exact reasons why you're losing engagement. Photo, headline, about — every element analyzed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✨</div>
+      <h3>AI Post Generator</h3>
+      <p>Tell us your topic, industry and tone. We write posts that sound like you — complete with hooks, emojis and hashtags.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h3>Weekly Content Calendar</h3>
+      <p>5 scheduled posts every week, each targeting a different content format: storytelling, listicle, hot take, how-to, poll.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔮</div>
+      <h3>Engagement Predictor</h3>
+      <p>Before you post, see a predicted reach score. Our model is trained on 1M+ LinkedIn posts to forecast your performance.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🧪</div>
+      <h3>A/B Headline Testing</h3>
+      <p>Can't decide between two openings? We generate 3 variants of any post hook and track which performs best.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h3>English + Turkish Support</h3>
+      <p>Write posts in English for the global market, or Turkish for local audiences. Switch languages with one click.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APP DEMO -->
+<section class="app-demo">
+  <div class="demo-container">
+    <div class="demo-text">
+      <p class="section-label">Live demo</p>
+      <h2 class="section-title">See exactly what you get</h2>
+      <p class="section-sub">Real AI analysis. Real post suggestions. Not templates — actual intelligence tailored to your profile.</p>
+
+      <div class="demo-checks">
+        <div class="check-item">
+          <span class="chk">✓</span>
+          <p><strong>Instant profile score</strong> — see your weak spots in under 10 seconds.</p>
+        </div>
+        <div class="check-item">
+          <span class="chk">✓</span>
+          <p><strong>Headline rewriter</strong> — our AI rewrites your headline for 3× more profile views.</p>
+        </div>
+        <div class="check-item">
+          <span class="chk">✓</span>
+          <p><strong>Post previews</strong> — see your 5 posts before committing, edit anytime.</p>
+        </div>
+        <div class="check-item">
+          <span class="chk">✓</span>
+          <p><strong>One-click copy</strong> — paste directly to LinkedIn, no formatting needed.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 2.5rem;">
+        <a href="#" class="btn-primary" onclick="openApp()">Try it free now →</a>
+      </div>
+    </div>
+
+    <div class="demo-mockup">
+      <div class="mockup-header">
+        <div class="mockup-dots">
+          <span class="dot-r"></span>
+          <span class="dot-y"></span>
+          <span class="dot-g"></span>
+        </div>
+        <span class="mockup-title">LinkedBoost AI — Profile Analysis</span>
+      </div>
+      <div class="mockup-body">
+        <div class="score-ring">
+          <svg class="ring-svg" width="72" height="72" viewBox="0 0 72 72">
+            <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="7"/>
+            <circle cx="36" cy="36" r="30" fill="none" stroke="#0057ff" stroke-width="7"
+              stroke-linecap="round" stroke-dasharray="188" stroke-dashoffset="47"
+              transform="rotate(-90 36 36)"/>
+            <text x="36" y="41" text-anchor="middle" font-size="16" font-weight="800"
+              fill="white" font-family="Syne">74</text>
+          </svg>
+          <div class="ring-text">
+            <h4>Your Profile Score</h4>
+            <p>Good — but 5 issues found</p>
+          </div>
+        </div>
+
+        <div class="insight-list">
+          <div class="insight-item">
+            <span class="ins-badge badge-red">Critical</span>
+            Headline lacks keywords — losing 42% of search visibility
+          </div>
+          <div class="insight-item">
+            <span class="ins-badge badge-yellow">Warning</span>
+            About section under 200 words — too short for algorithm
+          </div>
+          <div class="insight-item">
+            <span class="ins-badge badge-yellow">Warning</span>
+            No featured section — losing social proof opportunity
+          </div>
+          <div class="insight-item">
+            <span class="ins-badge badge-green">Good</span>
+            Profile photo detected — solid first impression ✓
+          </div>
+        </div>
+
+        <div class="post-preview">
+          <div class="post-preview-label">✍️ AI-Generated Post #1</div>
+          <p>I spent 3 years building the wrong thing on LinkedIn. Here's what changed everything for me — and the 5 mistakes most professionals are still making...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <p class="section-label">Pricing</p>
+  <h2 class="section-title">Simple, transparent pricing</h2>
+  <p class="section-sub">Start free. Upgrade when you're ready to grow seriously.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Starter</div>
+      <div class="price-amount"><sup>$</sup>0<sub>/mo</sub></div>
+      <p class="price-desc">Perfect for testing the platform and seeing what AI can do for your profile.</p>
+      <ul class="price-features">
+        <li>1 profile analysis per month</li>
+        <li>3 AI-generated posts</li>
+        <li>Basic score + 3 suggestions</li>
+        <li>English only</li>
+      </ul>
+      <button class="price-btn price-btn-outline" onclick="openApp()">Get Started Free</button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">🔥 Most Popular</div>
+      <div class="price-name">Pro</div>
+      <div class="price-amount"><sup>$</sup>29<sub>/mo</sub></div>
+      <p class="price-desc">The full LinkedBoost experience for professionals serious about LinkedIn growth.</p>
+      <ul class="price-features">
+        <li>Unlimited profile analyses</li>
+        <li>20 AI posts per month</li>
+        <li>Weekly content calendar</li>
+        <li>Engagement predictor</li>
+        <li>A/B headline testing</li>
+        <li>English + Turkish</li>
+      </ul>
+      <button class="price-btn price-btn-solid" onclick="openApp()">Start 7-Day Free Trial</button>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Agency</div>
+      <div class="price-amount"><sup>$</sup>79<sub>/mo</sub></div>
+      <p class="price-desc">Manage multiple clients and LinkedIn profiles from a single dashboard.</p>
+      <ul class="price-features">
+        <li>Up to 10 profiles</li>
+        <li>Unlimited AI posts</li>
+        <li>Client dashboard</li>
+        <li>White-label reports</li>
+        <li>Priority support</li>
+        <li>API access</li>
+      </ul>
+      <button class="price-btn price-btn-outline" onclick="openApp()">Contact Sales</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="section-label">Social proof</p>
+  <h2 class="section-title">What our users say</h2>
+
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"My profile views tripled in the first month. The AI posts sound exactly like me — my audience actually asked if I hired a copywriter."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#6c63ff;">JM</div>
+        <div>
+          <h4>James Mitchell</h4>
+          <p>Senior Product Manager, London</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"I was skeptical at first. But after one week of using the AI posts, I got 3 inbound job offers. The headline rewrite alone was worth it."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#f59e0b;">AS</div>
+        <div>
+          <h4>Ayşe Sarıoğlu</h4>
+          <p>Startup Founder, Istanbul</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"I manage 6 client LinkedIn profiles. This tool cut my content creation time by 80%. The engagement predictor is surprisingly accurate too."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#10b981;">RK</div>
+        <div>
+          <h4>Ryan Kowalski</h4>
+          <p>Digital Marketing Agency, NYC</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <p class="section-label">Get started today</p>
+  <h2 class="section-title">Your best LinkedIn content starts here</h2>
+  <p class="section-sub">Join 2,400+ professionals already using LinkedBoost AI to grow their presence — for free.</p>
+  <a href="#" class="btn-primary" onclick="openApp()">⚡ Analyze My Profile — It's Free</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">Linked<span style="color:var(--accent)">Boost</span> AI</a>
+  <nav>
+    <ul>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+  </nav>
+  <span>© 2025 LinkedBoost AI. All rights reserved.</span>
+</footer>
+
+<!-- APP MODAL -->
+<div class="modal-overlay" id="appModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>⚡ LinkedBoost AI — Free Analysis</h2>
+      <button class="modal-close" onclick="closeApp()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('profile')">📊 Profile Analysis</button>
+        <button class="tab" onclick="switchTab('post')">✍️ Generate Post</button>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div class="tab-content active" id="tab-profile">
+        <div class="form-group">
+          <label>Your LinkedIn Headline</label>
+          <input type="text" id="headline" placeholder="e.g. Product Manager | Building SaaS Tools | Ex-Google" />
+          <p class="form-hint">Copy-paste your current LinkedIn headline here</p>
+        </div>
+        <div class="form-group">
+          <label>Your "About" Section (first 2-3 sentences)</label>
+          <textarea id="about" rows="3" placeholder="e.g. I help startups ship faster. 5 years in product..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Your Industry / Role</label>
+          <input type="text" id="industry" placeholder="e.g. SaaS, Marketing, Finance, Engineering..." />
+        </div>
+        <button class="btn-primary" style="width:100%" onclick="analyzeProfile()">Analyze My Profile →</button>
+
+        <div class="result-area" id="profileResult" style="margin-top:1.5rem">
+          <div class="loading" id="profileLoading" style="display:none">
+            <div class="spinner"></div> AI is analyzing your profile…
+          </div>
+          <div id="profileOutput"></div>
+        </div>
+      </div>
+
+      <!-- POST TAB -->
+      <div class="tab-content" id="tab-post">
+        <div class="form-group">
+          <label>Post Topic</label>
+          <input type="text" id="postTopic" placeholder="e.g. Lessons I learned failing my first startup" />
+        </div>
+        <div class="form-group">
+          <label>Your Industry</label>
+          <input type="text" id="postIndustry" placeholder="e.g. Tech, Finance, Marketing..." />
+        </div>
+        <div class="form-group">
+          <label>Tone / Style</label>
+          <select id="postTone">
+            <option value="professional">Professional & Insightful</option>
+            <option value="storytelling">Personal Storytelling</option>
+            <option value="hot take">Bold / Hot Take</option>
+            <option value="listicle">Listicle / Tips</option>
+            <option value="humorous">Humorous but Smart</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Language</label>
+          <select id="postLang">
+            <option value="English">English 🇺🇸</option>
+            <option value="Turkish">Turkish 🇹🇷</option>
+          </select>
+        </div>
+        <button class="btn-primary" style="width:100%" onclick="generatePost()">Generate LinkedIn Post →</button>
+
+        <div class="result-area" id="postResult" style="margin-top:1.5rem">
+          <div class="loading" id="postLoading" style="display:none">
+            <div class="spinner"></div> AI is writing your post…
+          </div>
+          <div id="postOutput"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openApp() { document.getElementById('appModal').classList.add('active'); }
+  function closeApp() { document.getElementById('appModal').classList.remove('active'); }
+
+  document.getElementById('appModal').addEventListener('click', function(e) {
+    if (e.target === this) closeApp();
+  });
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  async function analyzeProfile() {
+    const headline = document.getElementById('headline').value.trim();
+    const about = document.getElementById('about').value.trim();
+    const industry = document.getElementById('industry').value.trim();
+
+    if (!headline && !about) {
+      alert('Please enter at least your headline or about section.');
+      return;
+    }
+
+    const resultArea = document.getElementById('profileResult');
+    const loading = document.getElementById('profileLoading');
+    const output = document.getElementById('profileOutput');
+
+    resultArea.classList.add('show');
+    loading.style.display = 'flex';
+    output.innerHTML = '';
+
+    const prompt = `You are a LinkedIn profile optimization expert. Analyze this LinkedIn profile and give a detailed, actionable audit.
+
+Headline: "${headline}"
+About: "${about}"
+Industry: "${industry}"
+
+Respond ONLY in this exact JSON format (no markdown):
+{
+  "score": <number 0-100>,
+  "grade": "<letter grade A/B/C/D/F>",
+  "summary": "<2-sentence verdict>",
+  "issues": [
+    {"severity": "critical|warning|good", "text": "<specific issue>"},
+    {"severity": "critical|warning|good", "text": "<specific issue>"},
+    {"severity": "critical|warning|good", "text": "<specific issue>"},
+    {"severity": "warning|good", "text": "<specific issue>"}
+  ],
+  "improved_headline": "<rewritten headline, max 220 chars>",
+  "hashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5"]
+}`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await res.json();
+      const text = data.content.map(i => i.text || '').join('');
+      const clean = text.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(clean);
+
+      const sevColor = { critical: 'badge-red', warning: 'badge-yellow', good: 'badge-green' };
+
+      output.innerHTML = `
+        <div class="result-section">
+          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+            <div style="font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--accent)">${parsed.score}</div>
+            <div>
+              <div style="font-weight:700;font-size:1.1rem">Profile Score <span style="color:var(--accent2)">${parsed.grade}</span></div>
+              <div style="font-size:.85rem;color:var(--mid)">${parsed.summary}</div>
+            </div>
+          </div>
+        </div>
+        <div class="result-section">
+          <h4>🔍 Issues Found</h4>
+          ${parsed.issues.map(i => `
+            <div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.6rem;font-size:.88rem">
+              <span class="ins-badge ${sevColor[i.severity] || 'badge-yellow'}" style="margin-top:1px">${i.severity}</span>
+              <span>${i.text}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="result-section">
+          <h4>✨ AI-Improved Headline</h4>
+          <div style="background:rgba(0,87,255,.06);border:1px solid rgba(0,87,255,.15);border-radius:10px;padding:1rem;font-size:.9rem;font-style:italic">"${parsed.improved_headline}"</div>
+        </div>
+        <div class="result-section">
+          <h4>#️⃣ Suggested Hashtags</h4>
+          <div class="tag-row">${parsed.hashtags.map(h => `<span class="tag">${h}</span>`).join('')}</div>
+        </div>
+      `;
+    } catch (err) {
+      output.innerHTML = `<p style="color:var(--warn)">Error: Could not analyze. Please try again. (${err.message})</p>`;
+    } finally {
+      loading.style.display = 'none';
+    }
+  }
+
+  async function generatePost() {
+    const topic = document.getElementById('postTopic').value.trim();
+    const industry = document.getElementById('postIndustry').value.trim();
+    const tone = document.getElementById('postTone').value;
+    const lang = document.getElementById('postLang').value;
+
+    if (!topic) { alert('Please enter a post topic.'); return; }
+
+    const resultArea = document.getElementById('postResult');
+    const loading = document.getElementById('postLoading');
+    const output = document.getElementById('postOutput');
+
+    resultArea.classList.add('show');
+    loading.style.display = 'flex';
+    output.innerHTML = '';
+
+    const prompt = `You are an expert LinkedIn content creator. Write a high-performing LinkedIn post.
+
+Topic: "${topic}"
+Industry: "${industry}"
+Tone: ${tone}
+Language: ${lang}
+
+Requirements:
+- Start with a powerful hook (first line stops the scroll)
+- 150-250 words
+- Use line breaks for readability
+- Include relevant emojis (not excessive)
+- End with a question or call-to-action
+- If ${lang} is Turkish, write entirely in Turkish
+
+Respond ONLY in this exact JSON format (no markdown, no backticks):
+{
+  "post": "<full linkedin post text with line breaks as \\n>",
+  "hook_score": <number 1-10>,
+  "predicted_reach": "<e.g. 1,200–3,500 impressions>",
+  "best_time": "<e.g. Tuesday 8am or Wednesday 7pm>",
+  "hashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5"]
+}`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await res.json();
+      const text = data.content.map(i => i.text || '').join('');
+      const clean = text.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(clean);
+
+      const postHtml = parsed.post.replace(/\n/g, '<br>');
+
+      output.innerHTML = `
+        <div class="result-section">
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
+            <div style="background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.2);border-radius:10px;padding:.6rem 1rem;font-size:.82rem">
+              🎯 Hook Score: <strong>${parsed.hook_score}/10</strong>
+            </div>
+            <div style="background:rgba(0,87,255,.08);border:1px solid rgba(0,87,255,.15);border-radius:10px;padding:.6rem 1rem;font-size:.82rem">
+              📈 Predicted: <strong>${parsed.predicted_reach}</strong>
+            </div>
+            <div style="background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2);border-radius:10px;padding:.6rem 1rem;font-size:.82rem">
+              ⏰ Best time: <strong>${parsed.best_time}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="result-section">
+          <h4>📝 Your LinkedIn Post</h4>
+          <div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.5rem;font-size:.92rem;line-height:1.7;white-space:pre-wrap" id="postText">${postHtml}</div>
+          <button onclick="copyPost()" style="margin-top:.8rem;background:var(--ink);color:white;border:none;padding:.7rem 1.5rem;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.88rem">
+            📋 Copy to Clipboard
+          </button>
+        </div>
+        <div class="result-section">
+          <h4>#️⃣ Hashtags</h4>
+          <div class="tag-row">${parsed.hashtags.map(h => `<span class="tag">${h}</span>`).join('')}</div>
+        </div>
+      `;
+    } catch (err) {
+      output.innerHTML = `<p style="color:var(--warn)">Error: Could not generate post. Please try again. (${err.message})</p>`;
+    } finally {
+      loading.style.display = 'none';
+    }
+  }
+
+  function copyPost() {
+    const el = document.getElementById('postText');
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      event.target.textContent = '✅ Copied!';
+      setTimeout(() => event.target.textContent = '📋 Copy to Clipboard', 2000);
+    });
+  }
+</script>
+</body>
+</html>
