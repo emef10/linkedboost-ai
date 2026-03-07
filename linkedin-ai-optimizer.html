@@ -1185,7 +1185,7 @@
 </div>
 
 <script>
-  function openApp() { document.getElementById('appModal').classList.add('active'); }
+  function openApp() { window.location.href = 'auth.html'; }
   function closeApp() { document.getElementById('appModal').classList.remove('active'); }
 
   document.getElementById('appModal').addEventListener('click', function(e) {

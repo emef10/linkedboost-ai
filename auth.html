@@ -926,6 +926,7 @@ function showSuccess(msg, email) {
   document.querySelectorAll('.auth-view, .form-switch').forEach(v => v.style.display = 'none');
   document.getElementById('success-message').textContent = msg;
   document.getElementById('view-success').classList.add('show');
+  setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
 }
 
 function goToDashboard() {
@@ -936,8 +937,7 @@ function goToDashboard() {
 window.addEventListener('DOMContentLoaded', () => {
   const user = sessionStorage.getItem('lb_user');
   if (user) {
-    // Auto-redirect to dashboard
-    // window.location.href = 'dashboard.html';
+    window.location.href = 'dashboard.html';
   }
 });
 </script>
