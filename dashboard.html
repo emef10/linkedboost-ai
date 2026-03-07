@@ -667,7 +667,7 @@
 
   <div class="sidebar-plan">
     <span>🌟 Free Plan</span>
-    <button class="plan-upgrade-btn" onclick="showPage('settings')">Upgrade</button>
+    <button class="plan-upgrade-btn" onclick="window.location.href='checkout.html'">Upgrade</button>
   </div>
 
   <nav class="sidebar-nav">
@@ -722,7 +722,7 @@
     <div class="user-avatar" id="user-avatar">JD</div>
     <div class="user-info">
       <div class="name" id="user-name">John Doe</div>
-      <div class="email" id="user-email">john@doe.com</div>
+      <div class="email" id="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5e343136301e3a313b703d3133">[email&#160;protected]</a></div>
     </div>
     <button class="logout-btn" title="Sign out" onclick="logout()">⬡</button>
   </div>
@@ -1210,7 +1210,7 @@
           <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.4rem">Upgrade to Pro — $29/mo</div>
           <div style="font-size:.9rem;color:rgba(245,243,238,.5)">Unlimited posts · Engagement predictor · A/B testing · English + Turkish</div>
         </div>
-        <button class="btn-primary">Upgrade Now →</button>
+        <button class="btn-primary" onclick="window.location.href='checkout.html'">Upgrade Now →</button>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
@@ -1261,7 +1261,7 @@
 
 </main>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── INIT: Load user from session ──
 window.addEventListener('DOMContentLoaded', () => {
   const raw = sessionStorage.getItem('lb_user');
@@ -1568,15 +1568,4 @@ function copyGeneratedPost(btn) {
   const text = document.getElementById('generated-post-text').innerText;
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = '📋 Copy Post', 2000);
-  });
-}
-
-function saveToMyPosts() {
-  const btn = event.target;
-  btn.textContent = '✅ Saved!';
-  setTimeout(() => btn.textContent = '💾 Save to My Posts', 2000);
-}
-</script>
-</body>
-</html>
+    setTimeout(() => btn.textContent
