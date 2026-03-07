@@ -1568,12 +1568,14 @@ function copyGeneratedPost(btn) {
   const text = document.getElementById('generated-post-text').innerText;
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent= '📋 Copy Post'; });
-});
+    setTimeout(() => btn.textContent = '📋 Copy Post'; }, 2000);
+  });
 }
 
 function saveToMyPosts() {
-  alert('Post saved!');
+  const postText = document.getElementById('generated-post-text')?.innerText;
+  if (!postText) return;
+  alert('Post saved to My Posts!');
 }
 </script>
 </body>
