@@ -1568,4 +1568,13 @@ function copyGeneratedPost(btn) {
   const text = document.getElementById('generated-post-text').innerText;
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent
+    setTimeout(() => btn.textContent= '📋 Copy Post'; });
+});
+}
+
+function saveToMyPosts() {
+  alert('Post saved!');
+}
+</script>
+</body>
+</html>
