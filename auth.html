@@ -764,18 +764,32 @@ function setLoading(btnId, spinnerId, textId, loading, text) {
 }
 
 // ── LOGIN ──
-function handleLogin() {
+// ── SUPABASE CONFIG ──
+const SUPABASE_URL = 'https://roxdpqfkylloirdeocbo.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD';
+
+async function supabaseRequest(endpoint, method, body) {
+  const res = await fetch(`${SUPABASE_URL}${endpoint}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  return res.json();
+}
+
+// ── LOGIN ──
+async function handleLogin() {
   const email = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
   let valid = true;
 
   document.getElementById('login-error').classList.remove('show');
 
-  // Validation
-  const emailErr = !isValidEmail(email);
-  const pwdErr = password.length < 1;
-
-  if (emailErr) {
+  if (!isValidEmail(email)) {
     document.getElementById('login-email-err').classList.add('show');
     document.getElementById('login-email').classList.add('error');
     valid = false;
@@ -784,7 +798,7 @@ function handleLogin() {
     document.getElementById('login-email').classList.remove('error');
   }
 
-  if (pwdErr) {
+  if (password.length < 1) {
     document.getElementById('login-pwd-err').classList.add('show');
     document.getElementById('login-password').classList.add('error');
     valid = false;
@@ -797,28 +811,32 @@ function handleLogin() {
 
   setLoading('login-btn', 'login-spinner', 'login-btn-text', true, 'Sign In →');
 
-  // Simulate API call — replace with real auth later
-  setTimeout(() => {
-    setLoading('login-btn', 'login-spinner', 'login-btn-text', false, 'Sign In →');
+  try {
+    const data = await supabaseRequest('/auth/v1/token?grant_type=password', 'POST', { email, password });
 
-    // DEMO: accept any valid email/password combo
-    // In production: call your backend /api/auth/login
-    const users = JSON.parse(localStorage.getItem('lb_users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
+    if (data.access_token) {
+      // Get profile from DB
+      const profile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${email}&select=*`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${data.access_token}` }
+      }).then(r => r.json());
 
-    if (user || email === 'demo@linkedboost.ai') {
-      // Save session
-      sessionStorage.setItem('lb_user', JSON.stringify({ email, name: user?.name || 'Demo User', plan: user?.plan || 'free' }));
+      const user = profile[0] || { email, name: email.split('@')[0], plan: 'free' };
+      sessionStorage.setItem('lb_user', JSON.stringify({ email, name: user.name, plan: user.plan, token: data.access_token }));
       showSuccess('Welcome back! Redirecting to your dashboard…', email);
     } else {
+      setLoading('login-btn', 'login-spinner', 'login-btn-text', false, 'Sign In →');
       document.getElementById('login-error').classList.add('show');
-      document.getElementById('login-error-msg').textContent = 'Invalid email or password. Try demo@linkedboost.ai';
+      document.getElementById('login-error-msg').textContent = data.error_description || 'Invalid email or password.';
     }
-  }, 1200);
+  } catch(e) {
+    setLoading('login-btn', 'login-spinner', 'login-btn-text', false, 'Sign In →');
+    document.getElementById('login-error').classList.add('show');
+    document.getElementById('login-error-msg').textContent = 'Connection error. Please try again.';
+  }
 }
 
 // ── REGISTER ──
-function handleRegister() {
+async function handleRegister() {
   const fname = document.getElementById('reg-fname').value.trim();
   const lname = document.getElementById('reg-lname').value.trim();
   const email = document.getElementById('reg-email').value.trim();
@@ -827,83 +845,69 @@ function handleRegister() {
 
   document.getElementById('reg-error').classList.remove('show');
 
-  if (!fname) {
-    document.getElementById('reg-fname-err').classList.add('show');
-    document.getElementById('reg-fname').classList.add('error');
-    valid = false;
-  } else {
-    document.getElementById('reg-fname-err').classList.remove('show');
-    document.getElementById('reg-fname').classList.remove('error');
-  }
+  if (!fname) { document.getElementById('reg-fname-err').classList.add('show'); document.getElementById('reg-fname').classList.add('error'); valid = false; }
+  else { document.getElementById('reg-fname-err').classList.remove('show'); document.getElementById('reg-fname').classList.remove('error'); }
 
-  if (!lname) {
-    document.getElementById('reg-lname-err').classList.add('show');
-    valid = false;
-  } else {
-    document.getElementById('reg-lname-err').classList.remove('show');
-  }
+  if (!lname) { document.getElementById('reg-lname-err').classList.add('show'); valid = false; }
+  else { document.getElementById('reg-lname-err').classList.remove('show'); }
 
-  if (!isValidEmail(email)) {
-    document.getElementById('reg-email-err').classList.add('show');
-    document.getElementById('reg-email').classList.add('error');
-    valid = false;
-  } else {
-    document.getElementById('reg-email-err').classList.remove('show');
-    document.getElementById('reg-email').classList.remove('error');
-  }
+  if (!isValidEmail(email)) { document.getElementById('reg-email-err').classList.add('show'); document.getElementById('reg-email').classList.add('error'); valid = false; }
+  else { document.getElementById('reg-email-err').classList.remove('show'); document.getElementById('reg-email').classList.remove('error'); }
 
-  if (pwd.length < 8) {
-    document.getElementById('reg-pwd-err').classList.add('show');
-    document.getElementById('reg-password').classList.add('error');
-    valid = false;
-  } else {
-    document.getElementById('reg-pwd-err').classList.remove('show');
-    document.getElementById('reg-password').classList.remove('error');
-  }
+  if (pwd.length < 8) { document.getElementById('reg-pwd-err').classList.add('show'); document.getElementById('reg-password').classList.add('error'); valid = false; }
+  else { document.getElementById('reg-pwd-err').classList.remove('show'); document.getElementById('reg-password').classList.remove('error'); }
 
   if (!valid) return;
 
   setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', true, 'Create Free Account →');
 
-  setTimeout(() => {
-    setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', false, 'Create Free Account →');
+  try {
+    const data = await supabaseRequest('/auth/v1/signup', 'POST', { email, password: pwd });
 
-    // Check if email already exists
-    const users = JSON.parse(localStorage.getItem('lb_users') || '[]');
-    const exists = users.find(u => u.email === email);
+    if (data.id || data.user) {
+      // Save profile to DB
+      const name = `${fname} ${lname}`;
+      await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ email, name, plan: selectedPlan })
+      });
 
-    if (exists) {
+      sessionStorage.setItem('lb_user', JSON.stringify({ email, name, plan: selectedPlan }));
+      showSuccess(`Welcome, ${fname}! 🎉 Your account is ready.`, email);
+    } else {
+      setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', false, 'Create Free Account →');
       document.getElementById('reg-error').classList.add('show');
-      document.getElementById('reg-error-msg').textContent = 'This email is already registered. Please sign in.';
-      return;
+      document.getElementById('reg-error-msg').textContent = data.error_description || data.msg || 'Registration failed. Please try again.';
     }
-
-    // Save new user
-    const newUser = { name: `${fname} ${lname}`, email, password: pwd, plan: selectedPlan, createdAt: new Date().toISOString() };
-    users.push(newUser);
-    localStorage.setItem('lb_users', JSON.stringify(users));
-    sessionStorage.setItem('lb_user', JSON.stringify({ email, name: newUser.name, plan: selectedPlan }));
-
-    showSuccess(`Welcome, ${fname}! 🎉 Your ${selectedPlan === 'free' ? 'free' : selectedPlan === 'pro' ? 'Pro' : 'Agency'} account is ready.`, email);
-  }, 1400);
+  } catch(e) {
+    setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', false, 'Create Free Account →');
+    document.getElementById('reg-error').classList.add('show');
+    document.getElementById('reg-error-msg').textContent = 'Connection error. Please try again.';
+  }
 }
 
 // ── FORGOT PASSWORD ──
-function handleForgot() {
+async function handleForgot() {
   const email = document.getElementById('forgot-email').value.trim();
   if (!isValidEmail(email)) { alert('Please enter a valid email.'); return; }
 
   document.getElementById('forgot-spinner').style.display = 'block';
   document.getElementById('forgot-btn-text').textContent = 'Sending…';
 
+  await supabaseRequest('/auth/v1/recover', 'POST', { email });
+
+  document.getElementById('forgot-spinner').style.display = 'none';
+  document.getElementById('forgot-btn-text').textContent = '✅ Reset link sent!';
   setTimeout(() => {
-    document.getElementById('forgot-spinner').style.display = 'none';
-    document.getElementById('forgot-btn-text').textContent = '✅ Reset link sent!';
-    setTimeout(() => {
-      document.getElementById('forgot-btn-text').textContent = 'Send Reset Link →';
-      showTab('login');
-    }, 2500);
-  }, 1000);
+    document.getElementById('forgot-btn-text').textContent = 'Send Reset Link →';
+    showTab('login');
+  }, 2500);
 }
 
 // ── SOCIAL LOGIN ──
@@ -912,9 +916,7 @@ function socialLogin(provider) {
   btn.style.opacity = '0.6';
   btn.style.pointerEvents = 'none';
   btn.innerHTML = `<div style="width:16px;height:16px;border-radius:50%;border:2px solid #ccc;border-top-color:#0057ff;animation:spin .7s linear infinite"></div> Connecting…`;
-
   setTimeout(() => {
-    // Simulate social auth
     const mockUser = { email: `user@${provider.toLowerCase()}.com`, name: `${provider} User`, plan: 'free' };
     sessionStorage.setItem('lb_user', JSON.stringify(mockUser));
     showSuccess(`Signed in with ${provider}! Redirecting…`, mockUser.email);
@@ -929,16 +931,12 @@ function showSuccess(msg, email) {
   setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
 }
 
-function goToDashboard() {
-  window.location.href = 'dashboard.html';
-}
+function goToDashboard() { window.location.href = 'dashboard.html'; }
 
 // ── CHECK IF ALREADY LOGGED IN ──
 window.addEventListener('DOMContentLoaded', () => {
   const user = sessionStorage.getItem('lb_user');
-  if (user) {
-    window.location.href = 'dashboard.html';
-  }
+  if (user) window.location.href = 'dashboard.html';
 });
 </script>
 </body>
