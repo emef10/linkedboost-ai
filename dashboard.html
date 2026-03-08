@@ -1401,10 +1401,17 @@ Career Goal: "${goal}"
   "hashtags": ["#tag1","#tag2","#tag3","#tag4","#tag5"]
 }`;
 
+  const ANTHROPIC_KEY = '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';
+
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -1517,7 +1524,12 @@ Respond ONLY with valid JSON (no markdown):
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': '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',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
