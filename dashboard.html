@@ -1606,15 +1606,15 @@ function saveToMyPosts() {
 </script>
   <script>
     async function runProfileAnalysis() {
-  const headline = document.getElementById('pa-headline').value.trim();
-  const about = document.getElementById('pa-about').value.trim();
-  const industry = document.getElementById('pa-industry').value.trim();
-  const goal = document.getElementById('pa-goal') ? document.getElementById('pa-goal').value : '';
+  const headline = document.getElementById('p-headline').value.trim();
+  const about = document.getElementById('p-about').value.trim();
+  const industry = document.getElementById('p-industry').value.trim();
+  const goal = document.getElementById('p-goal') ? document.getElementById('p-goal').value : '';
   if (!headline) { alert('Please enter your headline.'); return; }
-  const btn = document.getElementById('pa-btn');
-  const result = document.getElementById('pa-result');
-  const loading = document.getElementById('pa-loading');
-  const placeholder = document.getElementById('pa-placeholder');
+  const btn = document.getElementById('analyze-btn');
+  const result = document.getElementById('profile-result');
+  const loading = document.getElementById('profile-loading');
+  const placeholder = document.getElementById('profile-placeholder');
   if(btn) btn.disabled = true;
   if(loading) loading.classList.add('show');
   if(result) result.classList.remove('show');
@@ -1635,7 +1635,7 @@ function saveToMyPosts() {
     const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
     const p = JSON.parse(raw);
     if(result) {
-      result.innerHTML = '<div style="padding:1rem"><h4>Profile Score: '+p.score+'/100 ('+p.grade+')</h4><p>'+p.summary+'</p><h4>Issues</h4>'+p.issues.map(i=>'<div style="padding:.5rem;margin:.3rem 0;border-radius:8px;background:'+(i.severity==='critical'?'#fee2e2':i.severity==='warning'?'#fef3c7':'#d1fae5')+'">'+i.text+'</div>').join('')+'<h4>Improved Headline</h4><div style="padding:.8rem;background:#f0f9ff;border-radius:8px">'+p.improved_headline+'</div><h4>About Tip</h4><p>'+p.about_tip+'</p></div>';
+      result.innerHTML = '<div style="padding:1rem"><h4>Profile Score: '+p.score+'/100 ('+p.grade+')</h4><p>'+p.summary+'</p><h4>Issues</h4>'+p.issues.map(i=>'<div style="padding:.5rem;margin:.3rem 0;border-radius:8px;background:'+(i.severity==="critical"?"#fee2e2":i.severity==="warning"?"#fef3c7":"#d1fae5")+'">'+i.text+'</div>').join('')+'<h4>Improved Headline</h4><div style="padding:.8rem;background:#f0f9ff;border-radius:8px">'+p.improved_headline+'</div><h4>About Tip</h4><p>'+p.about_tip+'</p></div>';
       result.classList.add('show');
     }
   } catch(err) {
