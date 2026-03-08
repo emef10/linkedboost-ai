@@ -836,14 +836,13 @@ function validateForm() {
 }
 
 // ── PAYMENT HANDLER ──
+const STRIPE_LINKS = {
+  pro: 'https://buy.stripe.com/test_28E4gA5sHeMd1Q7gRX2Ry00',
+  agency: 'https://buy.stripe.com/test_28E7sM1creMddyP7hn2Ry01'
+};
+
 async function handlePayment() {
   document.getElementById('pay-error').classList.remove('show');
-
-  if (!validateForm()) {
-    document.getElementById('pay-error').classList.add('show');
-    document.getElementById('pay-error-msg').textContent = 'Please fill in all required fields correctly.';
-    return;
-  }
 
   const btn = document.getElementById('pay-btn');
   const spinner = document.getElementById('pay-spinner');
@@ -851,7 +850,13 @@ async function handlePayment() {
 
   btn.disabled = true;
   spinner.style.display = 'block';
-  txt.textContent = 'Processing payment…';
+  txt.textContent = 'Redirecting to payment…';
+
+  setTimeout(() => {
+    window.location.href = STRIPE_LINKS[currentPlan] || STRIPE_LINKS.pro;
+  }, 800);
+
+  return;
 
   // ══════════════════════════════════════════════════
   // GERÇEK STRIPE ENTEGRASYONU BURAYA GELECEK
