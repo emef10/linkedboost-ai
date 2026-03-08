@@ -862,7 +862,7 @@ async function handleRegister() {
   setLoading('reg-btn', 'reg-spinner', 'reg-btn-text', true, 'Create Free Account →');
 
   try {
-    const data = await supabaseRequest('/auth/v1/signup', 'POST', { email, password: pwd });
+    const data = await supabaseRequest('/auth/v1/signup', 'POST', { email, password: pwd, data: { full_name: name } });
 
     if (data.id || data.user) {
       // Save profile to DB
