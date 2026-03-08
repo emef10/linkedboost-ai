@@ -1471,6 +1471,7 @@ Career Goal: "${goal}"
 }
 
 // ── POST GENERATOR ──
+  <script>
 async function generatePost() {
   const topic = document.getElementById('gen-topic').value.trim();
   const industry = document.getElementById('gen-industry').value.trim();
@@ -1594,7 +1595,7 @@ function copyGeneratedPost(btn) {
   const text = document.getElementById('generated-post-text').innerText;
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = '📋 Copy Post'; }, 2000);
+    setTimeout(() => { btn.textContent = '📋 Copy Post'; }, 2000);
   });
 }
 
@@ -1604,7 +1605,7 @@ function saveToMyPosts() {
   alert('Post saved to My Posts!');
 }
 </script>
-  async function generatePost() {
+  
   const topic = document.getElementById('gen-topic')?.value?.trim();
   const industry = document.getElementById('gen-industry')?.value?.trim();
   const style = document.getElementById('gen-style')?.value || 'Personal Storytelling';
