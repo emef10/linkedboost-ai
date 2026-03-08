@@ -671,6 +671,22 @@ function showPage(id, navEl) {
   else { document.querySelectorAll(".nav-item").forEach(item => { if (item.getAttribute("onclick")?.includes("'"+id+"'")) item.classList.add("active"); }); }
 }
 function logout() { sessionStorage.removeItem("lb_user"); window.location.href = "auth.html"; }
+  function saveSettings() {
+  const name = document.getElementById('settings-name').value;
+  const email = document.getElementById('settings-email').value;
+  const raw = sessionStorage.getItem('lb_user');
+  const u = raw ? JSON.parse(raw) : {};
+  u.name = name; u.email = email;
+  sessionStorage.setItem('lb_user', JSON.stringify(u));
+
+  document.getElementById('user-name').textContent = name;
+  document.getElementById('user-email').textContent = email;
+  document.getElementById('banner-name').textContent = name.split(' ')[0];
+
+  const btn = event.target;
+  btn.textContent = '✅ Saved!';
+  setTimeout(() => btn.textContent = 'Save Changes', 2000);
+}
 </script>
 </head>
 <body>
