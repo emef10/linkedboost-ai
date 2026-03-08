@@ -821,7 +821,10 @@ async function handleLogin() {
       }).then(r => r.json());
 
       const user = profile[0] || { email, name: email.split('@')[0], plan: 'free' };
-      sessionStorage.setItem('lb_user', JSON.stringify({ email, name: data.user?.user_metadata?.full_name || email, plan: user.plan, token: data.access_token }));
+      const profileRes = await supabaseRequest(`/rest/v1/profiles?email=eq.${email}&select=name,plan`, 'GET');
+const profileName = profileRes && profileRes[0] ? profileRes[0].name : email;
+const profilePlan = profileRes && profileRes[0] ? profileRes[0].plan : 'free';
+sessionStorage.setItem('lb_user', JSON.stringify({ email, name: profileName, plan: profilePlan, token: data.access_token }));
       showSuccess('Welcome back! Redirecting to your dashboard…', email);
     } else {
       setLoading('login-btn', 'login-spinner', 'login-btn-text', false, 'Sign In →');
