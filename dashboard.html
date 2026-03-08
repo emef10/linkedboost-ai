@@ -1604,5 +1604,36 @@ function saveToMyPosts() {
   alert('Post saved to My Posts!');
 }
 </script>
+  async function generatePost() {
+  const topic = document.getElementById('gen-topic')?.value?.trim();
+  const industry = document.getElementById('gen-industry')?.value?.trim();
+  const style = document.getElementById('gen-style')?.value || 'Personal Storytelling';
+  const lang = document.getElementById('gen-lang')?.value || 'English';
+  const role = document.getElementById('gen-role')?.value?.trim();
+  if (!topic) { alert('Please enter a topic!'); return; }
+  const btn = document.querySelector('[onclick="generatePost()"]');
+  const result = document.getElementById('gen-result');
+  const spinner = document.getElementById('gen-spinner');
+  const text = document.getElementById('gen-btn-text');
+  const loading = document.getElementById('gen-loading');
+  const placeholder = document.getElementById('gen-placeholder');
+  if (btn) btn.disabled = true;
+  if (spinner) spinner.style.display = 'block';
+  if (text) text.textContent = 'Generating...';
+  if (loading) loading.classList.add('show');
+  if (result) result.classList.remove('show');
+  if (placeholder) placeholder.style.display = 'none';
+  const prompt = `Write a viral LinkedIn post. Topic: ${topic}. Industry: ${industry||'General'}. Style: ${style}. Language: ${lang}. Author: ${role||'professional'}. Respond ONLY with valid JSON: {"post":"<post text>","hashtags":["#tag1","#tag2","#tag3"],"tip":"<performance tip>"}`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key':atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB'),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    if (result) {
+      result.innerHTML = `<div style="padding:1rem"><h4>📝 Your Post</h4><div id="generated-post-text" style="background:white;border:1.5px solid #e5e2da;border-radius
 </body>
 </html>
