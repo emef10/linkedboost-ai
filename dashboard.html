@@ -660,7 +660,25 @@
 </style>
 <script>
 const pageTitles = { dashboard: "Dashboard", profile: "Profile Analysis", posts: "My Posts", generate: "AI Generator", analytics: "Performance", calendar: "Content Calendar", settings: "Settings & Billing" };
-
+function showPage(id, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('page-title').textContent = pageTitles[id] || id;
+  if (navEl) navEl.classList.add('active');
+  else {
+    const items = document.querySelectorAll('.nav-item');
+    items.forEach(item => {
+      if (item.getAttribute('onclick')?.includes(`'${id}'`)) item.classList.add('active');
+    });
+  }
+  if (id === 'settings') {
+    const raw = sessionStorage.getItem('lb_user');
+    const u = raw ? JSON.parse(raw) : {};
+    if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
+    if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
+  }
+}
 function logout() { sessionStorage.removeItem("lb_user"); window.location.href = "auth.html"; }
   function saveSettings() {
   const name = document.getElementById('settings-name').value;
