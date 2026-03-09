@@ -1301,23 +1301,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
 </main>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── INIT: Load user from session ──
-window.addEventListener('DOMContentLoaded', () => {
-  const raw = sessionStorage.getItem('lb_user');
-  if (raw) {
-    const u = JSON.parse(raw);
-    const first = u.name ? u.name.split(' ')[0] : 'there';
-    const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() : 'U';
 
-    document.getElementById('user-avatar').textContent = initials;
-    document.getElementById('user-name').textContent = u.name || 'User';
-    document.getElementById('user-email').textContent = u.email || '';
-    document.getElementById('banner-name').textContent = first;
-
-    if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
-    if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
-  }
-});
 
 // ── PAGE NAVIGATION ──
 const pageTitles = {
@@ -1773,6 +1757,23 @@ async function checkUsageLimit() {
   await incrementUsage(user.email);
   return true;
 }
+    // ── INIT: Load user from session ──
+window.addEventListener('DOMContentLoaded', () => {
+  const raw = sessionStorage.getItem('lb_user');
+  if (raw) {
+    const u = JSON.parse(raw);
+    const first = u.name ? u.name.split(' ')[0] : 'there';
+    const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() : 'U';
+
+    document.getElementById('user-avatar').textContent = initials;
+    document.getElementById('user-name').textContent = u.name || 'User';
+    document.getElementById('user-email').textContent = u.email || '';
+    document.getElementById('banner-name').textContent = first;
+
+    if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
+    if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
+  }
+});
 </script>
 </body>
 </html>
