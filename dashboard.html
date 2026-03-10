@@ -1370,6 +1370,8 @@ function copyText(btn) {
 
 // ── PROFILE ANALYSIS ──
 async function runProfileAnalysis() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
   const headline = document.getElementById('p-headline').value.trim();
   const about = document.getElementById('p-about').value.trim();
   const industry = document.getElementById('p-industry').value.trim();
