@@ -1409,6 +1409,10 @@ Career Goal: "${goal}"
     {"severity": "critical|warning|good", "text": "<specific actionable issue>"},
     {"severity": "critical|warning|good", "text": "<specific actionable issue>"}
   ],
+  "headline_a": "<headline option A - keyword focused, max 220 chars>",
+  "headline_a_why": "<why this headline works - 1 sentence>",
+  "headline_b": "<headline option B - story/value focused, max 220 chars>",
+  "headline_b_why": "<why this headline works - 1 sentence>",
   "improved_headline": "<rewritten headline max 220 chars>",
   "about_tip": "<one specific tip to improve the about section>",
   "hashtags": ["#tag1","#tag2","#tag3","#tag4","#tag5"]
@@ -1457,7 +1461,22 @@ Career Goal: "${goal}"
         `).join('')}
       </div>
       <div class="result-section">
-        <h4>✨ Improved Headline</h4>
+        <h4>🆎 A/B Headline Testing</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
+          <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.2);border-radius:12px;padding:1rem">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem">Option A — Keyword Focus</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_a}"</div>
+            <div style="font-size:.8rem;color:var(--mid)">${p.headline_a_why}</div>
+          </div>
+          <div style="background:rgba(0,200,150,.06);border:1.5px solid rgba(0,200,150,.2);border-radius:12px;padding:1rem">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;margin-bottom:.5rem">Option B — Value Focus</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_b}"</div>
+            <div style="font-size:.8rem;color:var(--mid)">${p.headline_b_why}</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>✨ Best Headline Pick</h4>
         <div style="background:rgba(0,87,255,.06);border:1px solid rgba(0,87,255,.15);border-radius:10px;padding:1rem;font-size:.9rem;font-style:italic">"${p.improved_headline}"</div>
       </div>
       <div class="result-section">
