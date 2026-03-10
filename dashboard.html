@@ -987,7 +987,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
               <option>Thought leadership</option>
             </select>
           </div>
-          <button class="btn-primary" id="analyze-btn" onclick="runProfileAnalysis()">
+          <button class="btn-primary" id="analyze-btn" onclick="setTimeout(runProfileAnalysis,0)">
             <div class="btn-spinner" id="analyze-spinner"></div>
             <span id="analyze-text">🔍 Analyze Profile</span>
           </button>
