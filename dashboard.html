@@ -1641,6 +1641,70 @@ function saveToMyPosts() {
 }
 </script>
   <script>
+    async function runProfileAnalysis() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+  const headline = document.getElementById('p-headline').value.trim();
+  const about = document.getElementById('p-about').value.trim();
+  const industry = document.getElementById('p-industry').value.trim();
+  const goal = document.getElementById('p-goal').value;
+  if (!headline && !about) { alert('Please enter your headline or about section.'); return; }
+  const btn = document.getElementById('analyze-btn');
+  const spinner = document.getElementById('analyze-spinner');
+  const text = document.getElementById('analyze-text');
+  const loading = document.getElementById('profile-loading');
+  const result = document.getElementById('profile-result');
+  const placeholder = document.getElementById('profile-placeholder');
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Analyzing…';
+  loading.classList.add('show'); result.classList.remove('show'); result.innerHTML = ''; placeholder.style.display = 'none';
+  const prompt = `You are an expert LinkedIn profile coach. Analyze this profile and respond ONLY with valid JSON (no markdown, no backticks):\nHeadline: "${headline}"\nAbout: "${about}"\nIndustry: "${industry}"\nCareer Goal: "${goal}"\n{"score":75,"grade":"B","summary":"2 sentence summary","issues":[{"severity":"critical","text":"issue 1"},{"severity":"warning","text":"issue 2"},{"severity":"good","text":"good thing"},{"severity":"warning","text":"issue 3"}],"headline_a":"keyword focused headline","headline_a_why":"why it works","headline_b":"value focused headline","headline_b_why":"why it works","improved_headline":"best headline","about_tip":"one tip","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"]}`;
+  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    const sevColor={critical:'#ff4757',warning:'#ffbd2e',good:'#00c896'};
+    const sevBg={critical:'rgba(255,71,87,.08)',warning:'rgba(255,189,46,.08)',good:'rgba(0,200,150,.08)'};
+    result.innerHTML = `
+      <div class="result-section" style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem">
+        <div style="font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--accent);line-height:1">${p.score}</div>
+        <div><div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700">Profile Score — Grade ${p.grade}</div><div style="font-size:.88rem;color:var(--mid);margin-top:.3rem">${p.summary}</div></div>
+      </div>
+      <div class="result-section"><h4>🔍 Issues & Recommendations</h4>
+        ${p.issues.map(i=>`<div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.6rem;padding:.7rem;background:${sevBg[i.severity]};border-radius:9px;border-left:3px solid ${sevColor[i.severity]}"><span style="font-size:.72rem;font-weight:700;color:${sevColor[i.severity]};text-transform:uppercase;flex-shrink:0;margin-top:1px">${i.severity}</span><span style="font-size:.86rem">${i.text}</span></div>`).join('')}
+      </div>
+      <div class="result-section"><h4>🆎 A/B Headline Testing</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
+          <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.2);border-radius:12px;padding:1rem">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem">Option A — Keyword Focus</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_a}"</div>
+            <div style="font-size:.8rem;color:var(--mid)">${p.headline_a_why}</div>
+          </div>
+          <div style="background:rgba(0,200,150,.06);border:1.5px solid rgba(0,200,150,.2);border-radius:12px;padding:1rem">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;margin-bottom:.5rem">Option B — Value Focus</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_b}"</div>
+            <div style="font-size:.8rem;color:var(--mid)">${p.headline_b_why}</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-section"><h4>✨ Best Headline Pick</h4>
+        <div style="background:rgba(0,87,255,.06);border:1px solid rgba(0,87,255,.15);border-radius:10px;padding:1rem;font-size:.9rem;font-style:italic">"${p.improved_headline}"</div>
+      </div>
+      <div class="result-section"><h4>💡 About Section Tip</h4>
+        <div style="font-size:.88rem;color:var(--ink)">${p.about_tip}</div>
+      </div>
+      <div class="result-section"><h4>#️⃣ Recommended Hashtags</h4>
+        <div class="tag-row">${p.hashtags.map(h=>`<span class="tag">${h}</span>`).join('')}</div>
+      </div>`;
+    result.classList.add('show');
+  } catch(err) {
+    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    result.classList.add('show'); placeholder.style.display='block';
+  } finally {
+    loading.classList.remove('show'); btn.disabled=false; spinner.style.display='none'; text.textContent='🔍 Analyze Profile';
+  }
+}
     
 async function generatePost() {
   const topic = document.getElementById('gen-topic').value.trim();
