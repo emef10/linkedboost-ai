@@ -1670,6 +1670,75 @@ function saveToMyPosts() {
 }
 </script>
   <script>
+    async function predictEngagement() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+  const post = document.getElementById('eng-post').value.trim();
+  const industry = document.getElementById('eng-industry').value.trim();
+  if (!post) { alert('Please paste your LinkedIn post.'); return; }
+  const btn = document.getElementById('eng-btn');
+  const spinner = document.getElementById('eng-spinner');
+  const text = document.getElementById('eng-text');
+  const loading = document.getElementById('eng-loading');
+  const result = document.getElementById('eng-result');
+  const placeholder = document.getElementById('eng-placeholder');
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Analyzing…';
+  loading.classList.add('show'); result.classList.remove('show'); placeholder.style.display = 'none';
+  const prompt = `You are a LinkedIn engagement expert. Analyze this post and predict its performance. Respond ONLY with valid JSON (no markdown):
+Post: "${post}"
+Industry: "${industry || 'General'}"
+{"hook_score":8,"predicted_likes":"45-120","predicted_comments":"8-25","predicted_reach":"2000-5000","viral_score":7,"strengths":["strength 1","strength 2","strength 3"],"weaknesses":["weakness 1","weakness 2"],"best_time":"Tuesday 8:00 AM","improvement":"one specific tip to boost engagement"}`;
+  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    result.innerHTML = `
+      <div class="result-section">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.2rem">
+          <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--accent)">${p.predicted_likes}</div>
+            <div style="font-size:.8rem;color:var(--mid)">👍 Predicted Likes</div>
+          </div>
+          <div style="background:rgba(0,200,150,.06);border:1.5px solid rgba(0,200,150,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--accent2)">${p.predicted_comments}</div>
+            <div style="font-size:.8rem;color:var(--mid)">💬 Predicted Comments</div>
+          </div>
+          <div style="background:rgba(245,158,11,.06);border:1.5px solid rgba(245,158,11,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#f59e0b">${p.predicted_reach}</div>
+            <div style="font-size:.8rem;color:var(--mid)">👁 Predicted Reach</div>
+          </div>
+          <div style="background:rgba(255,71,87,.06);border:1.5px solid rgba(255,71,87,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--warn)">${p.viral_score}/10</div>
+            <div style="font-size:.8rem;color:var(--mid)">🔥 Viral Score</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>✅ Strengths</h4>
+        ${p.strengths.map(s=>`<div style="padding:.5rem .7rem;margin-bottom:.4rem;background:rgba(0,200,150,.06);border-left:3px solid var(--accent2);border-radius:6px;font-size:.86rem">${s}</div>`).join('')}
+      </div>
+      <div class="result-section">
+        <h4>⚠️ Weaknesses</h4>
+        ${p.weaknesses.map(w=>`<div style="padding:.5rem .7rem;margin-bottom:.4rem;background:rgba(255,71,87,.06);border-left:3px solid var(--warn);border-radius:6px;font-size:.86rem">${w}</div>`).join('')}
+      </div>
+      <div class="result-section">
+        <h4>⏰ Best Time to Post</h4>
+        <div style="font-size:.9rem;font-weight:600">${p.best_time}</div>
+      </div>
+      <div class="result-section">
+        <h4>💡 How to Improve</h4>
+        <div style="font-size:.88rem;background:rgba(0,87,255,.04);border:1px solid rgba(0,87,255,.12);border-radius:9px;padding:.9rem">${p.improvement}</div>
+      </div>`;
+    result.classList.add('show');
+  } catch(err) {
+    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    result.classList.add('show'); placeholder.style.display='block';
+  } finally {
+    loading.classList.remove('show'); btn.disabled=false; spinner.style.display='none'; text.textContent='🎯 Predict Engagement';
+  }
+}
     async function runProfileAnalysis() {
   const allowed = await checkUsageLimit();
   if (!allowed) return;
