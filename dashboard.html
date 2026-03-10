@@ -730,6 +730,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
     </button>
 
     <div class="sidebar-section">Analytics</div>
+    <button class="nav-item" onclick="showPage('engagement', this)"><span class="nav-icon">🎯</span><span>Engagement</span></button>
     <button class="nav-item" onclick="showPage('analytics', this)">
       <span class="nav-icon">📈</span>
       <span>Performance</span>
@@ -1165,6 +1166,34 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
             <div style="font-size:3.5rem;margin-bottom:1rem">✍️</div>
             <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Ready to write</h3>
             <p style="font-size:.9rem;max-width:300px;margin:0 auto">Fill in your topic and settings, then click Generate Post to create a scroll-stopping LinkedIn post.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page" id="page-engagement">
+    <div style="padding:2rem">
+      <div class="page-header"><h1>Engagement Predictor</h1><p>Paste your LinkedIn post and AI will predict its performance.</p></div>
+      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem">
+        <div class="widget">
+          <h3 class="section-title-sm">Your Post</h3>
+          <div class="form-group"><label>Paste your LinkedIn post here</label><textarea id="eng-post" rows="10" placeholder="Paste your LinkedIn post here…"></textarea></div>
+          <div class="form-group">
+            <label>Your Industry</label>
+            <input type="text" id="eng-industry" placeholder="e.g. SaaS, Finance, Marketing" />
+          </div>
+          <button class="btn-primary" id="eng-btn" onclick="predictEngagement()">
+            <div class="btn-spinner" id="eng-spinner"></div>
+            <span id="eng-text">🎯 Predict Engagement</span>
+          </button>
+        </div>
+        <div>
+          <div class="ai-loading" id="eng-loading"><div class="spinner"></div> AI is analyzing your post…</div>
+          <div class="result-box" id="eng-result"></div>
+          <div id="eng-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+            <div style="font-size:3rem;margin-bottom:1rem">🎯</div>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Paste your post</h3>
+            <p style="font-size:.88rem">AI will predict likes, comments, and reach before you post.</p>
           </div>
         </div>
       </div>
