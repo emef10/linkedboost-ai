@@ -1902,6 +1902,50 @@ window.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
   }
 });
+    async function generateCalendar() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+  const industry = document.getElementById('cal-industry').value.trim();
+  const goal = document.getElementById('cal-goal').value;
+  const btn = document.getElementById('cal-btn');
+  const spinner = document.getElementById('cal-spinner');
+  const text = document.getElementById('cal-text');
+  const loading = document.getElementById('cal-loading');
+  const result = document.getElementById('cal-result');
+  const placeholder = document.getElementById('cal-placeholder');
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Generating…';
+  loading.classList.add('show'); result.innerHTML = ''; placeholder.style.display = 'none';
+  const prompt = `You are a LinkedIn content strategist. Create a weekly content calendar. Respond ONLY with valid JSON (no markdown):
+Industry: "${industry || 'General'}"
+Goal: "${goal}"
+{"days":[{"day":"Monday","emoji":"📖","style":"Storytelling","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"},{"day":"Tuesday","emoji":"📋","style":"Listicle","topic":"specific topic idea","hook":"opening line idea","best_time":"9:00 AM"},{"day":"Wednesday","emoji":"🔥","style":"Hot Take","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"},{"day":"Thursday","emoji":"📚","style":"How-To","topic":"specific topic idea","hook":"opening line idea","best_time":"7:00 AM"},{"day":"Friday","emoji":"💡","style":"Insight","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"}]}`;
+  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    result.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem">
+        ${p.days.map(d => `
+          <div class="widget" style="padding:1.2rem">
+            <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">${d.day}</div>
+            <div style="font-size:1.8rem;margin-bottom:.5rem">${d.emoji}</div>
+            <div style="font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:.4rem">${d.style}</div>
+            <div style="font-size:.82rem;font-weight:600;margin-bottom:.4rem">${d.topic}</div>
+            <div style="font-size:.78rem;color:var(--mid);margin-bottom:.6rem;font-style:italic">"${d.hook}"</div>
+            <div style="font-size:.72rem;color:var(--accent2);font-weight:600">⏰ ${d.best_time}</div>
+          </div>
+        `).join('')}
+      </div>`;
+    loading.classList.remove('show');
+  } catch(err) {
+    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    loading.classList.remove('show'); placeholder.style.display='block';
+  } finally {
+    btn.disabled=false; spinner.style.display='none'; text.textContent='📅 Generate Plan';
+  }
+}
 </script>
 </body>
 </html>
