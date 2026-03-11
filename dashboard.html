@@ -736,7 +736,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
       <span>Performance</span>
     </button>
     <button class="nav-item" onclick="showPage('calendar', this)"><span class="nav-icon">📅</span><span>Content Calendar</span></button>
-<button class="nav-item" onclick="showPage('bulk', this)"><span class="nav-icon">📦</span><span>Bulk Posts</span></button>
+
       
     </button>
 
@@ -1199,36 +1199,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
       </div>
     </div>
   </div>
-  <div class="page" id="page-bulk">
-    <div style="padding:2rem">
-      <div class="page-header"><h1>Bulk Post Generation</h1><p>Generate 3 different posts on the same topic at once.</p></div>
-      <div class="widget" style="margin-bottom:1.5rem">
-        <h3 class="section-title-sm">Post Settings</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end">
-          <div class="form-group" style="margin-bottom:0"><label>Topic / Idea</label><input type="text" id="bulk-topic" placeholder="e.g. Leadership lessons" /></div>
-          <div class="form-group" style="margin-bottom:0"><label>Industry</label><input type="text" id="bulk-industry" placeholder="e.g. SaaS, Finance" /></div>
-          <div class="form-group" style="margin-bottom:0">
-            <label>Language</label>
-            <select id="bulk-lang">
-              <option value="English">🇺🇸 English</option>
-              <option value="Turkish">🇹🇷 Turkish</option>
-            </select>
-          </div>
-          <button class="btn-primary" id="bulk-btn" onclick="generateBulkPosts()">
-            <div class="btn-spinner" id="bulk-spinner"></div>
-            <span id="bulk-text">📦 Generate 3 Posts</span>
-          </button>
-        </div>
-      </div>
-      <div class="ai-loading" id="bulk-loading"><div class="spinner"></div> AI is writing 3 posts for you…</div>
-      <div id="bulk-result"></div>
-      <div id="bulk-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
-        <div style="font-size:3rem;margin-bottom:1rem">📦</div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Ready to generate</h3>
-        <p style="font-size:.88rem">Enter a topic and get 3 different posts instantly.</p>
-      </div>
-    </div>
-  </div>
+  
 
   <!-- ═══ ANALYTICS PAGE ═══ -->
   <div class="page" id="page-analytics">
