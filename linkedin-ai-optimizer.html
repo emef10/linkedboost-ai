@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedBoost AI — Turn Your LinkedIn Into a Lead Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050508;
+    --surface: #0d0d14;
+    --surface2: #13131e;
+    --accent: #2563ff;
+    --accent2: #00e5a0;
+    --accent3: #ff3b6b;
+    --text: #f0eee8;
+    --muted: #6b7280;
+    --border: rgba(255,255,255,0.07);
+    --glow-blue: rgba(37,99,255,0.35);
+    --glow-green: rgba(0,229,160,0.25);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; cursor: none; }
+  .cursor { width: 12px; height: 12px; background: var(--accent2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease, opacity 0.2s; mix-blend-mode: difference; }
+  .cursor-ring { width: 36px; height: 36px; border: 1.5px solid rgba(0,229,160,0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.3s, height 0.3s; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: rgba(5,5,8,0.85); backdrop-filter: blur(20px); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; text-decoration: none; color: var(--text); }
+  .nav-logo span { color: var(--accent2); }
+  .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { display: flex; align-items: center; gap: 1rem; }
+  .btn-ghost { padding: .6rem 1.4rem; border: 1px solid var(--border); border-radius: 8px; color: var(--text); text-decoration: none; font-size: .88rem; font-weight: 500; transition: border-color 0.2s, background 0.2s; }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+  .btn-primary { padding: .65rem 1.6rem; background: var(--accent2); color: #050508; border: none; border-radius: 8px; font-size: .88rem; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: .4rem; cursor: none; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--glow-green); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; pointer-events: none; }
+  .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; }
+  .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(37,99,255,0.3) 0%, transparent 70%); top: -200px; left: -150px; animation: float1 8s ease-in-out infinite; }
+  .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,229,160,0.2) 0%, transparent 70%); bottom: -100px; right: -100px; animation: float2 10s ease-in-out infinite; }
+  .orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,59,107,0.15) 0%, transparent 70%); top: 50%; left: 60%; animation: float3 12s ease-in-out infinite; }
+  @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
+  @keyframes float3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,20px)} }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); }
+  .hero-badge { display: inline-flex; align-items: center; gap: .5rem; background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.2); border-radius: 100px; padding: .4rem 1rem; font-size: .78rem; font-weight: 600; color: var(--accent2); margin-bottom: 2rem; letter-spacing: 0.04em; text-transform: uppercase; animation: fadeUp 0.8s ease both; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero-title { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95; margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero-title .line2 { display: block; background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 60%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-title .line3 { display: block; color: rgba(240,238,232,0.4); font-style: italic; }
+  .hero-sub { font-size: 1.15rem; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-actions { display: flex; align-items: center; gap: 1rem; margin-bottom: 3.5rem; animation: fadeUp 0.8s 0.3s ease both; }
+  .btn-hero { padding: .9rem 2.2rem; background: var(--accent2); color: #050508; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; cursor: none; display: inline-flex; align-items: center; gap: .5rem; }
+  .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 16px 48px var(--glow-green); }
+  .btn-hero-ghost { padding: .9rem 2.2rem; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 1rem; font-weight: 500; text-decoration: none; transition: border-color 0.2s, background 0.2s; cursor: none; }
+  .btn-hero-ghost:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); }
+  .hero-stats { display: flex; align-items: center; gap: 2.5rem; animation: fadeUp 0.8s 0.4s ease both; }
+  .hero-stat { text-align: center; }
+  .hero-stat .val { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em; }
+  .hero-stat .val span { color: var(--accent2); }
+  .hero-stat .lbl { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+  .hero-divider { width: 1px; height: 40px; background: var(--border); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .marquee-section { padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; background: var(--surface); }
+  .marquee-track { display: flex; gap: 3rem; animation: marquee 25s linear infinite; width: max-content; }
+  .marquee-item { display: flex; align-items: center; gap: .6rem; color: var(--muted); font-size: .85rem; font-weight: 500; white-space: nowrap; }
+  .marquee-item .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .demo-section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--accent2); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem; }
+  .section-label::before { content: '//'; opacity: 0.5; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1rem; }
+  .section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7; margin-bottom: 3rem; }
+  .demo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
+  .demo-topbar { background: var(--surface2); padding: 1rem 1.5rem; display: flex; align-items: center; gap: .6rem; border-bottom: 1px solid var(--border); }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .demo-body { padding: 2rem; }
+  .demo-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .demo-input-wrap { display: flex; flex-direction: column; gap: .4rem; }
+  .demo-input-wrap label { font-size: .78rem; font-weight: 600; color: var(--muted); }
+  .demo-input-wrap input, .demo-input-wrap textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: .75rem 1rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .9rem; outline: none; transition: border-color 0.2s; }
+  .demo-input-wrap input:focus, .demo-input-wrap textarea:focus { border-color: rgba(0,229,160,0.4); }
+  .demo-input-wrap textarea { resize: none; height: 80px; }
+  .demo-btn { width: 100%; padding: .85rem; background: var(--accent2); color: #050508; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: none; transition: opacity 0.2s, transform 0.2s; display: flex; align-items: center; justify-content: center; gap: .5rem; margin-top: 1rem; }
+  .demo-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .demo-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .demo-spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.2); border-top-color: #050508; animation: spin .7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .demo-result { margin-top: 1.5rem; display: none; animation: fadeUp 0.5s ease both; }
+  .demo-result.show { display: block; }
+  .score-row-demo { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; background: rgba(0,229,160,0.05); border: 1px solid rgba(0,229,160,0.15); border-radius: 14px; margin-bottom: 1rem; }
+  .score-big { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--accent2); line-height: 1; }
+  .score-info .grade { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: .3rem; }
+  .score-info .summary { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+  .result-chips { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .chip { padding: .35rem .8rem; border-radius: 100px; font-size: .78rem; font-weight: 600; }
+  .chip-red { background: rgba(255,59,107,0.12); color: #ff3b6b; border: 1px solid rgba(255,59,107,0.2); }
+  .headline-ab { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .ab-card { padding: 1rem; border-radius: 12px; border: 1px solid var(--border); }
+  .ab-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; }
+  .ab-text { font-size: .85rem; font-weight: 500; line-height: 1.4; }
+  .features-section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,160,0.4), transparent); opacity: 0; transition: opacity 0.3s; }
+  .feature-card:hover { border-color: rgba(0,229,160,0.2); transform: translateY(-4px); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(37,99,255,0.12); border: 1px solid rgba(37,99,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.2rem; }
+  .feature-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: .6rem; letter-spacing: -0.02em; }
+  .feature-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+  .feature-card.big { grid-column: span 2; }
+  .how-section { padding: 6rem 2rem; max-width: 900px; margin: 0 auto; }
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; position: relative; }
+  .steps::before { content: ''; position: absolute; left: 22px; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, var(--accent2), var(--accent), transparent); }
+  .step { display: flex; gap: 2rem; padding-bottom: 3rem; position: relative; }
+  .step-num { width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: .78rem; font-weight: 700; color: var(--accent2); flex-shrink: 0; position: relative; z-index: 1; }
+  .step-content { padding-top: .5rem; }
+  .step-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+  .step-desc { font-size: .9rem; color: var(--muted); line-height: 1.6; }
+  .pricing-section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; text-align: left; }
+  .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; transition: transform 0.3s; position: relative; }
+  .pricing-card:hover { transform: translateY(-6px); }
+  .pricing-card.popular { border-color: var(--accent2); background: linear-gradient(135deg, rgba(0,229,160,0.05) 0%, var(--surface) 100%); }
+  .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent2); color: #050508; font-size: .72rem; font-weight: 700; padding: .25rem .9rem; border-radius: 100px; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+  .pricing-plan { font-family: 'Space Mono', monospace; font-size: .75rem; color: var(--muted); margin-bottom: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+  .pricing-price { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: .3rem; }
+  .pricing-price span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+  .pricing-desc { font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .pricing-features { list-style: none; margin-bottom: 2rem; }
+  .pricing-features li { font-size: .88rem; padding: .5rem 0; color: rgba(240,238,232,0.8); display: flex; align-items: flex-start; gap: .6rem; }
+  .pricing-features li::before { content: '✓'; color: var(--accent2); font-weight: 700; flex-shrink: 0; }
+  .pricing-features li.muted { color: var(--muted); }
+  .pricing-features li.muted::before { content: '—'; color: var(--muted); }
+  .pricing-btn { width: 100%; padding: .85rem; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: .92rem; font-weight: 700; cursor: none; text-align: center; text-decoration: none; display: block; transition: transform 0.2s, box-shadow 0.2s; }
+  .pricing-btn-outline { border: 1px solid var(--border); color: var(--text); background: none; }
+  .pricing-btn-outline:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); }
+  .pricing-btn-solid { background: var(--accent2); color: #050508; border: none; }
+  .pricing-btn-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--glow-green); }
+  .testimonials-section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .testimonial-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; }
+  .testimonial-stars { color: #fbbf24; font-size: .9rem; margin-bottom: 1rem; }
+  .testimonial-text { font-size: .9rem; line-height: 1.7; color: rgba(240,238,232,0.8); margin-bottom: 1.5rem; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: .8rem; }
+  .testimonial-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; color: #050508; }
+  .testimonial-name { font-size: .88rem; font-weight: 600; }
+  .testimonial-role { font-size: .78rem; color: var(--muted); }
+  .cta-section { padding: 6rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  .cta-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+  .cta-title { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 1.2rem; position: relative; }
+  .cta-sub { font-size: 1.05rem; color: var(--muted); margin-bottom: 2.5rem; position: relative; }
+  footer { padding: 3rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; text-decoration: none; color: var(--text); }
+  .footer-logo span { color: var(--accent2); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { font-size: .82rem; color: var(--muted); }
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .feature-card.big { grid-column: span 1; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    .demo-form-row { grid-template-columns: 1fr; }
+    .headline-ab { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="#" class="nav-logo">Linked<span>Boost</span> AI</a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="auth.html" class="btn-ghost">Sign in</a>
+    <a href="auth.html" class="btn-primary">Get started free →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+  </div>
+  <div class="hero-badge">AI-Powered LinkedIn Optimizer</div>
+  <h1 class="hero-title">
+    Your LinkedIn profile<br>
+    <span class="line2">is leaving money</span>
+    <span class="line3">on the table.</span>
+  </h1>
+  <p class="hero-sub">LinkedBoost AI analyzes your profile, generates viral posts, and predicts engagement — so you get noticed by the right people.</p>
+  <div class="hero-actions">
+    <a href="auth.html" class="btn-hero">⚡ Start for free</a>
+    <a href="#demo" class="btn-hero-ghost">See it in action →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val"><span>+47%</span></div><div class="lbl">More profile views</div></div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat"><div class="val">3<span>x</span></div><div class="lbl">Post engagement</div></div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat"><div class="val"><span>2</span>min</div><div class="lbl">To your first post</div></div>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="dot"></div>Profile Score Analysis</div>
+    <div class="marquee-item"><div class="dot"></div>A/B Headline Testing</div>
+    <div class="marquee-item"><div class="dot"></div>AI Post Generator</div>
+    <div class="marquee-item"><div class="dot"></div>Engagement Predictor</div>
+    <div class="marquee-item"><div class="dot"></div>Weekly Content Calendar</div>
+    <div class="marquee-item"><div class="dot"></div>Agency Client Management</div>
+    <div class="marquee-item"><div class="dot"></div>English & Turkish Support</div>
+    <div class="marquee-item"><div class="dot"></div>Profile Score Analysis</div>
+    <div class="marquee-item"><div class="dot"></div>A/B Headline Testing</div>
+    <div class="marquee-item"><div class="dot"></div>AI Post Generator</div>
+    <div class="marquee-item"><div class="dot"></div>Engagement Predictor</div>
+    <div class="marquee-item"><div class="dot"></div>Weekly Content Calendar</div>
+    <div class="marquee-item"><div class="dot"></div>Agency Client Management</div>
+    <div class="marquee-item"><div class="dot"></div>English & Turkish Support</div>
+  </div>
+</div>
+
+<section class="demo-section" id="demo">
+  <div class="section-label">Live Demo</div>
+  <h2 class="section-title">Try it right now.<br>No signup needed.</h2>
+  <p class="section-sub">Paste your LinkedIn headline and about section — get an instant AI score and two headline options.</p>
+  <div class="demo-card">
+    <div class="demo-topbar">
+      <div class="demo-dot" style="background:#ff5f56"></div>
+      <div class="demo-dot" style="background:#ffbd2c"></div>
+      <div class="demo-dot" style="background:#27c93f"></div>
+      <span style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);margin-left:.8rem">linkedboost.ai/analyze</span>
+    </div>
+    <div class="demo-body">
+      <div class="demo-form-row">
+        <div class="demo-input-wrap">
+          <label>Your LinkedIn Headline</label>
+          <input type="text" id="demo-headline" placeholder="e.g. Product Manager | SaaS | Ex-Google" />
+        </div>
+        <div class="demo-input-wrap">
+          <label>Industry</label>
+          <input type="text" id="demo-industry" placeholder="e.g. SaaS, Finance, Marketing" />
+        </div>
+      </div>
+      <div class="demo-input-wrap">
+        <label>About Section <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+        <textarea id="demo-about" placeholder="Paste a few sentences from your LinkedIn About section…"></textarea>
+      </div>
+      <button class="demo-btn" id="demo-btn" onclick="runDemo()">
+        <div class="demo-spinner" id="demo-spinner"></div>
+        <span id="demo-btn-text">🔍 Analyze My Profile — Free</span>
+      </button>
+      <div class="demo-result" id="demo-result"></div>
+    </div>
+  </div>
+</section>
+
+<section class="features-section" id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything you need<br>to own LinkedIn.</h2>
+  <div class="features-grid">
+    <div class="feature-card big">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-title">Profile Score & A/B Headline Testing</div>
+      <div class="feature-desc">Get a 0–100 profile score with a detailed breakdown. AI generates two headline variations — keyword-focused vs value-focused — so you can test what resonates with your target audience.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">AI Post Generator</div>
+      <div class="feature-desc">Generate viral LinkedIn posts in storytelling, listicle, hot take, or how-to style — in English or Turkish — with hook scores and predicted reach.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Engagement Predictor</div>
+      <div class="feature-desc">Paste any post and see predicted likes, comments, and reach before you publish. Know your viral score and get tips to boost performance.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <div class="feature-title">AI Content Calendar</div>
+      <div class="feature-desc">Get a personalized weekly posting plan with topics, hooks, and optimal posting times — generated specifically for your industry and goal.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💼</div>
+      <div class="feature-title">Agency Panel</div>
+      <div class="feature-desc">Manage multiple client profiles, run analyses, and generate reports — all from one dashboard. Perfect for LinkedIn coaches and marketing agencies.</div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section" id="how">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">From zero to optimized<br>in 3 steps.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Paste your profile info</div>
+        <div class="step-desc">Enter your current LinkedIn headline, about section, and industry. No LinkedIn login required — just copy and paste.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">AI analyzes and scores</div>
+        <div class="step-desc">Our AI gives you a profile score, identifies critical issues, and generates two A/B headline options tailored to your career goal.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Generate content & grow</div>
+        <div class="step-desc">Use the AI Post Generator to create viral content, check your Engagement Predictor before posting, and follow your weekly Content Calendar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section" id="pricing">
+  <div class="section-label" style="justify-content:center">Pricing</div>
+  <h2 class="section-title">Simple, transparent pricing.</h2>
+  <p class="section-sub" style="margin:0 auto 0">Start free. Upgrade when you're ready.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-plan">Free</div>
+      <div class="pricing-price">$0 <span>/ month</span></div>
+      <div class="pricing-desc">Perfect for trying it out</div>
+      <ul class="pricing-features">
+        <li>3 AI requests per month</li>
+        <li>Profile Score & Analysis</li>
+        <li>A/B Headline Testing</li>
+        <li class="muted">Unlimited posts</li>
+        <li class="muted">Engagement Predictor</li>
+        <li class="muted">Content Calendar</li>
+        <li class="muted">Agency Panel</li>
+      </ul>
+      <a href="auth.html" class="pricing-btn pricing-btn-outline">Get started free</a>
+    </div>
+    <div class="pricing-card popular">
+      <div class="popular-badge">Most Popular</div>
+      <div class="pricing-plan">Pro</div>
+      <div class="pricing-price">$29 <span>/ month</span></div>
+      <div class="pricing-desc">For serious professionals</div>
+      <ul class="pricing-features">
+        <li>Unlimited AI requests</li>
+        <li>Profile Score & Analysis</li>
+        <li>A/B Headline Testing</li>
+        <li>Unlimited post generation</li>
+        <li>Engagement Predictor</li>
+        <li>AI Content Calendar</li>
+        <li class="muted">Agency Panel</li>
+      </ul>
+      <a href="checkout.html" class="pricing-btn pricing-btn-solid">Start 7-day free trial →</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-plan">Agency</div>
+      <div class="pricing-price">$79 <span>/ month</span></div>
+      <div class="pricing-desc">For agencies & coaches</div>
+      <ul class="pricing-features">
+        <li>Everything in Pro</li>
+        <li>Agency Client Panel</li>
+        <li>Multi-client management</li>
+        <li>Client profile reports</li>
+        <li>Priority email support</li>
+        <li>Early access to features</li>
+        <li>Custom onboarding</li>
+      </ul>
+      <a href="checkout.html" class="pricing-btn pricing-btn-outline">Start 7-day free trial →</a>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials-section">
+  <div class="section-label">Testimonials</div>
+  <h2 class="section-title">Professionals who leveled up.</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"My profile views went from 200 to 1,400 in one month. The A/B headline feature alone was worth the subscription."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#2563ff,#00e5a0)">SM</div>
+        <div><div class="testimonial-name">Sarah Mitchell</div><div class="testimonial-role">Head of Marketing, SaaS startup</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"I was skeptical, but the Engagement Predictor called my viral post before I even published it. 8,000 impressions. Insane."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#ff3b6b,#ff8c00)">JK</div>
+        <div><div class="testimonial-name">James Kowalski</div><div class="testimonial-role">Product Manager, Fintech</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"As a LinkedIn coach, the Agency Panel saves me 4+ hours per week. I can analyze and optimize 10 client profiles in a single afternoon."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#00e5a0,#2563ff)">LT</div>
+        <div><div class="testimonial-name">Laura Torres</div><div class="testimonial-role">LinkedIn Coach & Consultant</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title">Ready to be impossible<br>to ignore?</h2>
+  <p class="cta-sub">Join professionals who use LinkedBoost AI to grow faster on LinkedIn.</p>
+  <a href="auth.html" class="btn-hero" style="display:inline-flex">⚡ Start for free — no card required</a>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">Linked<span>Boost</span> AI</a>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="auth.html">Sign in</a>
+    <a href="auth.html">Sign up</a>
+  </div>
+  <div class="footer-copy">© 2025 LinkedBoost AI. All rights reserved.</div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; });
+  });
+
+  async function runDemo() {
+    const headline = document.getElementById('demo-headline').value.trim();
+    const about = document.getElementById('demo-about').value.trim();
+    const industry = document.getElementById('demo-industry').value.trim();
+    if (!headline) { alert('Please enter your LinkedIn headline.'); return; }
+    const btn = document.getElementById('demo-btn');
+    const spinner = document.getElementById('demo-spinner');
+    const btnText = document.getElementById('demo-btn-text');
+    const result = document.getElementById('demo-result');
+    btn.disabled = true; spinner.style.display = 'block'; btnText.textContent = 'Analyzing…';
+    result.classList.remove('show');
+    const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+    const prompt = `You are a LinkedIn profile expert. Analyze this profile briefly. Respond ONLY with valid JSON (no markdown):
+Headline: "${headline}"
+About: "${about}"
+Industry: "${industry}"
+{"score":72,"grade":"B","summary":"2 short sentence summary of the profile.","headline_a":"keyword focused headline option","headline_b":"value focused headline option","top_issue":"the single most critical issue"}`;
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 600, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await res.json();
+      const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+      const p = JSON.parse(raw);
+      const scoreColor = p.score >= 75 ? '#00e5a0' : p.score >= 50 ? '#ffbd2e' : '#ff3b6b';
+      result.innerHTML = `
+        <div class="score-row-demo" style="border-color:${scoreColor}22;background:${scoreColor}08">
+          <div class="score-big" style="color:${scoreColor}">${p.score}</div>
+          <div class="score-info">
+            <div class="grade">Grade ${p.grade} — ${p.score >= 75 ? 'Strong Profile' : p.score >= 50 ? 'Needs Work' : 'Needs Major Improvement'}</div>
+            <div class="summary">${p.summary}</div>
+          </div>
+        </div>
+        <div class="result-chips">
+          <span class="chip chip-red">⚠ ${p.top_issue.slice(0,60)}${p.top_issue.length > 60 ? '…' : ''}</span>
+        </div>
+        <div class="headline-ab">
+          <div class="ab-card" style="background:rgba(37,99,255,0.06);border-color:rgba(37,99,255,0.2)">
+            <div class="ab-label" style="color:var(--accent)">Option A — Keyword Focus</div>
+            <div class="ab-text">"${p.headline_a}"</div>
+          </div>
+          <div class="ab-card" style="background:rgba(0,229,160,0.06);border-color:rgba(0,229,160,0.2)">
+            <div class="ab-label" style="color:var(--accent2)">Option B — Value Focus</div>
+            <div class="ab-text">"${p.headline_b}"</div>
+          </div>
+        </div>
+        <div style="margin-top:1.2rem;text-align:center">
+          <a href="auth.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--accent2);color:#050508;padding:.75rem 2rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:.9rem">Get full analysis + AI posts →</a>
+        </div>`;
+      result.classList.add('show');
+    } catch(err) {
+      result.innerHTML = `<p style="color:#ff3b6b;text-align:center">Something went wrong. Please try again.</p>`;
+      result.classList.add('show');
+    } finally {
+      btn.disabled = false; spinner.style.display = 'none'; btnText.textContent = '🔍 Analyze My Profile — Free';
+    }
+  }
+</script>
+</body>
+</html>
