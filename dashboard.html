@@ -1931,6 +1931,11 @@ if (planEl) {
   else if (u.plan === 'agency') planEl.textContent = '💎 Agency Plan';
   else planEl.textContent = '🌟 Free Plan';
 }
+    const agencyNav = document.getElementById('agency-nav');
+if (agencyNav) {
+  if (u.plan === 'agency') agencyNav.style.display = 'flex';
+  else agencyNav.style.display = 'none';
+}
     
   
 
