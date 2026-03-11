@@ -741,6 +741,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
     </button>
 
     <div class="sidebar-section">Account</div>
+    <button class="nav-item" id="agency-nav" onclick="showPage('agency', this)" style="display:none"><span class="nav-icon">💼</span><span>Agency Panel</span></button>
     <button class="nav-item" onclick="showPage('settings', this)">
       <span class="nav-icon">⚙️</span>
       <span>Settings</span>
@@ -1247,6 +1248,27 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
         <div style="font-size:3rem;margin-bottom:1rem">📅</div>
         <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No plan yet</h3>
         <p style="font-size:.88rem">Enter your industry and goal, then click Generate Plan.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page" id="page-agency">
+    <div style="padding:2rem">
+      <div class="page-header"><h1>Agency Panel</h1><p>Manage your clients and analyze their LinkedIn profiles.</p></div>
+      <div class="widget" style="margin-bottom:1.5rem">
+        <h3 class="section-title-sm">Add New Client</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end">
+          <div class="form-group" style="margin-bottom:0"><label>Client Name</label><input type="text" id="agency-client-name" placeholder="e.g. John Smith" /></div>
+          <div class="form-group" style="margin-bottom:0"><label>Industry</label><input type="text" id="agency-client-industry" placeholder="e.g. SaaS, Finance" /></div>
+          <div class="form-group" style="margin-bottom:0"><label>Current Headline</label><input type="text" id="agency-client-headline" placeholder="e.g. Product Manager at Acme" /></div>
+          <button class="btn-primary" onclick="addAgencyClient()">➕ Add Client</button>
+        </div>
+      </div>
+      <div id="agency-clients-list">
+        <div class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+          <div style="font-size:3rem;margin-bottom:1rem">💼</div>
+          <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No clients yet</h3>
+          <p style="font-size:.88rem">Add your first client above to get started.</p>
+        </div>
       </div>
     </div>
   </div>
