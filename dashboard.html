@@ -1977,6 +1977,64 @@ Goal: "${goal}"
     btn.disabled=false; spinner.style.display='none'; text.textContent='📅 Generate Plan';
   }
 }
+
+    async function generateBulkPosts() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+  const topic = document.getElementById('bulk-topic').value.trim();
+  const industry = document.getElementById('bulk-industry').value.trim();
+  const lang = document.getElementById('bulk-lang').value;
+  if (!topic) { alert('Please enter a topic.'); return; }
+  const btn = document.getElementById('bulk-btn');
+  const spinner = document.getElementById('bulk-spinner');
+  const text = document.getElementById('bulk-text');
+  const loading = document.getElementById('bulk-loading');
+  const result = document.getElementById('bulk-result');
+  const placeholder = document.getElementById('bulk-placeholder');
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Generating…';
+  loading.classList.add('show'); result.innerHTML = ''; placeholder.style.display = 'none';
+  const prompt = `You are a LinkedIn content expert. Write 3 different LinkedIn posts on the same topic in different styles. Respond ONLY with valid JSON (no markdown):
+Topic: "${topic}"
+Industry: "${industry || 'General'}"
+Language: ${lang}
+{"posts":[{"style":"Storytelling","emoji":"📖","post":"full post here","hook_score":8},{"style":"Listicle","emoji":"📋","post":"full post here","hook_score":8},{"style":"Hot Take","emoji":"🔥","post":"full post here","hook_score":8}]}`;
+  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    result.innerHTML = p.posts.map((post, idx) => `
+      <div class="widget" style="margin-bottom:1.2rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <div style="display:flex;align-items:center;gap:.6rem">
+            <span style="font-size:1.4rem">${post.emoji}</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:700">${post.style}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <span style="font-size:.82rem;color:var(--mid)">🎯 Hook: <strong>${post.hook_score}/10</strong></span>
+            <button onclick="copyBulkPost(this, 'bulk-post-${idx}')" style="background:var(--ink);color:white;border:none;padding:.45rem 1rem;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.82rem">📋 Copy</button>
+          </div>
+        </div>
+        <div id="bulk-post-${idx}" style="background:var(--paper);border:1.5px solid var(--border);border-radius:10px;padding:1.2rem;font-size:.88rem;line-height:1.7;white-space:pre-wrap">${post.post}</div>
+      </div>
+    `).join('');
+    loading.classList.remove('show');
+  } catch(err) {
+    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    loading.classList.remove('show'); placeholder.style.display='block';
+  } finally {
+    btn.disabled=false; spinner.style.display='none'; text.textContent='📦 Generate 3 Posts';
+  }
+}
+
+function copyBulkPost(btn, id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy', 2000);
+  });
+}
 </script>
 </body>
 </html>
