@@ -706,7 +706,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
 
   <div class="sidebar-plan">
     <span id="sidebar-plan-text">🌟 Free Plan</span>
-    <button class="plan-upgrade-btn" onclick="window.location.href='checkout.html'">Upgrade</button>
+    <button class="plan-upgrade-btn" id="upgrade-btn" onclick="window.location.href='checkout.html'">Upgrade</button>
   </div>
 
   <nav class="sidebar-nav">
@@ -1927,6 +1927,11 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('user-name').textContent = u.name || 'User';
     document.getElementById('user-email').textContent = u.email || '';
     document.getElementById('banner-name').textContent = first;
+    const upgradeBtn = document.getElementById('upgrade-btn');
+if (upgradeBtn) {
+  if (u.plan === 'pro' || u.plan === 'agency') upgradeBtn.style.display = 'none';
+  else upgradeBtn.style.display = 'block';
+}
     const planEl = document.getElementById('sidebar-plan-text');
 if (planEl) {
   if (u.plan === 'pro') planEl.textContent = '⭐ Pro Plan';
