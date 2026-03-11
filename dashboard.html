@@ -705,7 +705,7 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
   <a href="linkedin-ai-optimizer.html" class="sidebar-logo">Linked<span>Boost</span> AI</a>
 
   <div class="sidebar-plan">
-    <span>🌟 Free Plan</span>
+    <span id="sidebar-plan-text">🌟 Free Plan</span>
     <button class="plan-upgrade-btn" onclick="window.location.href='checkout.html'">Upgrade</button>
   </div>
 
@@ -1927,6 +1927,14 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('user-name').textContent = u.name || 'User';
     document.getElementById('user-email').textContent = u.email || '';
     document.getElementById('banner-name').textContent = first;
+    const planEl = document.getElementById('sidebar-plan-text');
+if (planEl) {
+  if (u.plan === 'pro') planEl.textContent = '⭐ Pro Plan';
+  else if (u.plan === 'agency') planEl.textContent = '💎 Agency Plan';
+  else planEl.textContent = '🌟 Free Plan';
+}
+    
+  
 
     if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
     if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
