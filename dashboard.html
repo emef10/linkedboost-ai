@@ -2040,6 +2040,74 @@ function copyBulkPost(btn, id) {
     setTimeout(() => btn.textContent = '📋 Copy', 2000);
   });
 }
+    let agencyClients = [];
+
+function addAgencyClient() {
+  const name = document.getElementById('agency-client-name').value.trim();
+  const industry = document.getElementById('agency-client-industry').value.trim();
+  const headline = document.getElementById('agency-client-headline').value.trim();
+  if (!name) { alert('Please enter client name.'); return; }
+  const client = { id: Date.now(), name, industry, headline, status: 'pending', score: null };
+  agencyClients.push(client);
+  document.getElementById('agency-client-name').value = '';
+  document.getElementById('agency-client-industry').value = '';
+  document.getElementById('agency-client-headline').value = '';
+  renderAgencyClients();
+}
+
+function renderAgencyClients() {
+  const list = document.getElementById('agency-clients-list');
+  if (agencyClients.length === 0) {
+    list.innerHTML = `<div class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)"><div style="font-size:3rem;margin-bottom:1rem">💼</div><h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No clients yet</h3><p style="font-size:.88rem">Add your first client above to get started.</p></div>`;
+    return;
+  }
+  list.innerHTML = agencyClients.map(c => `
+    <div class="widget" style="margin-bottom:1rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:.9rem">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}</div>
+          <div>
+            <div style="font-weight:600;font-size:.95rem">${c.name}</div>
+            <div style="font-size:.8rem;color:var(--mid)">${c.industry || 'No industry'} · ${c.headline || 'No headline'}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.7rem">
+          ${c.score ? `<div style="background:rgba(0,87,255,.08);border:1px solid rgba(0,87,255,.15);border-radius:8px;padding:.4rem .9rem;font-size:.85rem;font-weight:700;color:var(--accent)">Score: ${c.score}/100</div>` : ''}
+          <button onclick="analyzeAgencyClient(${c.id})" class="btn-primary" style="padding:.5rem 1.2rem;font-size:.82rem">🔍 Analyze</button>
+          <button onclick="removeAgencyClient(${c.id})" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:.5rem .8rem;cursor:pointer;font-size:.85rem;color:var(--mid)">🗑</button>
+        </div>
+      </div>
+      ${c.report ? `<div style="margin-top:1rem;padding:1rem;background:var(--paper);border-radius:10px;font-size:.85rem;line-height:1.6">${c.report}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+async function analyzeAgencyClient(id) {
+  const client = agencyClients.find(c => c.id === id);
+  if (!client) return;
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+  const prompt = `You are a LinkedIn profile expert. Analyze this client profile and respond ONLY with valid JSON (no markdown):
+Name: "${client.name}"
+Industry: "${client.industry}"
+Headline: "${client.headline}"
+{"score":75,"grade":"B","summary":"2 sentence summary","top_issue":"most critical issue","improved_headline":"better headline","report_html":"<p>Full HTML report for client</p>"}`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    client.score = p.score;
+    client.report = `<strong>Grade ${p.grade}</strong> · ${p.summary}<br><br><strong>Top Issue:</strong> ${p.top_issue}<br><strong>Better Headline:</strong> "${p.improved_headline}"`;
+    renderAgencyClients();
+  } catch(err) { alert('Error: ' + err.message); }
+}
+
+function removeAgencyClient(id) {
+  agencyClients = agencyClients.filter(c => c.id !== id);
+  renderAgencyClients();
+}
 </script>
 </body>
 </html>
