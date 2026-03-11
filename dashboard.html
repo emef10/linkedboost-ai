@@ -1219,47 +1219,33 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
   <!-- ═══ CALENDAR PAGE ═══ -->
   <div class="page" id="page-calendar">
     <div style="padding:2rem">
-      <div class="page-header">
-        <h1>Content Calendar</h1>
-        <p>Your weekly posting schedule.</p>
-      </div>
-      <div class="widget" style="padding:1.5rem">
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;text-align:center">
-          <div>
-            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">Mon</div>
-            <div style="background:rgba(0,200,150,.08);border:1.5px solid rgba(0,200,150,.2);border-radius:12px;padding:1rem;font-size:.8rem">
-              <div style="font-size:1.2rem;margin-bottom:.4rem">📖</div>
-              Storytelling
-            </div>
+      <div class="page-header"><h1>Content Calendar</h1><p>AI generates your weekly LinkedIn posting plan.</p></div>
+      <div class="widget" style="margin-bottom:1.5rem">
+        <h3 class="section-title-sm">Generate Your Weekly Plan</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end">
+          <div class="form-group" style="margin-bottom:0"><label>Your Industry</label><input type="text" id="cal-industry" placeholder="e.g. SaaS, Finance, Marketing" /></div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Your Goal</label>
+            <select id="cal-goal">
+              <option>Grow personal brand</option>
+              <option>Generate leads</option>
+              <option>Land a new job</option>
+              <option>Thought leadership</option>
+              <option>Build network</option>
+            </select>
           </div>
-          <div>
-            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">Tue</div>
-            <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.15);border-radius:12px;padding:1rem;font-size:.8rem">
-              <div style="font-size:1.2rem;margin-bottom:.4rem">📋</div>
-              Listicle
-            </div>
-          </div>
-          <div>
-            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">Wed</div>
-            <div style="background:var(--paper);border:1.5px dashed var(--border);border-radius:12px;padding:1rem;font-size:.8rem;color:var(--mid)">
-              Rest Day
-            </div>
-          </div>
-          <div>
-            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">Thu</div>
-            <div style="background:rgba(255,71,87,.06);border:1.5px solid rgba(255,71,87,.15);border-radius:12px;padding:1rem;font-size:.8rem">
-              <div style="font-size:1.2rem;margin-bottom:.4rem">🔥</div>
-              Hot Take
-            </div>
-          </div>
-          <div>
-            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">Fri</div>
-            <div style="background:rgba(245,158,11,.08);border:1.5px solid rgba(245,158,11,.2);border-radius:12px;padding:1rem;font-size:.8rem">
-              <div style="font-size:1.2rem;margin-bottom:.4rem">💡</div>
-              How-To
-            </div>
-          </div>
+          <button class="btn-primary" id="cal-btn" onclick="generateCalendar()">
+            <div class="btn-spinner" id="cal-spinner"></div>
+            <span id="cal-text">📅 Generate Plan</span>
+          </button>
         </div>
+      </div>
+      <div class="ai-loading" id="cal-loading"><div class="spinner"></div> AI is creating your weekly plan…</div>
+      <div id="cal-result"></div>
+      <div id="cal-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+        <div style="font-size:3rem;margin-bottom:1rem">📅</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No plan yet</h3>
+        <p style="font-size:.88rem">Enter your industry and goal, then click Generate Plan.</p>
       </div>
     </div>
   </div>
