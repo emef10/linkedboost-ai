@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedBoost AI — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080f;
+  --surface:#0d0d1a;
+  --ink:#f2f0eb;
+  --dim:#9a9a9a;
+  --line:rgba(255,255,255,0.08);
+  --green:#00ff87;
+  --blue:#3b6bff;
+  --red:#ff3b5c;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:grid;grid-template-columns:1fr 1fr;cursor:none}
+
+#cur{width:8px;height:8px;background:var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9999}
+#cur2{width:32px;height:32px;border:1px solid rgba(0,255,135,0.35);border-radius:50%;position:fixed;pointer-events:none;z-index:9998}
+
+/* LEFT PANEL */
+.left{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;padding:3rem;position:relative;overflow:hidden}
+.left::before{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(0,255,135,0.08) 0%,transparent 70%);pointer-events:none}
+.left-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em;text-decoration:none;color:var(--ink)}
+.left-logo em{color:var(--green);font-style:normal}
+.left-hero{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3rem 0}
+.left-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,4vw,4.5rem);line-height:.95;letter-spacing:.02em;margin-bottom:1.5rem}
+.left-h .stroke{-webkit-text-stroke:1px var(--ink);color:transparent}
+.left-h .green{color:var(--green)}
+.left-p{font-size:.92rem;color:var(--dim);line-height:1.7;max-width:380px;margin-bottom:2.5rem}
+.left-stats{display:flex;gap:2.5rem}
+.ls{display:flex;flex-direction:column;gap:.2rem}
+.ls-n{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);line-height:1}
+.ls-t{font-size:.75rem;color:var(--dim)}
+.left-footer{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.06em}
+
+/* RIGHT PANEL */
+.right{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;position:relative}
+.auth-box{width:100%;max-width:420px}
+.auth-tabs{display:flex;gap:0;margin-bottom:2.5rem;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.3rem}
+.auth-tab{flex:1;padding:.65rem;text-align:center;font-size:.88rem;font-weight:600;cursor:pointer;border-radius:6px;transition:background .2s,color .2s;border:none;background:none;color:var(--dim);font-family:'DM Sans',sans-serif}
+.auth-tab.active{background:var(--green);color:#08080f}
+
+.auth-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.04em;margin-bottom:.4rem}
+.auth-sub{font-size:.85rem;color:var(--dim);margin-bottom:2rem}
+
+.form-group{margin-bottom:1.2rem}
+.form-label{display:block;font-size:.75rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.form-input{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:rgba(0,255,135,0.4)}
+.form-input::placeholder{color:var(--dim)}
+
+.form-btn{width:100%;padding:.9rem;background:var(--green);color:#08080f;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .2s,transform .15s}
+.form-btn:hover{opacity:.9;transform:translateY(-1px)}
+.form-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.form-spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:#08080f;border-radius:50%;animation:spin .6s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.form-divider{text-align:center;font-size:.78rem;color:var(--dim);margin:1.2rem 0;position:relative}
+.form-divider::before,.form-divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--line)}
+.form-divider::before{left:0}
+.form-divider::after{right:0}
+
+.form-error{background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2);border-radius:8px;padding:.7rem 1rem;font-size:.83rem;color:var(--red);margin-bottom:1rem;display:none}
+.form-error.show{display:block}
+
+.form-success{background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.2);border-radius:8px;padding:.7rem 1rem;font-size:.83rem;color:var(--green);margin-bottom:1rem;display:none}
+.form-success.show{display:block}
+
+.form-note{font-size:.78rem;color:var(--dim);text-align:center;margin-top:1rem;line-height:1.5}
+.form-note a{color:var(--green);text-decoration:none}
+.form-note a:hover{text-decoration:underline}
+
+#form-register{display:none}
+
+@media(max-width:768px){
+  body{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:2rem 1.5rem;min-height:100vh}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- LEFT -->
+<div class="left">
+  <a href="linkedin-ai-optimizer.html" class="left-logo">Linked<em>Boost</em> AI</a>
+  <div class="left-hero">
+    <h1 class="left-h">
+      YOUR<br>
+      <span class="stroke">LINKEDIN</span><br>
+      <span class="green">OPTIMIZED.</span>
+    </h1>
+    <p class="left-p">Score your profile, generate viral posts, and predict engagement — all with AI. Join professionals who grow faster.</p>
+    <div class="left-stats">
+      <div class="ls"><div class="ls-n">+47%</div><div class="ls-t">More profile views</div></div>
+      <div class="ls"><div class="ls-n">3x</div><div class="ls-t">Post engagement</div></div>
+      <div class="ls"><div class="ls-n">2min</div><div class="ls-t">To first result</div></div>
+    </div>
+  </div>
+  <div class="left-footer">© 2025 LINKEDBOOST AI — ALL RIGHTS RESERVED</div>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+  <div class="auth-box">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="form-login">
+      <div class="auth-title">WELCOME BACK</div>
+      <div class="auth-sub">Sign in to your LinkedBoost AI account.</div>
+      <div class="form-error" id="login-error"></div>
+      <div class="form-success" id="login-success"></div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="login-email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="login-password" placeholder="••••••••">
+      </div>
+      <button class="form-btn" id="login-btn" onclick="doLogin()">
+        <div class="form-spinner" id="login-spinner"></div>
+        <span id="login-btn-text">→ Sign In</span>
+      </button>
+      <div class="form-note">Don't have an account? <a href="#" onclick="switchTab('register')">Create one free</a></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="form-register">
+      <div class="auth-title">GET STARTED</div>
+      <div class="auth-sub">Create your free LinkedBoost AI account.</div>
+      <div class="form-error" id="reg-error"></div>
+      <div class="form-success" id="reg-success"></div>
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-input" id="reg-name" placeholder="John Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="reg-email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="reg-password" placeholder="Min. 6 characters">
+      </div>
+      <button class="form-btn" id="reg-btn" onclick="doRegister()">
+        <div class="form-spinner" id="reg-spinner"></div>
+        <span id="reg-btn-text">→ Create Free Account</span>
+      </button>
+      <div class="form-note">Already have an account? <a href="#" onclick="switchTab('login')">Sign in</a></div>
+      <div class="form-note" style="margin-top:.5rem">By signing up you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPA_URL='https://roxdpqfkylloirdeocbo.supabase.co';
+const SUPA_KEY='sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD';
+
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=(mx-4)+'px';cur.style.top=(my-4)+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cur2.style.left=(rx-16)+'px';cur2.style.top=(ry-16)+'px';requestAnimationFrame(loop);})();
+
+function switchTab(t){
+  document.getElementById('form-login').style.display=t==='login'?'block':'none';
+  document.getElementById('form-register').style.display=t==='register'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active',t==='login');
+  document.getElementById('tab-register').classList.toggle('active',t==='register');
+}
+
+async function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value;
+  const err=document.getElementById('login-error');
+  const suc=document.getElementById('login-success');
+  const btn=document.getElementById('login-btn');
+  const spinner=document.getElementById('login-spinner');
+  const btnText=document.getElementById('login-btn-text');
+  err.classList.remove('show');suc.classList.remove('show');
+  if(!email||!password){err.textContent='Please fill in all fields.';err.classList.add('show');return;}
+  btn.disabled=true;spinner.style.display='block';btnText.textContent='Signing in…';
+  try{
+    const res=await fetch(`${SUPA_URL}/auth/v1/token?grant_type=password`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(data.error||data.error_description){err.textContent=data.error_description||data.error;err.classList.add('show');return;}
+    const token=data.access_token;
+    const profRes=await fetch(`${SUPA_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=name,plan`,{headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${token}`}});
+    const profData=await profRes.json();
+    const name=profData&&profData[0]?profData[0].name:email.split('@')[0];
+    const plan=profData&&profData[0]?profData[0].plan:'free';
+    sessionStorage.setItem('lb_user',JSON.stringify({email,name,plan,token}));
+    suc.textContent='Welcome back! Redirecting…';suc.classList.add('show');
+    setTimeout(()=>window.location.href='dashboard.html',800);
+  }catch(e){err.textContent='Something went wrong. Please try again.';err.classList.add('show');}
+  finally{btn.disabled=false;spinner.style.display='none';btnText.textContent='→ Sign In';}
+}
+
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const password=document.getElementById('reg-password').value;
+  const err=document.getElementById('reg-error');
+  const suc=document.getElementById('reg-success');
+  const btn=document.getElementById('reg-btn');
+  const spinner=document.getElementById('reg-spinner');
+  const btnText=document.getElementById('reg-btn-text');
+  err.classList.remove('show');suc.classList.remove('show');
+  if(!name||!email||!password){err.textContent='Please fill in all fields.';err.classList.add('show');return;}
+  if(password.length<6){err.textContent='Password must be at least 6 characters.';err.classList.add('show');return;}
+  btn.disabled=true;spinner.style.display='block';btnText.textContent='Creating account…';
+  try{
+    const res=await fetch(`${SUPA_URL}/auth/v1/signup`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(data.error||data.error_description){err.textContent=data.error_description||data.error;err.classList.add('show');return;}
+    await fetch(`${SUPA_URL}/rest/v1/profiles`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':`Bearer ${data.access_token||SUPA_KEY}`},body:JSON.stringify({email,name,plan:'free'})});
+    sessionStorage.setItem('lb_user',JSON.stringify({email,name,plan:'free',token:data.access_token}));
+    suc.textContent='Account created! Redirecting…';suc.classList.add('show');
+    setTimeout(()=>window.location.href='dashboard.html',800);
+  }catch(e){err.textContent='Something went wrong. Please try again.';err.classList.add('show');}
+  finally{btn.disabled=false;spinner.style.display='none';btnText.textContent='→ Create Free Account';}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const active=document.getElementById('form-login').style.display!=='none';if(active)doLogin();else doRegister();}});
+</script>
+</body>
+</html>
