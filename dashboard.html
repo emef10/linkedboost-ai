@@ -57,8 +57,8 @@
   /* Plan pill */
   .sidebar-plan {
     margin: 1rem 1.5rem .8rem;
-    background: rgba(0,87,255,.15);
-    border: 1px solid rgba(0,87,255,.25);
+    background: rgba(0,255,135,.06);
+    border: 1px solid rgba(0,255,135,.15);
     border-radius: 8px;
     padding: .55rem .9rem;
     font-size: .78rem; font-weight: 600;
@@ -99,12 +99,12 @@
   .nav-item:hover { color: rgba(245,243,238,.8); background: rgba(255,255,255,.04); }
 
   .nav-item.active {
-    color: white; background: rgba(0,87,255,.15);
+    color: var(--accent); background: rgba(0,255,135,.08);
   }
 
   .nav-item.active::before {
     content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0;
+    width: 2px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0;
   }
 
   .nav-icon { width: 18px; text-align: center; font-size: 1rem; flex-shrink: 0; }
