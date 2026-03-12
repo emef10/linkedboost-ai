@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LinkedBoost AI — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,800;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #f2f0eb;
@@ -51,7 +51,6 @@
     color: var(--ink);
     display: block;
   }
-
   .sidebar-logo span { color: var(--accent); }
 
   .sidebar-plan {
@@ -94,13 +93,8 @@
     font-family: 'DM Sans', sans-serif;
     position: relative;
   }
-
   .nav-item:hover { color: rgba(245,243,238,.8); background: rgba(255,255,255,.04); }
-
-  .nav-item.active {
-    color: var(--accent); background: rgba(0,255,135,.08);
-  }
-
+  .nav-item.active { color: var(--accent); background: rgba(0,255,135,.08); }
   .nav-item.active::before {
     content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
     width: 2px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0;
@@ -121,23 +115,12 @@
     border: 1px solid rgba(255,255,255,.07);
     border-radius: 12px;
   }
-
   .usage-label {
     font-size: .75rem; color: rgba(245,243,238,.4);
     margin-bottom: .6rem; display: flex; justify-content: space-between;
   }
-
-  .usage-bar {
-    height: 4px; background: rgba(255,255,255,.1); border-radius: 2px;
-    overflow: hidden; margin-bottom: .5rem;
-  }
-
-  .usage-fill {
-    height: 100%; border-radius: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width .5s;
-  }
-
+  .usage-bar { height: 4px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; margin-bottom: .5rem; }
+  .usage-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .5s; }
   .usage-detail { font-size: .72rem; color: rgba(245,243,238,.25); }
 
   .sidebar-user {
@@ -145,17 +128,14 @@
     border-top: 1px solid rgba(255,255,255,.06);
     display: flex; align-items: center; gap: .75rem;
   }
-
   .user-avatar {
     width: 34px; height: 34px; border-radius: 50%;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     display: flex; align-items: center; justify-content: center;
     font-weight: 700; font-size: .8rem; color: #08080f; flex-shrink: 0;
   }
-
   .user-info .name { font-size: .85rem; font-weight: 600; color: var(--ink); }
   .user-info .email { font-size: .72rem; color: rgba(245,243,238,.35); }
-
   .logout-btn {
     margin-left: auto; background: none; border: none; cursor: pointer;
     color: rgba(245,243,238,.25); font-size: .9rem;
@@ -164,50 +144,33 @@
   .logout-btn:hover { color: var(--warn); }
 
   /* ═══ MAIN AREA ═══ */
-  .main {
-    flex: 1; overflow-y: auto;
-    display: flex; flex-direction: column;
-  }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
 
   .topbar {
     background: var(--card); border-bottom: 1px solid var(--border);
     padding: 1rem 2rem;
     display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 10;
-    flex-shrink: 0;
+    position: sticky; top: 0; z-index: 10; flex-shrink: 0;
   }
-
-  .topbar-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.1rem; font-weight: 800;
-    letter-spacing: -0.02em; color: var(--ink);
-  }
-
+  .topbar-title { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
   .topbar-actions { display: flex; align-items: center; gap: 1rem; }
-
   .topbar-search {
     display: flex; align-items: center; gap: .5rem;
     background: rgba(255,255,255,.04); border: 1px solid var(--border);
     border-radius: 10px; padding: .5rem 1rem;
     font-size: .85rem; color: var(--mid);
   }
-
   .topbar-search input {
     border: none; background: none; outline: none;
-    font-family: 'DM Sans', sans-serif; font-size: .85rem; width: 180px;
-    color: var(--ink);
+    font-family: 'DM Sans', sans-serif; font-size: .85rem; width: 180px; color: var(--ink);
   }
-
   .notif-btn {
     width: 36px; height: 36px; border-radius: 10px;
     background: rgba(255,255,255,.04); border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 1rem; position: relative;
-    transition: border-color .2s;
+    cursor: pointer; font-size: 1rem; position: relative; transition: border-color .2s;
   }
-
   .notif-btn:hover { border-color: rgba(255,255,255,.2); }
-
   .notif-dot {
     position: absolute; top: 6px; right: 6px;
     width: 7px; height: 7px; border-radius: 50%;
@@ -216,7 +179,8 @@
 
   /* ═══ PAGE CONTENT ═══ */
   .page { padding: 2rem; display: none; }
-  .page.active { display: block; }
+  .page.active { display: block; animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ═══ DASHBOARD PAGE ═══ */
   .welcome-banner {
@@ -227,21 +191,13 @@
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 2rem; position: relative; overflow: hidden;
   }
-
   .welcome-banner::before {
     content: ''; position: absolute; right: -40px; top: -40px;
     width: 200px; height: 200px; border-radius: 50%;
     background: radial-gradient(circle, rgba(0,255,135,.1) 0%, transparent 70%);
   }
-
-  .welcome-banner h2 {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.5rem; font-weight: 800;
-    letter-spacing: -0.03em; margin-bottom: .4rem; color: var(--ink);
-  }
-
+  .welcome-banner h2 { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: .4rem; color: var(--ink); }
   .welcome-banner p { font-size: .9rem; color: rgba(245,243,238,.55); }
-
   .welcome-banner .banner-action {
     background: var(--accent); color: #08080f;
     border: none; border-radius: 100px;
@@ -251,327 +207,99 @@
     white-space: nowrap; flex-shrink: 0;
     box-shadow: 0 4px 16px var(--glow);
   }
-
   .welcome-banner .banner-action:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--glow); }
 
-  .stats-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem; margin-bottom: 2rem;
-  }
-
-  .stat-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 1.4rem 1.5rem;
-    transition: border-color .2s;
-  }
-
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem; transition: border-color .2s; }
   .stat-card:hover { border-color: rgba(255,255,255,.15); }
-
   .stat-card .stat-icon { font-size: 1.3rem; margin-bottom: .8rem; }
-
-  .stat-card .stat-val {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.9rem; font-weight: 800;
-    letter-spacing: -0.04em; line-height: 1;
-    margin-bottom: .3rem; color: var(--ink);
-  }
-
+  .stat-card .stat-val { font-family: 'DM Sans', sans-serif; font-size: 1.9rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: .3rem; color: var(--ink); }
   .stat-card .stat-lbl { font-size: .82rem; color: var(--mid); }
-
   .stat-card .stat-change { font-size: .78rem; font-weight: 600; margin-top: .4rem; }
   .stat-card .stat-change.up { color: var(--accent); }
   .stat-card .stat-change.down { color: var(--warn); }
 
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
 
-  .widget {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 1.5rem;
-  }
-
-  .widget-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1.2rem;
-  }
-
-  .widget-header h3 {
-    font-family: 'DM Sans', sans-serif;
-    font-size: .95rem; font-weight: 700; color: var(--ink);
-  }
-
+  .widget { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+  .widget-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+  .widget-header h3 { font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 700; color: var(--ink); }
   .widget-header a { font-size: .8rem; color: var(--accent); text-decoration: none; font-weight: 500; }
 
   .score-donut { display: flex; align-items: center; gap: 1.5rem; }
   .donut-wrap { position: relative; flex-shrink: 0; }
-
-  .donut-center {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-  }
-
-  .donut-center .big {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.5rem; font-weight: 800; line-height: 1; color: var(--ink);
-  }
-
+  .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .donut-center .big { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; line-height: 1; color: var(--ink); }
   .donut-center .small { font-size: .7rem; color: var(--mid); }
-
   .score-breakdown { flex: 1; }
-
-  .score-row {
-    display: flex; align-items: center; gap: .7rem;
-    margin-bottom: .7rem; font-size: .83rem;
-  }
-
+  .score-row { display: flex; align-items: center; gap: .7rem; margin-bottom: .7rem; font-size: .83rem; }
   .score-row .lbl { flex: 0 0 90px; color: var(--mid); }
   .score-row .bar { flex: 1; height: 5px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
   .score-row .bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
   .score-row .pct { flex: 0 0 32px; text-align: right; font-weight: 600; font-size: .78rem; color: var(--ink); }
 
-  .post-item {
-    display: flex; align-items: flex-start; gap: .9rem;
-    padding: .9rem 0; border-bottom: 1px solid var(--border);
-  }
-
+  .post-item { display: flex; align-items: flex-start; gap: .9rem; padding: .9rem 0; border-bottom: 1px solid var(--border); }
   .post-item:last-child { border-bottom: none; }
-
-  .post-num {
-    width: 28px; height: 28px; border-radius: 8px;
-    background: rgba(0,255,135,.08); color: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: .75rem; font-weight: 700; flex-shrink: 0;
-  }
-
+  .post-num { width: 28px; height: 28px; border-radius: 8px; background: rgba(0,255,135,.08); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; flex-shrink: 0; }
   .post-item-content { flex: 1; }
   .post-item-content .excerpt { font-size: .85rem; line-height: 1.5; color: var(--ink); margin-bottom: .35rem; }
-
   .post-item-meta { display: flex; gap: .6rem; flex-wrap: wrap; }
-
-  .meta-tag {
-    font-size: .72rem; background: rgba(255,255,255,.04);
-    border: 1px solid var(--border); border-radius: 6px;
-    padding: .15rem .55rem; color: var(--mid);
-  }
-
+  .meta-tag { font-size: .72rem; background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 6px; padding: .15rem .55rem; color: var(--mid); }
   .post-actions { display: flex; gap: .4rem; flex-shrink: 0; }
-
-  .icon-btn {
-    width: 28px; height: 28px; border-radius: 7px;
-    border: 1px solid var(--border); background: none;
-    cursor: pointer; font-size: .85rem; color: var(--mid);
-    display: flex; align-items: center; justify-content: center;
-    transition: all .15s;
-  }
-
+  .icon-btn { width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border); background: none; cursor: pointer; font-size: .85rem; color: var(--mid); display: flex; align-items: center; justify-content: center; transition: all .15s; }
   .icon-btn:hover { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.2); color: var(--ink); }
 
-  .activity-item {
-    display: flex; align-items: flex-start; gap: .8rem;
-    padding: .7rem 0; border-bottom: 1px solid var(--border);
-    font-size: .85rem; color: var(--ink);
-  }
-
+  .activity-item { display: flex; align-items: flex-start; gap: .8rem; padding: .7rem 0; border-bottom: 1px solid var(--border); font-size: .85rem; color: var(--ink); }
   .activity-item:last-child { border-bottom: none; }
-
   .activity-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-
   .activity-item .time { font-size: .75rem; color: var(--mid); margin-top: .2rem; }
 
-  /* ═══ PROFILE PAGE ═══ */
-  .profile-form .form-group { margin-bottom: 1.3rem; }
-
-  .profile-form label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: .45rem; color: var(--ink); }
-
-  .profile-form input, .profile-form textarea, .profile-form select {
-    width: 100%; padding: .8rem 1rem;
-    border: 1.5px solid var(--border); border-radius: 11px;
-    font-family: 'DM Sans', sans-serif; font-size: .92rem;
-    background: rgba(255,255,255,.04); color: var(--ink); outline: none;
-    transition: border-color .2s;
-  }
-
-  .profile-form input:focus, .profile-form textarea:focus { border-color: rgba(0,255,135,.4); }
-  .profile-form textarea { resize: vertical; min-height: 90px; }
-  .two-col-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
   /* ═══ POSTS PAGE ═══ */
-  .posts-toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
-  }
-
+  .posts-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
   .filter-tabs { display: flex; gap: .4rem; }
-
-  .filter-tab {
-    padding: .45rem 1rem; border-radius: 8px;
-    border: 1px solid var(--border); background: rgba(255,255,255,.03);
-    font-size: .83rem; font-weight: 500; cursor: pointer;
-    transition: all .15s; font-family: 'DM Sans', sans-serif; color: var(--mid);
-  }
-
+  .filter-tab { padding: .45rem 1rem; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,.03); font-size: .83rem; font-weight: 500; cursor: pointer; transition: all .15s; font-family: 'DM Sans', sans-serif; color: var(--mid); }
   .filter-tab.active { background: var(--accent); color: #08080f; border-color: var(--accent); }
 
-  .post-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 1.5rem;
-    margin-bottom: 1rem; transition: border-color .2s;
-  }
-
+  .post-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; transition: border-color .2s; }
   .post-card:hover { border-color: rgba(255,255,255,.15); }
-
-  .post-card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: .9rem;
-  }
-
-  .post-type-badge {
-    font-size: .72rem; font-weight: 700;
-    padding: .25rem .7rem; border-radius: 6px;
-    text-transform: uppercase; letter-spacing: .04em;
-  }
-
+  .post-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .9rem; }
+  .post-type-badge { font-size: .72rem; font-weight: 700; padding: .25rem .7rem; border-radius: 6px; text-transform: uppercase; letter-spacing: .04em; }
   .badge-story { background: rgba(108,99,255,.15); color: #a89fff; border: 1px solid rgba(108,99,255,.25); }
   .badge-tips { background: rgba(0,255,135,.08); color: var(--accent); border: 1px solid rgba(0,255,135,.15); }
   .badge-hottake { background: rgba(255,71,87,.1); color: var(--warn); border: 1px solid rgba(255,71,87,.2); }
   .badge-howto { background: rgba(0,255,135,.06); color: var(--accent); border: 1px solid rgba(0,255,135,.12); }
-
   .post-card-text { font-size: .9rem; line-height: 1.65; color: var(--ink); margin-bottom: 1rem; }
-
-  .post-card-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: .7rem;
-  }
-
+  .post-card-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .7rem; }
   .post-metrics { display: flex; gap: 1rem; }
   .metric { font-size: .8rem; color: var(--mid); }
   .metric strong { color: var(--ink); font-weight: 600; }
-
   .post-card-actions { display: flex; gap: .5rem; }
 
-  .btn-sm {
-    padding: .45rem 1rem; border-radius: 8px;
-    font-size: .82rem; font-weight: 500; cursor: pointer;
-    border: 1px solid var(--border); background: rgba(255,255,255,.04);
-    font-family: 'DM Sans', sans-serif; transition: all .15s;
-    display: flex; align-items: center; gap: .4rem; color: var(--mid);
-  }
-
+  .btn-sm { padding: .45rem 1rem; border-radius: 8px; font-size: .82rem; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: rgba(255,255,255,.04); font-family: 'DM Sans', sans-serif; transition: all .15s; display: flex; align-items: center; gap: .4rem; color: var(--mid); }
   .btn-sm:hover { border-color: rgba(255,255,255,.2); color: var(--ink); }
-
   .btn-sm-primary { background: var(--accent); border-color: var(--accent); color: #08080f; }
   .btn-sm-primary:hover { opacity: .9; }
 
-  /* ═══ AI TOOLS PAGE ═══ */
-  .tools-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.2rem; margin-bottom: 2rem;
-  }
-
-  .tool-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 1.8rem;
-    cursor: pointer; transition: all .2s;
-    position: relative; overflow: hidden;
-  }
-
-  .tool-card:hover { border-color: rgba(255,255,255,.15); transform: translateY(-3px); }
-
-  .tool-icon { font-size: 2rem; margin-bottom: 1rem; }
-
-  .tool-card h3 { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: .4rem; color: var(--ink); }
-
-  .tool-card p { font-size: .85rem; color: var(--mid); line-height: 1.5; }
-
-  .tool-card .pro-badge {
-    position: absolute; top: 1rem; right: 1rem;
-    font-size: .7rem; font-weight: 700;
-    background: var(--accent); color: #08080f;
-    padding: .2rem .6rem; border-radius: 100px;
-  }
-
-  .ai-workspace {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 2rem;
-  }
-
-  .workspace-tabs {
-    display: flex; gap: .4rem; margin-bottom: 1.8rem;
-    border-bottom: 1px solid var(--border); padding-bottom: 0;
-  }
-
-  .wtab {
-    padding: .6rem 1.2rem; border: none; background: none; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 500;
-    color: var(--mid); border-bottom: 2px solid transparent;
-    margin-bottom: -1px; transition: all .15s;
-  }
-
-  .wtab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  .ai-loading {
-    display: none; align-items: center; gap: .8rem;
-    padding: 1.5rem; color: var(--mid); font-size: .9rem;
-  }
-
+  /* ═══ AI TOOLS ═══ */
+  .ai-loading { display: none; align-items: center; gap: .8rem; padding: 1.5rem; color: var(--mid); font-size: .9rem; }
   .ai-loading.show { display: flex; }
-
-  .spinner {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 2px solid var(--border); border-top-color: var(--accent);
-    animation: spin .7s linear infinite;
-  }
-
+  .spinner { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); border-top-color: var(--accent); animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .result-box {
-    background: rgba(255,255,255,.03); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.5rem;
-    margin-top: 1rem; display: none;
-  }
-
+  .result-box { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-top: 1rem; display: none; }
   .result-box.show { display: block; }
-
   .result-section { margin-bottom: 1.2rem; }
-
-  .result-section h4 {
-    font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700;
-    color: var(--accent); margin-bottom: .6rem;
-  }
-
+  .result-section h4 { font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700; color: var(--accent); margin-bottom: .6rem; }
   .result-section p, .result-section li { font-size: .88rem; line-height: 1.6; color: var(--ink); }
 
   .tag-row { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .4rem; }
-
-  .tag {
-    background: rgba(0,255,135,.07); color: var(--accent);
-    border: 1px solid rgba(0,255,135,.15);
-    padding: .25rem .7rem; border-radius: 100px; font-size: .78rem; font-weight: 500;
-  }
-
-  @media (max-width: 900px) {
-    .sidebar { width: 64px; }
-    .sidebar-logo span, .sidebar .nav-item span:not(.nav-icon),
-    .sidebar-plan, .sidebar-section, .sidebar-usage, .user-info,
-    .nav-badge { display: none; }
-    .sidebar-logo { padding: 1.5rem 1rem; font-size: 0; }
-    .sidebar-logo::after { content: 'LB'; font-size: 1rem; color: var(--accent); }
-    .nav-item { padding: .8rem; justify-content: center; }
-    .sidebar-user { padding: .8rem; justify-content: center; }
-  }
+  .tag { background: rgba(0,255,135,.07); color: var(--accent); border: 1px solid rgba(0,255,135,.15); padding: .25rem .7rem; border-radius: 100px; font-size: .78rem; font-weight: 500; }
 
   .page-header { margin-bottom: 2rem; }
-  .page-header h1 {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em;
-    margin-bottom: .3rem; color: var(--ink);
-  }
+  .page-header h1 { font-family: 'DM Sans', sans-serif; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: .3rem; color: var(--ink); }
   .page-header p { font-size: .9rem; color: var(--mid); }
 
-  .section-title-sm {
-    font-family: 'DM Sans', sans-serif;
-    font-size: .95rem; font-weight: 700; margin-bottom: 1rem; color: var(--ink);
-  }
+  .section-title-sm { font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 1rem; color: var(--ink); }
 
   .form-group { margin-bottom: 1.2rem; }
   .form-group label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: .45rem; color: var(--mid); }
@@ -594,54 +322,67 @@
     transition: transform .15s, box-shadow .2s;
     box-shadow: 0 4px 16px var(--glow);
   }
-
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--glow); }
   .btn-primary:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-
   .btn-spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(0,0,0,.2); border-top-color: #08080f; animation: spin .7s linear infinite; display: none; }
 
-  .page.active { animation: fadeIn .3s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  /* Profile form */
+  .profile-form .form-group { margin-bottom: 1.3rem; }
+  .profile-form label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: .45rem; color: var(--ink); }
+  .profile-form input, .profile-form textarea, .profile-form select {
+    width: 100%; padding: .8rem 1rem;
+    border: 1.5px solid var(--border); border-radius: 11px;
+    font-family: 'DM Sans', sans-serif; font-size: .92rem;
+    background: rgba(255,255,255,.04); color: var(--ink); outline: none;
+    transition: border-color .2s;
+  }
+  .profile-form input:focus, .profile-form textarea:focus { border-color: rgba(0,255,135,.4); }
+  .profile-form textarea { resize: vertical; min-height: 90px; }
+
+  /* Generated post box */
+  .generated-post-box {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+    font-size: .9rem; line-height: 1.7; white-space: pre-wrap;
+    color: var(--ink);
+  }
+
+  /* Calendar grid */
+  .cal-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; }
+  .cal-day { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; }
+  .cal-day-name { font-size: .75rem; font-weight: 700; text-transform: uppercase; color: var(--mid); margin-bottom: .8rem; }
+  .cal-day-emoji { font-size: 1.8rem; margin-bottom: .5rem; }
+  .cal-day-style { font-size: .78rem; font-weight: 700; color: var(--accent); margin-bottom: .4rem; }
+  .cal-day-topic { font-size: .82rem; font-weight: 600; margin-bottom: .4rem; color: var(--ink); }
+  .cal-day-hook { font-size: .78rem; color: var(--mid); margin-bottom: .6rem; font-style: italic; }
+  .cal-day-time { font-size: .72rem; color: var(--accent2); font-weight: 600; }
+
+  /* Upgrade CTA */
+  .upgrade-cta {
+    background: linear-gradient(135deg, #0d0d1a 0%, #0d1a3a 100%);
+    border: 1px solid rgba(0,255,135,.2);
+    border-radius: 20px; padding: 2rem 2.5rem; color: var(--ink);
+    margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    position: relative; overflow: hidden;
+  }
+  .upgrade-cta::before {
+    content: ''; position: absolute; right: -40px; top: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,135,.08) 0%, transparent 70%);
+  }
+  .upgrade-cta-title { font-family: 'DM Sans', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: .4rem; color: var(--ink); }
+  .upgrade-cta p { font-size: .9rem; color: rgba(245,243,238,.5); }
+
+  @media (max-width: 900px) {
+    .sidebar { width: 64px; }
+    .sidebar-logo span, .sidebar .nav-item span:not(.nav-icon), .sidebar-plan, .sidebar-section, .sidebar-usage, .user-info, .nav-badge { display: none; }
+    .sidebar-logo { padding: 1.5rem 1rem; font-size: 0; }
+    .sidebar-logo::after { content: 'LB'; font-size: 1rem; color: var(--accent); }
+    .nav-item { padding: .8rem; justify-content: center; }
+    .sidebar-user { padding: .8rem; justify-content: center; }
+  }
 </style>
-<script>
-const pageTitles = { dashboard: "Dashboard", profile: "Profile Analysis", posts: "My Posts", generate: "AI Generator", analytics: "Performance", calendar: "Content Calendar", settings: "Settings & Billing" };
-function showPage(id, navEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.getElementById('page-title').textContent = pageTitles[id] || id;
-  if (navEl) navEl.classList.add('active');
-  else {
-    const items = document.querySelectorAll('.nav-item');
-    items.forEach(item => {
-      if (item.getAttribute('onclick')?.includes(`'${id}'`)) item.classList.add('active');
-    });
-  }
-  if (id === 'settings') {
-    const raw = sessionStorage.getItem('lb_user');
-    const u = raw ? JSON.parse(raw) : {};
-    if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
-    if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
-  }
-}
-function logout() { sessionStorage.removeItem("lb_user"); window.location.href = "auth.html"; }
-  function saveSettings() {
-  const name = document.getElementById('settings-name').value;
-  const email = document.getElementById('settings-email').value;
-  const raw = sessionStorage.getItem('lb_user');
-  const u = raw ? JSON.parse(raw) : {};
-  u.name = name; u.email = email;
-  sessionStorage.setItem('lb_user', JSON.stringify(u));
-
-  document.getElementById('user-name').textContent = name;
-  document.getElementById('user-email').textContent = email;
-  document.getElementById('banner-name').textContent = name.split(' ')[0];
-
-  const btn = event.target;
-  btn.textContent = '✅ Saved!';
-  setTimeout(() => btn.textContent = 'Save Changes', 2000);
-}
-</script>
 </head>
 <body>
 
@@ -657,301 +398,152 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
   <nav class="sidebar-nav">
     <div class="sidebar-section">Main</div>
     <button class="nav-item active" onclick="showPage('dashboard', this)">
-      <span class="nav-icon">🏠</span>
-      <span>Dashboard</span>
+      <span class="nav-icon">🏠</span><span>Dashboard</span>
     </button>
     <button class="nav-item" onclick="showPage('profile', this)">
-      <span class="nav-icon">👤</span>
-      <span>Profile Analysis</span>
+      <span class="nav-icon">👤</span><span>Profile Analysis</span>
     </button>
     <button class="nav-item" onclick="showPage('posts', this)">
-      <span class="nav-icon">✍️</span>
-      <span>My Posts</span>
+      <span class="nav-icon">✍️</span><span>My Posts</span>
       <span class="nav-badge">5</span>
     </button>
     <button class="nav-item" onclick="showPage('generate', this)">
-      <span class="nav-icon">⚡</span>
-      <span>AI Generator</span>
+      <span class="nav-icon">⚡</span><span>AI Generator</span>
     </button>
 
     <div class="sidebar-section">Analytics</div>
-    <button class="nav-item" onclick="showPage('engagement', this)"><span class="nav-icon">🎯</span><span>Engagement</span></button>
-    <button class="nav-item" onclick="showPage('analytics', this)">
-      <span class="nav-icon">📈</span>
-      <span>Performance</span>
+    <button class="nav-item" onclick="showPage('engagement', this)">
+      <span class="nav-icon">🎯</span><span>Engagement</span>
     </button>
-    <button class="nav-item" onclick="showPage('calendar', this)"><span class="nav-icon">📅</span><span>Content Calendar</span></button>
-
-      
+    <button class="nav-item" onclick="showPage('analytics', this)">
+      <span class="nav-icon">📈</span><span>Performance</span>
+    </button>
+    <button class="nav-item" onclick="showPage('calendar', this)">
+      <span class="nav-icon">📅</span><span>Content Calendar</span>
     </button>
 
     <div class="sidebar-section">Account</div>
-    <button class="nav-item" id="agency-nav" onclick="showPage('agency', this)" style="display:none"><span class="nav-icon">💼</span><span>Agency Panel</span></button>
+    <button class="nav-item" id="agency-nav" onclick="showPage('agency', this)" style="display:none">
+      <span class="nav-icon">💼</span><span>Agency Panel</span>
+    </button>
     <button class="nav-item" onclick="showPage('settings', this)">
-      <span class="nav-icon">⚙️</span>
-      <span>Settings</span>
+      <span class="nav-icon">⚙️</span><span>Settings</span>
     </button>
   </nav>
 
   <div class="sidebar-usage">
     <div class="usage-label">
-      <span>Posts this month</span>
-      <span>3/3</span>
+      <span>AI Requests</span>
+      <span id="usage-count">0/3</span>
     </div>
-    <div class="usage-bar">
-      <div class="usage-fill" style="width:100%"></div>
-    </div>
-    <div class="usage-detail">Upgrade to Pro for unlimited posts</div>
+    <div class="usage-bar"><div class="usage-fill" id="usage-fill" style="width:0%"></div></div>
+    <div class="usage-detail">Upgrade to Pro for unlimited</div>
   </div>
 
   <div class="sidebar-user">
     <div class="user-avatar" id="user-avatar">JD</div>
     <div class="user-info">
       <div class="name" id="user-name">User</div>
-      <div class="email" id="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5e343136301e3a313b703d3133">[email&#160;protected]</a></div>
+      <div class="email" id="user-email">user@email.com</div>
     </div>
-    <button class="logout-btn" title="Sign out" onclick="logout()">⬡</button>
+    <button class="logout-btn" title="Sign out" onclick="logout()">✕</button>
   </div>
 </aside>
 
 <!-- ═══ MAIN ═══ -->
 <main class="main">
 
-  <!-- TOP BAR -->
   <div class="topbar">
     <div class="topbar-title" id="page-title">Dashboard</div>
     <div class="topbar-actions">
-      <div class="topbar-search">
-        🔍 <input type="text" placeholder="Search posts, tools…">
-      </div>
-      <div class="notif-btn">🔔 <div class="notif-dot"></div></div>
+      <div class="topbar-search">🔍 <input type="text" placeholder="Search posts, tools…"></div>
+      <div class="notif-btn">🔔<div class="notif-dot"></div></div>
     </div>
   </div>
 
   <!-- ═══ DASHBOARD PAGE ═══ -->
   <div class="page active" id="page-dashboard">
-    <div style="padding:2rem">
-
-      <div class="welcome-banner">
-        <div>
-          <h2>Good morning, <span id="banner-name">there</span> 👋</h2>
-          <p>Your profile score improved +8 points this week. Keep it up!</p>
-        </div>
-        <button class="banner-action" onclick="showPage('generate', document.querySelector('.nav-item:nth-child(5)'))">
-          ⚡ Generate This Week's Posts
-        </button>
+    <div class="welcome-banner">
+      <div>
+        <h2>Good morning, <span id="banner-name">there</span> 👋</h2>
+        <p>Your profile score improved +8 points this week. Keep it up!</p>
       </div>
+      <button class="banner-action" onclick="showPage('generate', document.querySelector('.nav-item:nth-child(5)'))">⚡ Generate This Week's Posts</button>
+    </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">👁</div>
-          <div class="stat-val">1,247</div>
-          <div class="stat-lbl">Profile Views</div>
-          <div class="stat-change up">↑ +23% this week</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📊</div>
-          <div class="stat-val">74</div>
-          <div class="stat-lbl">Profile Score</div>
-          <div class="stat-change up">↑ +8 pts</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📝</div>
-          <div class="stat-val">12</div>
-          <div class="stat-lbl">Posts Created</div>
-          <div class="stat-change up">↑ 3 this week</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🤝</div>
-          <div class="stat-val">+43</div>
-          <div class="stat-lbl">New Connections</div>
-          <div class="stat-change up">↑ this month</div>
-        </div>
-      </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon">👁</div><div class="stat-val">1,247</div><div class="stat-lbl">Profile Views</div><div class="stat-change up">↑ +23% this week</div></div>
+      <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-val">74</div><div class="stat-lbl">Profile Score</div><div class="stat-change up">↑ +8 pts</div></div>
+      <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-val">12</div><div class="stat-lbl">Posts Created</div><div class="stat-change up">↑ 3 this week</div></div>
+      <div class="stat-card"><div class="stat-icon">🤝</div><div class="stat-val">+43</div><div class="stat-lbl">New Connections</div><div class="stat-change up">↑ this month</div></div>
+    </div>
 
-      <div class="two-col">
-        <!-- Profile Score Widget -->
-        <div class="widget">
-          <div class="widget-header">
-            <h3>Profile Score Breakdown</h3>
-            <a href="#" onclick="showPage('profile')">Improve →</a>
-          </div>
-          <div class="score-donut">
-            <div class="donut-wrap">
-              <svg width="90" height="90" viewBox="0 0 90 90">
-                <circle cx="45" cy="45" r="36" fill="none" stroke="var(--border)" stroke-width="8"/>
-                <circle cx="45" cy="45" r="36" fill="none" stroke="var(--accent)" stroke-width="8"
-                  stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="60"
-                  transform="rotate(-90 45 45)"/>
-              </svg>
-              <div class="donut-center">
-                <div class="big">74</div>
-                <div class="small">/ 100</div>
-              </div>
-            </div>
-            <div class="score-breakdown">
-              <div class="score-row">
-                <span class="lbl">Headline</span>
-                <div class="bar"><div class="bar-fill" style="width:55%;background:#ff4757"></div></div>
-                <span class="pct">55%</span>
-              </div>
-              <div class="score-row">
-                <span class="lbl">About</span>
-                <div class="bar"><div class="bar-fill" style="width:70%"></div></div>
-                <span class="pct">70%</span>
-              </div>
-              <div class="score-row">
-                <span class="lbl">Experience</span>
-                <div class="bar"><div class="bar-fill" style="width:90%;background:var(--accent2)"></div></div>
-                <span class="pct">90%</span>
-              </div>
-              <div class="score-row">
-                <span class="lbl">Featured</span>
-                <div class="bar"><div class="bar-fill" style="width:30%;background:#ff4757"></div></div>
-                <span class="pct">30%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Posts Widget -->
-        <div class="widget">
-          <div class="widget-header">
-            <h3>Recent AI Posts</h3>
-            <a href="#" onclick="showPage('posts')">View all →</a>
-          </div>
-          <div>
-            <div class="post-item">
-              <div class="post-num">1</div>
-              <div class="post-item-content">
-                <div class="excerpt">I spent 3 years building the wrong thing. Here's what changed everything…</div>
-                <div class="post-item-meta">
-                  <span class="meta-tag">Storytelling</span>
-                  <span class="meta-tag">~2.1k reach</span>
-                </div>
-              </div>
-              <div class="post-actions">
-                <button class="icon-btn" title="Copy">📋</button>
-              </div>
-            </div>
-            <div class="post-item">
-              <div class="post-num">2</div>
-              <div class="post-item-content">
-                <div class="excerpt">5 things nobody tells you about product management in 2025…</div>
-                <div class="post-item-meta">
-                  <span class="meta-tag">Listicle</span>
-                  <span class="meta-tag">~3.4k reach</span>
-                </div>
-              </div>
-              <div class="post-actions">
-                <button class="icon-btn" title="Copy">📋</button>
-              </div>
-            </div>
-            <div class="post-item">
-              <div class="post-num">3</div>
-              <div class="post-item-content">
-                <div class="excerpt">Hot take: Most LinkedIn advice is keeping you invisible. Here's why…</div>
-                <div class="post-item-meta">
-                  <span class="meta-tag">Hot Take</span>
-                  <span class="meta-tag">~4.8k reach</span>
-                </div>
-              </div>
-              <div class="post-actions">
-                <button class="icon-btn" title="Copy">📋</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Activity -->
+    <div class="two-col">
       <div class="widget">
-        <div class="widget-header">
-          <h3>Recent Activity</h3>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--accent2)"></div>
-          <div>
-            <div>Profile analysis completed — score improved from 66 → 74</div>
-            <div class="time">2 hours ago</div>
+        <div class="widget-header"><h3>Profile Score Breakdown</h3><a href="#" onclick="showPage('profile')">Improve →</a></div>
+        <div class="score-donut">
+          <div class="donut-wrap">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <circle cx="45" cy="45" r="36" fill="none" stroke="var(--border)" stroke-width="8"/>
+              <circle cx="45" cy="45" r="36" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="60" transform="rotate(-90 45 45)"/>
+            </svg>
+            <div class="donut-center"><div class="big">74</div><div class="small">/ 100</div></div>
           </div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--accent)"></div>
-          <div>
-            <div>3 new AI posts generated for this week</div>
-            <div class="time">Yesterday</div>
-          </div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:#f59e0b"></div>
-          <div>
-            <div>Weekly performance report available</div>
-            <div class="time">3 days ago</div>
-          </div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--accent2)"></div>
-          <div>
-            <div>Account created — welcome to LinkedBoost AI!</div>
-            <div class="time">1 week ago</div>
+          <div class="score-breakdown">
+            <div class="score-row"><span class="lbl">Headline</span><div class="bar"><div class="bar-fill" style="width:55%;background:#ff4757"></div></div><span class="pct">55%</span></div>
+            <div class="score-row"><span class="lbl">About</span><div class="bar"><div class="bar-fill" style="width:70%"></div></div><span class="pct">70%</span></div>
+            <div class="score-row"><span class="lbl">Experience</span><div class="bar"><div class="bar-fill" style="width:90%;background:var(--accent2)"></div></div><span class="pct">90%</span></div>
+            <div class="score-row"><span class="lbl">Featured</span><div class="bar"><div class="bar-fill" style="width:30%;background:#ff4757"></div></div><span class="pct">30%</span></div>
           </div>
         </div>
       </div>
+      <div class="widget">
+        <div class="widget-header"><h3>Recent AI Posts</h3><a href="#" onclick="showPage('posts')">View all →</a></div>
+        <div class="post-item"><div class="post-num">1</div><div class="post-item-content"><div class="excerpt">I spent 3 years building the wrong thing. Here's what changed everything…</div><div class="post-item-meta"><span class="meta-tag">Storytelling</span><span class="meta-tag">~2.1k reach</span></div></div><div class="post-actions"><button class="icon-btn" title="Copy">📋</button></div></div>
+        <div class="post-item"><div class="post-num">2</div><div class="post-item-content"><div class="excerpt">5 things nobody tells you about product management in 2025…</div><div class="post-item-meta"><span class="meta-tag">Listicle</span><span class="meta-tag">~3.4k reach</span></div></div><div class="post-actions"><button class="icon-btn" title="Copy">📋</button></div></div>
+        <div class="post-item"><div class="post-num">3</div><div class="post-item-content"><div class="excerpt">Hot take: Most LinkedIn advice is keeping you invisible. Here's why…</div><div class="post-item-meta"><span class="meta-tag">Hot Take</span><span class="meta-tag">~4.8k reach</span></div></div><div class="post-actions"><button class="icon-btn" title="Copy">📋</button></div></div>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-header"><h3>Recent Activity</h3></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--accent)"></div><div><div>Profile analysis completed — score improved from 66 → 74</div><div class="time">2 hours ago</div></div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--accent)"></div><div><div>3 new AI posts generated for this week</div><div class="time">Yesterday</div></div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:#f59e0b"></div><div><div>Weekly performance report available</div><div class="time">3 days ago</div></div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--accent)"></div><div><div>Account created — welcome to LinkedBoost AI!</div><div class="time">1 week ago</div></div></div>
     </div>
   </div>
 
   <!-- ═══ PROFILE PAGE ═══ -->
   <div class="page" id="page-profile">
-    <div style="padding:2rem">
-      <div class="page-header">
-        <h1>Profile Analysis</h1>
-        <p>Enter your LinkedIn profile details below for an instant AI-powered audit.</p>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem">
-        <div class="widget profile-form">
-          <h3 class="section-title-sm">Your Profile Info</h3>
-          <div class="form-group">
-            <label>Current Headline</label>
-            <input type="text" id="p-headline" placeholder="e.g. Product Manager | SaaS | Ex-Google" />
-          </div>
-          <div class="form-group">
-            <label>About Section</label>
-            <textarea id="p-about" rows="4" placeholder="Paste your About section here…"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Industry</label>
-            <input type="text" id="p-industry" placeholder="e.g. SaaS, Finance, Marketing" />
-          </div>
-          <div class="form-group">
-            <label>Career Goal</label>
-            <select id="p-goal">
-              <option>Land a new job</option>
-              <option>Grow my personal brand</option>
-              <option>Generate leads / clients</option>
-              <option>Build a network</option>
-              <option>Thought leadership</option>
-            </select>
-          </div>
-          <button class="btn-primary" id="analyze-btn" onclick="setTimeout(runProfileAnalysis,0)">
-            <div class="btn-spinner" id="analyze-spinner"></div>
-            <span id="analyze-text">🔍 Analyze Profile</span>
-          </button>
+    <div class="page-header"><h1>Profile Analysis</h1><p>Enter your LinkedIn profile details below for an instant AI-powered audit.</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem">
+      <div class="widget profile-form">
+        <h3 class="section-title-sm">Your Profile Info</h3>
+        <div class="form-group"><label>Current Headline</label><input type="text" id="p-headline" placeholder="e.g. Product Manager | SaaS | Ex-Google"/></div>
+        <div class="form-group"><label>About Section</label><textarea id="p-about" rows="4" placeholder="Paste your About section here…"></textarea></div>
+        <div class="form-group"><label>Industry</label><input type="text" id="p-industry" placeholder="e.g. SaaS, Finance, Marketing"/></div>
+        <div class="form-group"><label>Career Goal</label>
+          <select id="p-goal">
+            <option>Land a new job</option>
+            <option>Grow my personal brand</option>
+            <option>Generate leads / clients</option>
+            <option>Build a network</option>
+            <option>Thought leadership</option>
+          </select>
         </div>
-
-        <div>
-          <div class="ai-loading" id="profile-loading">
-            <div class="spinner"></div> AI is analyzing your LinkedIn profile…
-          </div>
-          <div class="result-box" id="profile-result"></div>
-
-          <!-- Placeholder when empty -->
-          <div id="profile-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
-            <div style="font-size:3rem;margin-bottom:1rem">🔍</div>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No analysis yet</h3>
-            <p style="font-size:.88rem">Fill in your profile details and click Analyze Profile to get your score.</p>
-          </div>
+        <button class="btn-primary" id="analyze-btn" onclick="setTimeout(runProfileAnalysis,0)">
+          <div class="btn-spinner" id="analyze-spinner"></div>
+          <span id="analyze-text">🔍 Analyze Profile</span>
+        </button>
+      </div>
+      <div>
+        <div class="ai-loading" id="profile-loading"><div class="spinner"></div> AI is analyzing your LinkedIn profile…</div>
+        <div class="result-box" id="profile-result"></div>
+        <div id="profile-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+          <div style="font-size:3rem;margin-bottom:1rem">🔍</div>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No analysis yet</h3>
+          <p style="font-size:.88rem">Fill in your profile details and click Analyze Profile to get your score.</p>
         </div>
       </div>
     </div>
@@ -959,97 +551,39 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
 
   <!-- ═══ POSTS PAGE ═══ -->
   <div class="page" id="page-posts">
-    <div style="padding:2rem">
-      <div class="page-header">
-        <h1>My Posts</h1>
-        <p>All your AI-generated LinkedIn posts in one place.</p>
+    <div class="page-header"><h1>My Posts</h1><p>All your AI-generated LinkedIn posts in one place.</p></div>
+    <div class="posts-toolbar">
+      <div class="filter-tabs">
+        <button class="filter-tab active">All</button>
+        <button class="filter-tab">Storytelling</button>
+        <button class="filter-tab">Listicle</button>
+        <button class="filter-tab">Hot Take</button>
       </div>
-
-      <div class="posts-toolbar">
-        <div class="filter-tabs">
-          <button class="filter-tab active">All</button>
-          <button class="filter-tab">Storytelling</button>
-          <button class="filter-tab">Listicle</button>
-          <button class="filter-tab">Hot Take</button>
+      <button class="btn-primary" onclick="showPage('generate')">⚡ Generate New Post</button>
+    </div>
+    <div id="posts-list">
+      <div class="post-card">
+        <div class="post-card-header"><span class="post-type-badge badge-story">Storytelling</span><span style="font-size:.78rem;color:var(--mid)">Generated 2 days ago</span></div>
+        <div class="post-card-text">I spent 3 years building the wrong thing on LinkedIn.<br><br>I was posting every day. Engagement: zero. Connections: barely moving.<br><br>Then one mentor told me something that changed everything: "Stop writing for LinkedIn. Start writing for humans."<br><br>Here are the 5 things I changed that tripled my profile views in 30 days 👇</div>
+        <div class="post-card-footer">
+          <div class="post-metrics"><span class="metric">🎯 Hook: <strong>9/10</strong></span><span class="metric">📈 Reach: <strong>2,100–4,500</strong></span><span class="metric">⏰ <strong>Tue 8am</strong></span></div>
+          <div class="post-card-actions"><button class="btn-sm" onclick="copyText(this)">📋 Copy</button><button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button></div>
         </div>
-        <button class="btn-primary" onclick="showPage('generate')">⚡ Generate New Post</button>
       </div>
-
-      <div id="posts-list">
-        <div class="post-card">
-          <div class="post-card-header">
-            <span class="post-type-badge badge-story">Storytelling</span>
-            <span style="font-size:.78rem;color:var(--mid)">Generated 2 days ago</span>
-          </div>
-          <div class="post-card-text">
-            I spent 3 years building the wrong thing on LinkedIn.<br><br>
-            I was posting every day. Engagement: zero. Connections: barely moving.<br><br>
-            Then one mentor told me something that changed everything: "Stop writing for LinkedIn. Start writing for humans."<br><br>
-            Here are the 5 things I changed that tripled my profile views in 30 days 👇
-          </div>
-          <div class="post-card-footer">
-            <div class="post-metrics">
-              <span class="metric">🎯 Hook: <strong>9/10</strong></span>
-              <span class="metric">📈 Reach: <strong>2,100–4,500</strong></span>
-              <span class="metric">⏰ <strong>Tue 8am</strong></span>
-            </div>
-            <div class="post-card-actions">
-              <button class="btn-sm" onclick="copyText(this)">📋 Copy</button>
-              <button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button>
-            </div>
-          </div>
+      <div class="post-card">
+        <div class="post-card-header"><span class="post-type-badge badge-tips">Listicle</span><span style="font-size:.78rem;color:var(--mid)">Generated 3 days ago</span></div>
+        <div class="post-card-text">5 things nobody tells you about Product Management in 2025 🧵<br><br>1. Your roadmap is a lie (and that's okay)<br>2. The best PMs are professional "No" sayers<br>3. Data without context is just noise<br>4. Stakeholder management = 70% of the job<br>5. Your biggest competitor is the status quo<br><br>Which one hit hardest? 👇</div>
+        <div class="post-card-footer">
+          <div class="post-metrics"><span class="metric">🎯 Hook: <strong>8/10</strong></span><span class="metric">📈 Reach: <strong>3,400–7,200</strong></span><span class="metric">⏰ <strong>Wed 7am</strong></span></div>
+          <div class="post-card-actions"><button class="btn-sm" onclick="copyText(this)">📋 Copy</button><button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button></div>
         </div>
-
-        <div class="post-card">
-          <div class="post-card-header">
-            <span class="post-type-badge badge-tips">Listicle</span>
-            <span style="font-size:.78rem;color:var(--mid)">Generated 3 days ago</span>
-          </div>
-          <div class="post-card-text">
-            5 things nobody tells you about Product Management in 2025 🧵<br><br>
-            1. Your roadmap is a lie (and that's okay)<br>
-            2. The best PMs are professional "No" sayers<br>
-            3. Data without context is just noise<br>
-            4. Stakeholder management = 70% of the job<br>
-            5. Your biggest competitor is the status quo<br><br>
-            Which one hit hardest? 👇
-          </div>
-          <div class="post-card-footer">
-            <div class="post-metrics">
-              <span class="metric">🎯 Hook: <strong>8/10</strong></span>
-              <span class="metric">📈 Reach: <strong>3,400–7,200</strong></span>
-              <span class="metric">⏰ <strong>Wed 7am</strong></span>
-            </div>
-            <div class="post-card-actions">
-              <button class="btn-sm" onclick="copyText(this)">📋 Copy</button>
-              <button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="post-card">
-          <div class="post-card-header">
-            <span class="post-type-badge badge-hottake">Hot Take</span>
-            <span style="font-size:.78rem;color:var(--mid)">Generated 5 days ago</span>
-          </div>
-          <div class="post-card-text">
-            Hot take: 90% of LinkedIn advice is keeping you invisible. 🔥<br><br>
-            Everyone tells you to "be consistent." Post every day. Use hashtags. Add emojis.<br><br>
-            But here's what the algorithm actually rewards: Specificity. Controversy. Genuine emotion.<br><br>
-            Generic posts get generic results. The people blowing up on LinkedIn right now? They're saying things that make people uncomfortable.<br><br>
-            Agree? Disagree? Let me know ↓
-          </div>
-          <div class="post-card-footer">
-            <div class="post-metrics">
-              <span class="metric">🎯 Hook: <strong>10/10</strong></span>
-              <span class="metric">📈 Reach: <strong>4,800–12,000</strong></span>
-              <span class="metric">⏰ <strong>Thu 9am</strong></span>
-            </div>
-            <div class="post-card-actions">
-              <button class="btn-sm" onclick="copyText(this)">📋 Copy</button>
-              <button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button>
-            </div>
-          </div>
+      </div>
+      <div class="post-card">
+        <div class="post-card-header"><span class="post-type-badge badge-hottake">Hot Take</span><span style="font-size:.78rem;color:var(--mid)">Generated 5 days ago</span></div>
+        <div class="post-card-text">Hot take: 90% of LinkedIn advice is keeping you invisible. 🔥<br><br>Everyone tells you to "be consistent." Post every day. Use hashtags. Add emojis.<br><br>But here's what the algorithm actually rewards: Specificity. Controversy. Genuine emotion.<br><br>Generic posts get generic results. The people blowing up on LinkedIn right now? They're saying things that make people uncomfortable.<br><br>Agree? Disagree? Let me know ↓</div>
+        <div class="post-card-footer">
+          <div class="post-metrics"><span class="metric">🎯 Hook: <strong>10/10</strong></span><span class="metric">📈 Reach: <strong>4,800–12,000</strong></span><span class="metric">⏰ <strong>Thu 9am</strong></span></div>
+          <div class="post-card-actions"><button class="btn-sm" onclick="copyText(this)">📋 Copy</button><button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button></div>
         </div>
       </div>
     </div>
@@ -1057,244 +591,194 @@ function logout() { sessionStorage.removeItem("lb_user"); window.location.href =
 
   <!-- ═══ AI GENERATOR PAGE ═══ -->
   <div class="page" id="page-generate">
-    <div style="padding:2rem">
-      <div class="page-header">
-        <h1>AI Post Generator</h1>
-        <p>Create a high-performing LinkedIn post in seconds.</p>
-      </div>
-
-      <div style="display:grid;grid-template-columns:360px 1fr;gap:2rem">
-        <div class="widget">
-          <h3 class="section-title-sm">Post Settings</h3>
-          <div class="form-group">
-            <label>Topic / Idea</label>
-            <textarea id="gen-topic" rows="3" placeholder="e.g. The biggest mistake I made hiring my first employee…"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Your Industry</label>
-            <input type="text" id="gen-industry" placeholder="e.g. SaaS, Finance, Healthcare" />
-          </div>
-          <div class="form-group">
-            <label>Post Style</label>
-            <select id="gen-tone">
-              <option value="storytelling">📖 Personal Storytelling</option>
-              <option value="listicle">📋 Listicle / Tips</option>
-              <option value="hot take">🔥 Bold Hot Take</option>
-              <option value="how-to">📚 How-To / Tutorial</option>
-              <option value="professional">💼 Professional Insight</option>
-              <option value="humorous">😄 Humorous but Smart</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Language</label>
-            <select id="gen-lang">
-              <option value="English">🇺🇸 English</option>
-              <option value="Turkish">🇹🇷 Turkish</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Your Name / Role <span style="font-weight:400;color:var(--mid)">(optional, for personalization)</span></label>
-            <input type="text" id="gen-role" placeholder="e.g. Sarah, Head of Marketing at Acme" />
-          </div>
-          <button class="btn-primary" id="gen-btn" onclick="generatePost()" style="width:100%">
-            <div class="btn-spinner" id="gen-spinner"></div>
-            <span id="gen-btn-text">⚡ Generate Post</span>
-          </button>
+    <div class="page-header"><h1>AI Post Generator</h1><p>Create a high-performing LinkedIn post in seconds.</p></div>
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:2rem">
+      <div class="widget">
+        <h3 class="section-title-sm">Post Settings</h3>
+        <div class="form-group"><label>Topic / Idea</label><textarea id="gen-topic" rows="3" placeholder="e.g. The biggest mistake I made hiring my first employee…"></textarea></div>
+        <div class="form-group"><label>Your Industry</label><input type="text" id="gen-industry" placeholder="e.g. SaaS, Finance, Healthcare"/></div>
+        <div class="form-group"><label>Post Style</label>
+          <select id="gen-tone">
+            <option value="storytelling">📖 Personal Storytelling</option>
+            <option value="listicle">📋 Listicle / Tips</option>
+            <option value="hot take">🔥 Bold Hot Take</option>
+            <option value="how-to">📚 How-To / Tutorial</option>
+            <option value="professional">💼 Professional Insight</option>
+            <option value="humorous">😄 Humorous but Smart</option>
+          </select>
         </div>
-
-        <div>
-          <div class="ai-loading" id="gen-loading">
-            <div class="spinner"></div> AI is writing your post…
-          </div>
-          <div class="result-box" id="gen-result"></div>
-
-          <div id="gen-placeholder" class="widget" style="text-align:center;padding:4rem 2rem;color:var(--mid)">
-            <div style="font-size:3.5rem;margin-bottom:1rem">✍️</div>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Ready to write</h3>
-            <p style="font-size:.9rem;max-width:300px;margin:0 auto">Fill in your topic and settings, then click Generate Post to create a scroll-stopping LinkedIn post.</p>
-          </div>
+        <div class="form-group"><label>Language</label>
+          <select id="gen-lang">
+            <option value="English">🇺🇸 English</option>
+            <option value="Turkish">🇹🇷 Turkish</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Your Name / Role <span style="font-weight:400;color:var(--mid)">(optional)</span></label><input type="text" id="gen-role" placeholder="e.g. Sarah, Head of Marketing at Acme"/></div>
+        <button class="btn-primary" id="gen-btn" onclick="generatePost()" style="width:100%">
+          <div class="btn-spinner" id="gen-spinner"></div>
+          <span id="gen-btn-text">⚡ Generate Post</span>
+        </button>
+      </div>
+      <div>
+        <div class="ai-loading" id="gen-loading"><div class="spinner"></div> AI is writing your post…</div>
+        <div class="result-box" id="gen-result"></div>
+        <div id="gen-placeholder" class="widget" style="text-align:center;padding:4rem 2rem;color:var(--mid)">
+          <div style="font-size:3.5rem;margin-bottom:1rem">✍️</div>
+          <h3 style="font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Ready to write</h3>
+          <p style="font-size:.9rem;max-width:300px;margin:0 auto">Fill in your topic and settings, then click Generate Post.</p>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- ═══ ENGAGEMENT PAGE ═══ -->
   <div class="page" id="page-engagement">
-    <div style="padding:2rem">
-      <div class="page-header"><h1>Engagement Predictor</h1><p>Paste your LinkedIn post and AI will predict its performance.</p></div>
-      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem">
-        <div class="widget">
-          <h3 class="section-title-sm">Your Post</h3>
-          <div class="form-group"><label>Paste your LinkedIn post here</label><textarea id="eng-post" rows="10" placeholder="Paste your LinkedIn post here…"></textarea></div>
-          <div class="form-group">
-            <label>Your Industry</label>
-            <input type="text" id="eng-industry" placeholder="e.g. SaaS, Finance, Marketing" />
-          </div>
-          <button class="btn-primary" id="eng-btn" onclick="predictEngagement()">
-            <div class="btn-spinner" id="eng-spinner"></div>
-            <span id="eng-text">🎯 Predict Engagement</span>
-          </button>
-        </div>
-        <div>
-          <div class="ai-loading" id="eng-loading"><div class="spinner"></div> AI is analyzing your post…</div>
-          <div class="result-box" id="eng-result"></div>
-          <div id="eng-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
-            <div style="font-size:3rem;margin-bottom:1rem">🎯</div>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Paste your post</h3>
-            <p style="font-size:.88rem">AI will predict likes, comments, and reach before you post.</p>
-          </div>
+    <div class="page-header"><h1>Engagement Predictor</h1><p>Paste your LinkedIn post and AI will predict its performance.</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:2rem">
+      <div class="widget">
+        <h3 class="section-title-sm">Your Post</h3>
+        <div class="form-group"><label>Paste your LinkedIn post here</label><textarea id="eng-post" rows="10" placeholder="Paste your LinkedIn post here…"></textarea></div>
+        <div class="form-group"><label>Your Industry</label><input type="text" id="eng-industry" placeholder="e.g. SaaS, Finance, Marketing"/></div>
+        <button class="btn-primary" id="eng-btn" onclick="predictEngagement()">
+          <div class="btn-spinner" id="eng-spinner"></div>
+          <span id="eng-text">🎯 Predict Engagement</span>
+        </button>
+      </div>
+      <div>
+        <div class="ai-loading" id="eng-loading"><div class="spinner"></div> AI is analyzing your post…</div>
+        <div class="result-box" id="eng-result"></div>
+        <div id="eng-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+          <div style="font-size:3rem;margin-bottom:1rem">🎯</div>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">Paste your post</h3>
+          <p style="font-size:.88rem">AI will predict likes, comments, and reach before you post.</p>
         </div>
       </div>
     </div>
   </div>
-  
 
   <!-- ═══ ANALYTICS PAGE ═══ -->
   <div class="page" id="page-analytics">
-    <div style="padding:2rem">
-      <div class="page-header">
-        <h1>Performance Analytics</h1>
-        <p>Track your LinkedIn growth over time.</p>
-      </div>
-      <div class="widget" style="text-align:center;padding:4rem;color:var(--mid)">
-        <div style="font-size:3rem;margin-bottom:1rem">📈</div>
-        <h3 style="font-family:'Syne',sans-serif;color:var(--ink);margin-bottom:.5rem">Analytics coming soon</h3>
-        <p style="font-size:.9rem">Connect your LinkedIn account to unlock full performance tracking.<br>Available in Pro plan.</p>
-        <button class="btn-primary" style="margin-top:1.5rem" onclick="showPage('settings')">Upgrade to Pro →</button>
-      </div>
+    <div class="page-header"><h1>Performance Analytics</h1><p>Track your LinkedIn growth over time.</p></div>
+    <div class="widget" style="text-align:center;padding:4rem;color:var(--mid)">
+      <div style="font-size:3rem;margin-bottom:1rem">📈</div>
+      <h3 style="color:var(--ink);margin-bottom:.5rem;font-weight:700">Analytics coming soon</h3>
+      <p style="font-size:.9rem">Connect your LinkedIn account to unlock full performance tracking.<br>Available in Pro plan.</p>
+      <button class="btn-primary" style="margin-top:1.5rem" onclick="showPage('settings')">Upgrade to Pro →</button>
     </div>
   </div>
 
   <!-- ═══ CALENDAR PAGE ═══ -->
   <div class="page" id="page-calendar">
-    <div style="padding:2rem">
-      <div class="page-header"><h1>Content Calendar</h1><p>AI generates your weekly LinkedIn posting plan.</p></div>
-      <div class="widget" style="margin-bottom:1.5rem">
-        <h3 class="section-title-sm">Generate Your Weekly Plan</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end">
-          <div class="form-group" style="margin-bottom:0"><label>Your Industry</label><input type="text" id="cal-industry" placeholder="e.g. SaaS, Finance, Marketing" /></div>
-          <div class="form-group" style="margin-bottom:0">
-            <label>Your Goal</label>
-            <select id="cal-goal">
-              <option>Grow personal brand</option>
-              <option>Generate leads</option>
-              <option>Land a new job</option>
-              <option>Thought leadership</option>
-              <option>Build network</option>
-            </select>
-          </div>
-          <button class="btn-primary" id="cal-btn" onclick="generateCalendar()">
-            <div class="btn-spinner" id="cal-spinner"></div>
-            <span id="cal-text">📅 Generate Plan</span>
-          </button>
+    <div class="page-header"><h1>Content Calendar</h1><p>AI generates your weekly LinkedIn posting plan.</p></div>
+    <div class="widget" style="margin-bottom:1.5rem">
+      <h3 class="section-title-sm">Generate Your Weekly Plan</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end">
+        <div class="form-group" style="margin-bottom:0"><label>Your Industry</label><input type="text" id="cal-industry" placeholder="e.g. SaaS, Finance, Marketing"/></div>
+        <div class="form-group" style="margin-bottom:0"><label>Your Goal</label>
+          <select id="cal-goal">
+            <option>Grow personal brand</option>
+            <option>Generate leads</option>
+            <option>Land a new job</option>
+            <option>Thought leadership</option>
+            <option>Build network</option>
+          </select>
         </div>
-      </div>
-      <div class="ai-loading" id="cal-loading"><div class="spinner"></div> AI is creating your weekly plan…</div>
-      <div id="cal-result"></div>
-      <div id="cal-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
-        <div style="font-size:3rem;margin-bottom:1rem">📅</div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No plan yet</h3>
-        <p style="font-size:.88rem">Enter your industry and goal, then click Generate Plan.</p>
+        <button class="btn-primary" id="cal-btn" onclick="generateCalendar()">
+          <div class="btn-spinner" id="cal-spinner"></div>
+          <span id="cal-text">📅 Generate Plan</span>
+        </button>
       </div>
     </div>
+    <div class="ai-loading" id="cal-loading"><div class="spinner"></div> AI is creating your weekly plan…</div>
+    <div id="cal-result"></div>
+    <div id="cal-placeholder" class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+      <div style="font-size:3rem;margin-bottom:1rem">📅</div>
+      <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No plan yet</h3>
+      <p style="font-size:.88rem">Enter your industry and goal, then click Generate Plan.</p>
+    </div>
   </div>
+
+  <!-- ═══ AGENCY PAGE ═══ -->
   <div class="page" id="page-agency">
-    <div style="padding:2rem">
-      <div class="page-header"><h1>Agency Panel</h1><p>Manage your clients and analyze their LinkedIn profiles.</p></div>
-      <div class="widget" style="margin-bottom:1.5rem">
-        <h3 class="section-title-sm">Add New Client</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end">
-          <div class="form-group" style="margin-bottom:0"><label>Client Name</label><input type="text" id="agency-client-name" placeholder="e.g. John Smith" /></div>
-          <div class="form-group" style="margin-bottom:0"><label>Industry</label><input type="text" id="agency-client-industry" placeholder="e.g. SaaS, Finance" /></div>
-          <div class="form-group" style="margin-bottom:0"><label>Current Headline</label><input type="text" id="agency-client-headline" placeholder="e.g. Product Manager at Acme" /></div>
-          <button class="btn-primary" onclick="addAgencyClient()">➕ Add Client</button>
-        </div>
+    <div class="page-header"><h1>Agency Panel</h1><p>Manage your clients and analyze their LinkedIn profiles.</p></div>
+    <div class="widget" style="margin-bottom:1.5rem">
+      <h3 class="section-title-sm">Add New Client</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end">
+        <div class="form-group" style="margin-bottom:0"><label>Client Name</label><input type="text" id="agency-client-name" placeholder="e.g. John Smith"/></div>
+        <div class="form-group" style="margin-bottom:0"><label>Industry</label><input type="text" id="agency-client-industry" placeholder="e.g. SaaS, Finance"/></div>
+        <div class="form-group" style="margin-bottom:0"><label>Current Headline</label><input type="text" id="agency-client-headline" placeholder="e.g. Product Manager at Acme"/></div>
+        <button class="btn-primary" onclick="addAgencyClient()">➕ Add Client</button>
       </div>
-      <div id="agency-clients-list">
-        <div class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
-          <div style="font-size:3rem;margin-bottom:1rem">💼</div>
-          <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No clients yet</h3>
-          <p style="font-size:.88rem">Add your first client above to get started.</p>
-        </div>
+    </div>
+    <div id="agency-clients-list">
+      <div class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)">
+        <div style="font-size:3rem;margin-bottom:1rem">💼</div>
+        <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No clients yet</h3>
+        <p style="font-size:.88rem">Add your first client above to get started.</p>
       </div>
     </div>
   </div>
 
   <!-- ═══ SETTINGS PAGE ═══ -->
   <div class="page" id="page-settings">
-    <div style="padding:2rem">
-      <div class="page-header">
-        <h1>Settings & Billing</h1>
-        <p>Manage your account and subscription.</p>
+    <div class="page-header"><h1>Settings & Billing</h1><p>Manage your account and subscription.</p></div>
+
+    <div class="upgrade-cta">
+      <div>
+        <div class="upgrade-cta-title">Upgrade to Pro — $29/mo</div>
+        <p>Unlimited posts · Engagement predictor · A/B testing · English + Turkish</p>
       </div>
+      <button class="btn-primary" onclick="window.location.href='checkout.html'">Upgrade Now →</button>
+    </div>
 
-      <!-- Upgrade CTA -->
-      <div style="background:linear-gradient(135deg,var(--ink) 0%,#0d1a3a 100%);border-radius:20px;padding:2rem 2.5rem;color:var(--paper);margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-        <div>
-          <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.4rem">Upgrade to Pro — $29/mo</div>
-          <div style="font-size:.9rem;color:rgba(245,243,238,.5)">Unlimited posts · Engagement predictor · A/B testing · English + Turkish</div>
-        </div>
-        <button class="btn-primary" onclick="window.location.href='checkout.html'">Upgrade Now →</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+      <div class="widget">
+        <h3 class="section-title-sm">Account Details</h3>
+        <div class="form-group"><label>Full Name</label><input type="text" id="settings-name" value=""/></div>
+        <div class="form-group"><label>Email</label><input type="email" id="settings-email" value=""/></div>
+        <div class="form-group"><label>LinkedIn Profile URL</label><input type="url" placeholder="https://linkedin.com/in/yourname"/></div>
+        <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
-        <div class="widget">
-          <h3 class="section-title-sm">Account Details</h3>
-          <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" id="settings-name" value="" />
+      <div class="widget">
+        <h3 class="section-title-sm">Current Plan</h3>
+        <div style="background:rgba(255,255,255,.03);border-radius:12px;padding:1.2rem;margin-bottom:1rem;border:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-weight:700;color:var(--ink)" id="current-plan-name">Free Plan</span>
+            <span style="font-size:.85rem;color:var(--mid)">$0/mo</span>
           </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="settings-email" value="john@example.com" />
-          </div>
-          <div class="form-group">
-            <label>LinkedIn Profile URL</label>
-            <input type="url" placeholder="https://linkedin.com/in/yourname" />
-          </div>
-          <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+          <div style="margin-top:.8rem;font-size:.85rem;color:var(--mid)">3 AI requests/month · Basic features</div>
         </div>
-
-        <div class="widget">
-          <h3 class="section-title-sm">Current Plan</h3>
-          <div style="background:var(--paper);border-radius:12px;padding:1.2rem;margin-bottom:1rem">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <span style="font-family:'Syne',sans-serif;font-weight:700">Free Plan</span>
-              <span style="font-size:.85rem;color:var(--mid)">$0/mo</span>
-            </div>
-            <div style="margin-top:.8rem;font-size:.85rem;color:var(--mid)">
-              3 AI posts/month · 1 profile analysis · Basic features
-            </div>
-          </div>
-          <div style="margin-bottom:1.2rem">
-            <div style="font-size:.82rem;font-weight:600;margin-bottom:.5rem">Upgrade benefits:</div>
-            <div style="font-size:.85rem;color:var(--mid);line-height:1.8">
-              ✓ 20 posts/month<br>
-              ✓ Unlimited profile analyses<br>
-              ✓ Engagement predictor<br>
-              ✓ A/B headline testing<br>
-              ✓ Weekly content calendar<br>
-              ✓ Priority email support
-            </div>
-          </div>
-          <button class="btn-primary" style="width:100%">Upgrade to Pro — $29/mo</button>
+        <div style="margin-bottom:1.2rem;font-size:.85rem;color:var(--mid);line-height:1.8">
+          ✓ Unlimited AI requests<br>
+          ✓ A/B headline testing<br>
+          ✓ Engagement predictor<br>
+          ✓ Weekly content calendar<br>
+          ✓ Priority email support
         </div>
+        <button class="btn-primary" style="width:100%" onclick="window.location.href='checkout.html'">Upgrade to Pro — $29/mo</button>
       </div>
     </div>
   </div>
 
 </main>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+// ════════════════════════════════
+// CONFIG
+// ════════════════════════════════
+const SUPABASE_URL = 'https://roxdpqfkylloirdeocbo.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD';
+const FREE_LIMIT = 3;
+const ANTHROPIC_KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
 
-
-// ── PAGE NAVIGATION ──
+// ════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════
 const pageTitles = {
-  dashboard: 'Dashboard',
-  profile: 'Profile Analysis',
-  posts: 'My Posts',
-  generate: 'AI Generator',
-  analytics: 'Performance Analytics',
-  calendar: 'Content Calendar',
-  settings: 'Settings & Billing',
+  dashboard: 'Dashboard', profile: 'Profile Analysis', posts: 'My Posts',
+  generate: 'AI Generator', analytics: 'Performance Analytics',
+  calendar: 'Content Calendar', settings: 'Settings & Billing',
+  engagement: 'Engagement Predictor', agency: 'Agency Panel'
 };
 
 function showPage(id, navEl) {
@@ -1302,46 +786,39 @@ function showPage(id, navEl) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   document.getElementById('page-title').textContent = pageTitles[id] || id;
-  if (navEl) navEl.classList.add('active');
-  else {
-    const items = document.querySelectorAll('.nav-item');
-    items.forEach(item => {
+  if (navEl) {
+    navEl.classList.add('active');
+  } else {
+    document.querySelectorAll('.nav-item').forEach(item => {
       if (item.getAttribute('onclick')?.includes(`'${id}'`)) item.classList.add('active');
     });
   }
   if (id === 'settings') {
-    const raw = sessionStorage.getItem('lb_user');
-    const u = raw ? JSON.parse(raw) : {};
+    const u = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
     if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
     if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
   }
 }
 
-// ── LOGOUT ──
 function logout() {
   sessionStorage.removeItem('lb_user');
   window.location.href = 'auth.html';
 }
 
-// ── SAVE SETTINGS ──
 function saveSettings() {
   const name = document.getElementById('settings-name').value;
   const email = document.getElementById('settings-email').value;
-  const raw = sessionStorage.getItem('lb_user');
-  const u = raw ? JSON.parse(raw) : {};
+  const u = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
   u.name = name; u.email = email;
   sessionStorage.setItem('lb_user', JSON.stringify(u));
-
   document.getElementById('user-name').textContent = name;
   document.getElementById('user-email').textContent = email;
   document.getElementById('banner-name').textContent = name.split(' ')[0];
-
   const btn = event.target;
   btn.textContent = '✅ Saved!';
   setTimeout(() => btn.textContent = 'Save Changes', 2000);
 }
 
-// ── COPY TEXT ──
 function copyText(btn) {
   const card = btn.closest('.post-card');
   const text = card.querySelector('.post-card-text').innerText;
@@ -1351,465 +828,9 @@ function copyText(btn) {
   });
 }
 
-// ── PROFILE ANALYSIS ──
-async function runProfileAnalysis() {
-  const allowed = await checkUsageLimit();
-  if (!allowed) return;
-  const headline = document.getElementById('p-headline').value.trim();
-  const about = document.getElementById('p-about').value.trim();
-  const industry = document.getElementById('p-industry').value.trim();
-  const goal = document.getElementById('p-goal').value;
-
-  if (!headline && !about) { alert('Please enter your headline or about section.'); return; }
-
-  const btn = document.getElementById('analyze-btn');
-  const spinner = document.getElementById('analyze-spinner');
-  const text = document.getElementById('analyze-text');
-  const loading = document.getElementById('profile-loading');
-  const result = document.getElementById('profile-result');
-  const placeholder = document.getElementById('profile-placeholder');
-
-  btn.disabled = true;
-  spinner.style.display = 'block';
-  text.textContent = 'Analyzing…';
-  loading.classList.add('show');
-  result.classList.remove('show');
-  result.innerHTML = '';
-  placeholder.style.display = 'none';
-
-  const prompt = `You are an expert LinkedIn profile coach. Analyze this profile and respond ONLY with valid JSON (no markdown, no backticks):
-
-Headline: "${headline}"
-About: "${about}"
-Industry: "${industry}"
-Career Goal: "${goal}"
-
-{
-  "score": <0-100>,
-  "grade": "<A/B/C/D/F>",
-  "summary": "<2 sentences>",
-  "issues": [
-    {"severity": "critical|warning|good", "text": "<specific actionable issue>"},
-    {"severity": "critical|warning|good", "text": "<specific actionable issue>"},
-    {"severity": "critical|warning|good", "text": "<specific actionable issue>"},
-    {"severity": "critical|warning|good", "text": "<specific actionable issue>"}
-  ],
-  "headline_a": "<headline option A - keyword focused, max 220 chars>",
-  "headline_a_why": "<why this headline works - 1 sentence>",
-  "headline_b": "<headline option B - story/value focused, max 220 chars>",
-  "headline_b_why": "<why this headline works - 1 sentence>",
-  "improved_headline": "<rewritten headline max 220 chars>",
-  "about_tip": "<one specific tip to improve the about section>",
-  "hashtags": ["#tag1","#tag2","#tag3","#tag4","#tag5"]
-}`;
-
-  const ANTHROPIC_KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await res.json();
-    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
-    const p = JSON.parse(raw);
-
-    const sevColor = { critical: '#ff4757', warning: '#ffbd2e', good: '#00c896' };
-    const sevBg = { critical: 'rgba(255,71,87,.08)', warning: 'rgba(255,189,46,.08)', good: 'rgba(0,200,150,.08)' };
-
-    result.innerHTML = `
-      <div class="result-section" style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem">
-        <div style="font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--accent);line-height:1">${p.score}</div>
-        <div>
-          <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700">Profile Score — Grade ${p.grade}</div>
-          <div style="font-size:.88rem;color:var(--mid);margin-top:.3rem">${p.summary}</div>
-        </div>
-      </div>
-      <div class="result-section">
-        <h4>🔍 Issues & Recommendations</h4>
-        ${p.issues.map(i => `
-          <div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.6rem;padding:.7rem;background:${sevBg[i.severity]};border-radius:9px;border-left:3px solid ${sevColor[i.severity]}">
-            <span style="font-size:.72rem;font-weight:700;color:${sevColor[i.severity]};text-transform:uppercase;flex-shrink:0;margin-top:1px">${i.severity}</span>
-            <span style="font-size:.86rem">${i.text}</span>
-          </div>
-        `).join('')}
-      </div>
-      <div class="result-section">
-        <h4>🆎 A/B Headline Testing</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
-          <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.2);border-radius:12px;padding:1rem">
-            <div style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem">Option A — Keyword Focus</div>
-            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_a}"</div>
-            <div style="font-size:.8rem;color:var(--mid)">${p.headline_a_why}</div>
-          </div>
-          <div style="background:rgba(0,200,150,.06);border:1.5px solid rgba(0,200,150,.2);border-radius:12px;padding:1rem">
-            <div style="font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;margin-bottom:.5rem">Option B — Value Focus</div>
-            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_b}"</div>
-            <div style="font-size:.8rem;color:var(--mid)">${p.headline_b_why}</div>
-          </div>
-        </div>
-      </div>
-      <div class="result-section">
-        <h4>✨ Best Headline Pick</h4>
-        <div style="background:rgba(0,87,255,.06);border:1px solid rgba(0,87,255,.15);border-radius:10px;padding:1rem;font-size:.9rem;font-style:italic">"${p.improved_headline}"</div>
-      </div>
-      <div class="result-section">
-        <h4>💡 About Section Tip</h4>
-        <div style="font-size:.88rem;color:var(--ink)">${p.about_tip}</div>
-      </div>
-      <div class="result-section">
-        <h4>#️⃣ Recommended Hashtags</h4>
-        <div class="tag-row">${p.hashtags.map(h => `<span class="tag">${h}</span>`).join('')}</div>
-      </div>
-    `;
-
-    result.classList.add('show');
-  } catch (err) {
-    result.innerHTML = `<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
-    result.classList.add('show');
-    placeholder.style.display = 'block';
-  } finally {
-    loading.classList.remove('show');
-    btn.disabled = false;
-    spinner.style.display = 'none';
-    text.textContent = '🔍 Analyze Profile';
-  }
-}
-
-// ── POST GENERATOR ──
-async function generatePost() {
-  const allowed = await checkUsageLimit();
-  if (!allowed) return;
-  const topic = document.getElementById('gen-topic').value.trim();
-  const industry = document.getElementById('gen-industry').value.trim();
-  const tone = document.getElementById('gen-tone').value;
-  const lang = document.getElementById('gen-lang').value;
-  const role = document.getElementById('gen-role').value.trim();
-
-  if (!topic) { alert('Please enter a post topic or idea.'); return; }
-
-  const btn = document.getElementById('gen-btn');
-  const spinner = document.getElementById('gen-spinner');
-  const text = document.getElementById('gen-btn-text');
-  const loading = document.getElementById('gen-loading');
-  const result = document.getElementById('gen-result');
-  const placeholder = document.getElementById('gen-placeholder');
-
-  btn.disabled = true;
-  spinner.style.display = 'block';
-  text.textContent = 'Generating…';
-  loading.classList.add('show');
-  result.classList.remove('show');
-  placeholder.style.display = 'none';
-
-  const prompt = `You are a world-class LinkedIn content strategist. Write a viral LinkedIn post.
-
-Topic: "${topic}"
-Industry: "${industry || 'General'}"
-Style: ${tone}
-Language: ${lang}
-Author: "${role || 'a professional'}"
-
-Requirements:
-- First line must be a scroll-stopping hook
-- 150-250 words total
-- Use line breaks generously for readability  
-- 3-5 relevant emojis (not excessive)
-- End with a question or strong CTA
-- Write entirely in ${lang}
-
-Respond ONLY with valid JSON (no markdown):
-{
-  "post": "<full post, use \\n for line breaks>",
-  "hook_score": <1-10>,
-  "predicted_reach": "<e.g. 1,200–4,500 impressions>",
-  "best_day": "<e.g. Tuesday>",
-  "best_time": "<e.g. 8:00 AM>",
-  "hashtags": ["#tag1","#tag2","#tag3","#tag4","#tag5"],
-  "tip": "<one specific tip to boost this post's performance>"
-}`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB'),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await res.json();
-    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
-    const p = JSON.parse(raw);
-
-    result.innerHTML = `
-      <div class="result-section">
-        <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.2rem">
-          <div style="background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.2);border-radius:9px;padding:.55rem 1rem;font-size:.82rem">
-            🎯 Hook Score: <strong>${p.hook_score}/10</strong>
-          </div>
-          <div style="background:rgba(0,87,255,.08);border:1px solid rgba(0,87,255,.15);border-radius:9px;padding:.55rem 1rem;font-size:.82rem">
-            📈 Est. Reach: <strong>${p.predicted_reach}</strong>
-          </div>
-          <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:.55rem 1rem;font-size:.82rem">
-            ⏰ Best Time: <strong>${p.best_day} ${p.best_time}</strong>
-          </div>
-        </div>
-      </div>
-      <div class="result-section">
-        <h4>📝 Your LinkedIn Post</h4>
-        <div id="generated-post-text" style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.5rem;font-size:.9rem;line-height:1.7;white-space:pre-wrap">${p.post.replace(/\\n/g, '\n')}</div>
-        <div style="display:flex;gap:.7rem;margin-top:.8rem;flex-wrap:wrap">
-          <button onclick="copyGeneratedPost(this)" style="background:var(--ink);color:white;border:none;padding:.65rem 1.4rem;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.85rem">
-            📋 Copy Post
-          </button>
-          <button onclick="saveToMyPosts()" style="background:white;border:1.5px solid var(--border);padding:.65rem 1.4rem;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.85rem">
-            💾 Save to My Posts
-          </button>
-        </div>
-      </div>
-      <div class="result-section">
-        <h4>#️⃣ Hashtags</h4>
-        <div class="tag-row">${p.hashtags.map(h => `<span class="tag">${h}</span>`).join('')}</div>
-      </div>
-      <div class="result-section">
-        <h4>💡 Performance Tip</h4>
-        <div style="font-size:.88rem;background:rgba(0,87,255,.04);border:1px solid rgba(0,87,255,.12);border-radius:9px;padding:.9rem">${p.tip}</div>
-      </div>
-    `;
-
-    result.classList.add('show');
-  } catch (err) {
-    result.innerHTML = `<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
-    result.classList.add('show');
-    placeholder.style.display = 'block';
-  } finally {
-    loading.classList.remove('show');
-    btn.disabled = false;
-    spinner.style.display = 'none';
-    text.textContent = '⚡ Generate Post';
-  }
-}
-
-function copyGeneratedPost(btn) {
-  const text = document.getElementById('generated-post-text').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => { btn.textContent = '📋 Copy Post'; }, 2000);
-  });
-}
-
-function saveToMyPosts() {
-  const postText = document.getElementById('generated-post-text')?.innerText;
-  if (!postText) return;
-  alert('Post saved to My Posts!');
-}
-</script>
-  <script>
-    async function predictEngagement() {
-  const allowed = await checkUsageLimit();
-  if (!allowed) return;
-  const post = document.getElementById('eng-post').value.trim();
-  const industry = document.getElementById('eng-industry').value.trim();
-  if (!post) { alert('Please paste your LinkedIn post.'); return; }
-  const btn = document.getElementById('eng-btn');
-  const spinner = document.getElementById('eng-spinner');
-  const text = document.getElementById('eng-text');
-  const loading = document.getElementById('eng-loading');
-  const result = document.getElementById('eng-result');
-  const placeholder = document.getElementById('eng-placeholder');
-  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Analyzing…';
-  loading.classList.add('show'); result.classList.remove('show'); placeholder.style.display = 'none';
-  const prompt = `You are a LinkedIn engagement expert. Analyze this post and predict its performance. Respond ONLY with valid JSON (no markdown):
-Post: "${post}"
-Industry: "${industry || 'General'}"
-{"hook_score":8,"predicted_likes":"45-120","predicted_comments":"8-25","predicted_reach":"2000-5000","viral_score":7,"strengths":["strength 1","strength 2","strength 3"],"weaknesses":["weakness 1","weakness 2"],"best_time":"Tuesday 8:00 AM","improvement":"one specific tip to boost engagement"}`;
-  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-    const p = JSON.parse(raw);
-    result.innerHTML = `
-      <div class="result-section">
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.2rem">
-          <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.15);border-radius:12px;padding:1rem;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--accent)">${p.predicted_likes}</div>
-            <div style="font-size:.8rem;color:var(--mid)">👍 Predicted Likes</div>
-          </div>
-          <div style="background:rgba(0,200,150,.06);border:1.5px solid rgba(0,200,150,.15);border-radius:12px;padding:1rem;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--accent2)">${p.predicted_comments}</div>
-            <div style="font-size:.8rem;color:var(--mid)">💬 Predicted Comments</div>
-          </div>
-          <div style="background:rgba(245,158,11,.06);border:1.5px solid rgba(245,158,11,.15);border-radius:12px;padding:1rem;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#f59e0b">${p.predicted_reach}</div>
-            <div style="font-size:.8rem;color:var(--mid)">👁 Predicted Reach</div>
-          </div>
-          <div style="background:rgba(255,71,87,.06);border:1.5px solid rgba(255,71,87,.15);border-radius:12px;padding:1rem;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--warn)">${p.viral_score}/10</div>
-            <div style="font-size:.8rem;color:var(--mid)">🔥 Viral Score</div>
-          </div>
-        </div>
-      </div>
-      <div class="result-section">
-        <h4>✅ Strengths</h4>
-        ${p.strengths.map(s=>`<div style="padding:.5rem .7rem;margin-bottom:.4rem;background:rgba(0,200,150,.06);border-left:3px solid var(--accent2);border-radius:6px;font-size:.86rem">${s}</div>`).join('')}
-      </div>
-      <div class="result-section">
-        <h4>⚠️ Weaknesses</h4>
-        ${p.weaknesses.map(w=>`<div style="padding:.5rem .7rem;margin-bottom:.4rem;background:rgba(255,71,87,.06);border-left:3px solid var(--warn);border-radius:6px;font-size:.86rem">${w}</div>`).join('')}
-      </div>
-      <div class="result-section">
-        <h4>⏰ Best Time to Post</h4>
-        <div style="font-size:.9rem;font-weight:600">${p.best_time}</div>
-      </div>
-      <div class="result-section">
-        <h4>💡 How to Improve</h4>
-        <div style="font-size:.88rem;background:rgba(0,87,255,.04);border:1px solid rgba(0,87,255,.12);border-radius:9px;padding:.9rem">${p.improvement}</div>
-      </div>`;
-    result.classList.add('show');
-  } catch(err) {
-    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
-    result.classList.add('show'); placeholder.style.display='block';
-  } finally {
-    loading.classList.remove('show'); btn.disabled=false; spinner.style.display='none'; text.textContent='🎯 Predict Engagement';
-  }
-}
-    async function runProfileAnalysis() {
-  const allowed = await checkUsageLimit();
-  if (!allowed) return;
-  const headline = document.getElementById('p-headline').value.trim();
-  const about = document.getElementById('p-about').value.trim();
-  const industry = document.getElementById('p-industry').value.trim();
-  const goal = document.getElementById('p-goal').value;
-  if (!headline && !about) { alert('Please enter your headline or about section.'); return; }
-  const btn = document.getElementById('analyze-btn');
-  const spinner = document.getElementById('analyze-spinner');
-  const text = document.getElementById('analyze-text');
-  const loading = document.getElementById('profile-loading');
-  const result = document.getElementById('profile-result');
-  const placeholder = document.getElementById('profile-placeholder');
-  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Analyzing…';
-  loading.classList.add('show'); result.classList.remove('show'); result.innerHTML = ''; placeholder.style.display = 'none';
-  const prompt = `You are an expert LinkedIn profile coach. Analyze this profile and respond ONLY with valid JSON (no markdown, no backticks):\nHeadline: "${headline}"\nAbout: "${about}"\nIndustry: "${industry}"\nCareer Goal: "${goal}"\n{"score":75,"grade":"B","summary":"2 sentence summary","issues":[{"severity":"critical","text":"issue 1"},{"severity":"warning","text":"issue 2"},{"severity":"good","text":"good thing"},{"severity":"warning","text":"issue 3"}],"headline_a":"keyword focused headline","headline_a_why":"why it works","headline_b":"value focused headline","headline_b_why":"why it works","improved_headline":"best headline","about_tip":"one tip","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"]}`;
-  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-    const p = JSON.parse(raw);
-    const sevColor={critical:'#ff4757',warning:'#ffbd2e',good:'#00c896'};
-    const sevBg={critical:'rgba(255,71,87,.08)',warning:'rgba(255,189,46,.08)',good:'rgba(0,200,150,.08)'};
-    result.innerHTML = `
-      <div class="result-section" style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem">
-        <div style="font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--accent);line-height:1">${p.score}</div>
-        <div><div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700">Profile Score — Grade ${p.grade}</div><div style="font-size:.88rem;color:var(--mid);margin-top:.3rem">${p.summary}</div></div>
-      </div>
-      <div class="result-section"><h4>🔍 Issues & Recommendations</h4>
-        ${p.issues.map(i=>`<div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.6rem;padding:.7rem;background:${sevBg[i.severity]};border-radius:9px;border-left:3px solid ${sevColor[i.severity]}"><span style="font-size:.72rem;font-weight:700;color:${sevColor[i.severity]};text-transform:uppercase;flex-shrink:0;margin-top:1px">${i.severity}</span><span style="font-size:.86rem">${i.text}</span></div>`).join('')}
-      </div>
-      <div class="result-section"><h4>🆎 A/B Headline Testing</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
-          <div style="background:rgba(0,87,255,.06);border:1.5px solid rgba(0,87,255,.2);border-radius:12px;padding:1rem">
-            <div style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem">Option A — Keyword Focus</div>
-            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_a}"</div>
-            <div style="font-size:.8rem;color:var(--mid)">${p.headline_a_why}</div>
-          </div>
-          <div style="background:rgba(0,200,150,.06);border:1.5px solid rgba(0,200,150,.2);border-radius:12px;padding:1rem">
-            <div style="font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;margin-bottom:.5rem">Option B — Value Focus</div>
-            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem">"${p.headline_b}"</div>
-            <div style="font-size:.8rem;color:var(--mid)">${p.headline_b_why}</div>
-          </div>
-        </div>
-      </div>
-      <div class="result-section"><h4>✨ Best Headline Pick</h4>
-        <div style="background:rgba(0,87,255,.06);border:1px solid rgba(0,87,255,.15);border-radius:10px;padding:1rem;font-size:.9rem;font-style:italic">"${p.improved_headline}"</div>
-      </div>
-      <div class="result-section"><h4>💡 About Section Tip</h4>
-        <div style="font-size:.88rem;color:var(--ink)">${p.about_tip}</div>
-      </div>
-      <div class="result-section"><h4>#️⃣ Recommended Hashtags</h4>
-        <div class="tag-row">${p.hashtags.map(h=>`<span class="tag">${h}</span>`).join('')}</div>
-      </div>`;
-    result.classList.add('show');
-  } catch(err) {
-    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
-    result.classList.add('show'); placeholder.style.display='block';
-  } finally {
-    loading.classList.remove('show'); btn.disabled=false; spinner.style.display='none'; text.textContent='🔍 Analyze Profile';
-  }
-}
-    
-async function generatePost() {
-  const topic = document.getElementById('gen-topic').value.trim();
-  const industry = document.getElementById('gen-industry').value.trim();
-  const tone = document.getElementById('gen-tone') ? document.getElementById('gen-tone').value : 'Professional';
-  const lang = document.getElementById('gen-lang').value;
-  const role = document.getElementById('gen-role').value.trim();
-  if (!topic) { alert('Please enter a post topic or idea.'); return; }
-  const btn = document.getElementById('gen-btn');
-  const spinner = document.getElementById('gen-spinner');
-  const text = document.getElementById('gen-btn-text');
-  const loading = document.getElementById('gen-loading');
-  const result = document.getElementById('gen-result');
-  const placeholder = document.getElementById('gen-placeholder');
-  if(btn) btn.disabled = true;
-  if(spinner) spinner.style.display = 'block';
-  if(text) text.textContent = 'Generating...';
-  if(loading) loading.classList.add('show');
-  if(result) result.classList.remove('show');
-  if(placeholder) placeholder.style.display = 'none';
-  const prompt = `Write a viral LinkedIn post. Topic: ${topic}. Industry: ${industry||'General'}. Style: ${tone}. Language: ${lang}. Author: ${role||'professional'}. Respond ONLY with valid JSON no markdown: {"post":"write full post here","hashtags":["#tag1","#tag2","#tag3"],"tip":"one tip here"}`;
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB'),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
-    });
-    const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-    const p = JSON.parse(raw);
-    if(result) {
-      result.innerHTML = '<div style="padding:1rem"><h4>Your Post</h4><div id="generated-post-text" style="background:white;border:1.5px solid #e5e2da;border-radius:12px;padding:1.5rem;font-size:.9rem;line-height:1.7;white-space:pre-wrap">'+p.post+'</div><br><button onclick="navigator.clipboard.writeText(document.getElementById(\'generated-post-text\').innerText)" style="background:#0a0a0f;color:white;border:none;padding:.65rem 1.4rem;border-radius:9px;cursor:pointer">Copy Post</button><br><br><div>'+p.hashtags.join(' ')+'</div><br><div>Tip: '+p.tip+'</div></div>';
-      result.classList.add('show');
-    }
-  } catch(err) {
-    if(result) { result.innerHTML = '<p style="color:red">Error: '+err.message+'</p>'; result.classList.add('show'); }
-  } finally {
-    if(btn) btn.disabled = false;
-    if(spinner) spinner.style.display = 'none';
-    if(text) text.textContent = 'Generate Post';
-    if(loading) loading.classList.remove('show');
-  }
-}
-    // ── USAGE TRACKING ──
-const SUPABASE_URL = 'https://roxdpqfkylloirdeocbo.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD';
-const FREE_LIMIT = 3;
-
+// ════════════════════════════════
+// USAGE TRACKING
+// ════════════════════════════════
 async function getUsageCount(email) {
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/usage_counts?email=eq.${encodeURIComponent(email)}&select=count,plan`, {
@@ -1853,152 +874,341 @@ async function checkUsageLimit() {
   await incrementUsage(user.email);
   return true;
 }
-    // ── INIT: Load user from session ──
-window.addEventListener('DOMContentLoaded', () => {
-  const raw = sessionStorage.getItem('lb_user');
-  if (raw) {
-    const u = JSON.parse(raw);
-    const first = u.name ? u.name.split(' ')[0] : 'there';
-    const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() : 'U';
 
-    document.getElementById('user-avatar').textContent = initials;
-    document.getElementById('user-name').textContent = u.name || 'User';
-    document.getElementById('user-email').textContent = u.email || '';
-    document.getElementById('banner-name').textContent = first;
-    const upgradeBtn = document.getElementById('upgrade-btn');
-if (upgradeBtn) {
-  if (u.plan === 'pro' || u.plan === 'agency') upgradeBtn.style.display = 'none';
-  else upgradeBtn.style.display = 'block';
-}
-    const planEl = document.getElementById('sidebar-plan-text');
-if (planEl) {
-  if (u.plan === 'pro') planEl.textContent = '⭐ Pro Plan';
-  else if (u.plan === 'agency') planEl.textContent = '💎 Agency Plan';
-  else planEl.textContent = '🌟 Free Plan';
-}
-    const agencyNav = document.getElementById('agency-nav');
-if (agencyNav) {
-  if (u.plan === 'agency') agencyNav.style.display = 'flex';
-  else agencyNav.style.display = 'none';
-}
-    
-  
-
-    if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
-    if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
-  }
-});
-    async function generateCalendar() {
+// ════════════════════════════════
+// PROFILE ANALYSIS
+// ════════════════════════════════
+async function runProfileAnalysis() {
   const allowed = await checkUsageLimit();
   if (!allowed) return;
+
+  const headline = document.getElementById('p-headline').value.trim();
+  const about = document.getElementById('p-about').value.trim();
+  const industry = document.getElementById('p-industry').value.trim();
+  const goal = document.getElementById('p-goal').value;
+
+  if (!headline && !about) { alert('Please enter your headline or about section.'); return; }
+
+  const btn = document.getElementById('analyze-btn');
+  const spinner = document.getElementById('analyze-spinner');
+  const text = document.getElementById('analyze-text');
+  const loading = document.getElementById('profile-loading');
+  const result = document.getElementById('profile-result');
+  const placeholder = document.getElementById('profile-placeholder');
+
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Analyzing…';
+  loading.classList.add('show'); result.classList.remove('show'); result.innerHTML = ''; placeholder.style.display = 'none';
+
+  const prompt = `You are an expert LinkedIn profile coach. Analyze this profile and respond ONLY with valid JSON (no markdown, no backticks):
+Headline: "${headline}"
+About: "${about}"
+Industry: "${industry}"
+Career Goal: "${goal}"
+{"score":75,"grade":"B","summary":"2 sentence summary","issues":[{"severity":"critical","text":"issue 1"},{"severity":"warning","text":"issue 2"},{"severity":"good","text":"good thing"},{"severity":"warning","text":"issue 3"}],"headline_a":"keyword focused headline","headline_a_why":"why it works","headline_b":"value focused headline","headline_b_why":"why it works","improved_headline":"best headline","about_tip":"one tip","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"]}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+    const p = JSON.parse(raw);
+
+    const sevColor = { critical: '#ff4757', warning: '#ffbd2e', good: '#00c896' };
+    const sevBg = { critical: 'rgba(255,71,87,.08)', warning: 'rgba(255,189,46,.08)', good: 'rgba(0,200,150,.08)' };
+
+    result.innerHTML = `
+      <div class="result-section" style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem">
+        <div style="font-size:3.5rem;font-weight:800;color:var(--accent);line-height:1">${p.score}</div>
+        <div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--ink)">Profile Score — Grade ${p.grade}</div>
+          <div style="font-size:.88rem;color:var(--mid);margin-top:.3rem">${p.summary}</div>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>🔍 Issues & Recommendations</h4>
+        ${p.issues.map(i => `<div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.6rem;padding:.7rem;background:${sevBg[i.severity]};border-radius:9px;border-left:3px solid ${sevColor[i.severity]}"><span style="font-size:.72rem;font-weight:700;color:${sevColor[i.severity]};text-transform:uppercase;flex-shrink:0;margin-top:1px">${i.severity}</span><span style="font-size:.86rem;color:var(--ink)">${i.text}</span></div>`).join('')}
+      </div>
+      <div class="result-section">
+        <h4>🆎 A/B Headline Testing</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
+          <div style="background:rgba(59,107,255,.06);border:1px solid rgba(59,107,255,.2);border-radius:12px;padding:1rem">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem">Option A — Keyword Focus</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem;color:var(--ink)">"${p.headline_a}"</div>
+            <div style="font-size:.8rem;color:var(--mid)">${p.headline_a_why}</div>
+          </div>
+          <div style="background:rgba(0,255,135,.05);border:1px solid rgba(0,255,135,.2);border-radius:12px;padding:1rem">
+            <div style="font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;margin-bottom:.5rem">Option B — Value Focus</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:.5rem;color:var(--ink)">"${p.headline_b}"</div>
+            <div style="font-size:.8rem;color:var(--mid)">${p.headline_b_why}</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>✨ Best Headline Pick</h4>
+        <div style="background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.15);border-radius:10px;padding:1rem;font-size:.9rem;font-style:italic;color:var(--ink)">"${p.improved_headline}"</div>
+      </div>
+      <div class="result-section">
+        <h4>💡 About Section Tip</h4>
+        <div style="font-size:.88rem;color:var(--ink)">${p.about_tip}</div>
+      </div>
+      <div class="result-section">
+        <h4>#️⃣ Recommended Hashtags</h4>
+        <div class="tag-row">${p.hashtags.map(h => `<span class="tag">${h}</span>`).join('')}</div>
+      </div>`;
+
+    result.classList.add('show');
+  } catch(err) {
+    result.innerHTML = `<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    result.classList.add('show'); placeholder.style.display = 'block';
+  } finally {
+    loading.classList.remove('show'); btn.disabled = false; spinner.style.display = 'none'; text.textContent = '🔍 Analyze Profile';
+  }
+}
+
+// ════════════════════════════════
+// POST GENERATOR
+// ════════════════════════════════
+async function generatePost() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+
+  const topic = document.getElementById('gen-topic').value.trim();
+  const industry = document.getElementById('gen-industry').value.trim();
+  const tone = document.getElementById('gen-tone').value;
+  const lang = document.getElementById('gen-lang').value;
+  const role = document.getElementById('gen-role').value.trim();
+
+  if (!topic) { alert('Please enter a post topic or idea.'); return; }
+
+  const btn = document.getElementById('gen-btn');
+  const spinner = document.getElementById('gen-spinner');
+  const text = document.getElementById('gen-btn-text');
+  const loading = document.getElementById('gen-loading');
+  const result = document.getElementById('gen-result');
+  const placeholder = document.getElementById('gen-placeholder');
+
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Generating…';
+  loading.classList.add('show'); result.classList.remove('show'); placeholder.style.display = 'none';
+
+  const prompt = `You are a world-class LinkedIn content strategist. Write a viral LinkedIn post.
+Topic: "${topic}"
+Industry: "${industry || 'General'}"
+Style: ${tone}
+Language: ${lang}
+Author: "${role || 'a professional'}"
+Requirements: First line must be a scroll-stopping hook. 150-250 words. Use line breaks generously. 3-5 relevant emojis. End with a question or strong CTA. Write entirely in ${lang}.
+Respond ONLY with valid JSON (no markdown):
+{"post":"full post here use \\n for line breaks","hook_score":8,"predicted_reach":"1200-4500 impressions","best_day":"Tuesday","best_time":"8:00 AM","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"tip":"one specific tip to boost this post's performance"}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+    const p = JSON.parse(raw);
+
+    result.innerHTML = `
+      <div class="result-section">
+        <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.2rem">
+          <div style="background:rgba(0,255,135,.08);border:1px solid rgba(0,255,135,.15);border-radius:9px;padding:.55rem 1rem;font-size:.82rem;color:var(--ink)">🎯 Hook Score: <strong>${p.hook_score}/10</strong></div>
+          <div style="background:rgba(59,107,255,.08);border:1px solid rgba(59,107,255,.15);border-radius:9px;padding:.55rem 1rem;font-size:.82rem;color:var(--ink)">📈 Est. Reach: <strong>${p.predicted_reach}</strong></div>
+          <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15);border-radius:9px;padding:.55rem 1rem;font-size:.82rem;color:var(--ink)">⏰ Best Time: <strong>${p.best_day} ${p.best_time}</strong></div>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>📝 Your LinkedIn Post</h4>
+        <div id="generated-post-text" class="generated-post-box">${p.post.replace(/\\n/g, '\n')}</div>
+        <div style="display:flex;gap:.7rem;margin-top:.8rem;flex-wrap:wrap">
+          <button onclick="copyGeneratedPost(this)" style="background:var(--ink);color:#08080f;border:none;padding:.65rem 1.4rem;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.85rem;transition:opacity .2s">📋 Copy Post</button>
+          <button onclick="saveToMyPosts()" style="background:none;border:1px solid var(--border);color:var(--ink);padding:.65rem 1.4rem;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.85rem;transition:border-color .2s">💾 Save to My Posts</button>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>#️⃣ Hashtags</h4>
+        <div class="tag-row">${p.hashtags.map(h => `<span class="tag">${h}</span>`).join('')}</div>
+      </div>
+      <div class="result-section">
+        <h4>💡 Performance Tip</h4>
+        <div style="font-size:.88rem;background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.12);border-radius:9px;padding:.9rem;color:var(--ink)">${p.tip}</div>
+      </div>`;
+
+    result.classList.add('show');
+  } catch(err) {
+    result.innerHTML = `<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    result.classList.add('show'); placeholder.style.display = 'block';
+  } finally {
+    loading.classList.remove('show'); btn.disabled = false; spinner.style.display = 'none'; text.textContent = '⚡ Generate Post';
+  }
+}
+
+function copyGeneratedPost(btn) {
+  const text = document.getElementById('generated-post-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy Post', 2000);
+  });
+}
+
+function saveToMyPosts() {
+  alert('Post saved to My Posts!');
+}
+
+// ════════════════════════════════
+// ENGAGEMENT PREDICTOR
+// ════════════════════════════════
+async function predictEngagement() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+
+  const post = document.getElementById('eng-post').value.trim();
+  const industry = document.getElementById('eng-industry').value.trim();
+
+  if (!post) { alert('Please paste your LinkedIn post.'); return; }
+
+  const btn = document.getElementById('eng-btn');
+  const spinner = document.getElementById('eng-spinner');
+  const text = document.getElementById('eng-text');
+  const loading = document.getElementById('eng-loading');
+  const result = document.getElementById('eng-result');
+  const placeholder = document.getElementById('eng-placeholder');
+
+  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Analyzing…';
+  loading.classList.add('show'); result.classList.remove('show'); placeholder.style.display = 'none';
+
+  const prompt = `You are a LinkedIn engagement expert. Analyze this post and predict its performance. Respond ONLY with valid JSON (no markdown):
+Post: "${post}"
+Industry: "${industry || 'General'}"
+{"hook_score":8,"predicted_likes":"45-120","predicted_comments":"8-25","predicted_reach":"2000-5000","viral_score":7,"strengths":["strength 1","strength 2","strength 3"],"weaknesses":["weakness 1","weakness 2"],"best_time":"Tuesday 8:00 AM","improvement":"one specific tip to boost engagement"}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+    const p = JSON.parse(raw);
+
+    result.innerHTML = `
+      <div class="result-section">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.2rem">
+          <div style="background:rgba(59,107,255,.06);border:1px solid rgba(59,107,255,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--accent)">${p.predicted_likes}</div>
+            <div style="font-size:.8rem;color:var(--mid)">👍 Predicted Likes</div>
+          </div>
+          <div style="background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--accent2)">${p.predicted_comments}</div>
+            <div style="font-size:.8rem;color:var(--mid)">💬 Predicted Comments</div>
+          </div>
+          <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:#f59e0b">${p.predicted_reach}</div>
+            <div style="font-size:.8rem;color:var(--mid)">👁 Predicted Reach</div>
+          </div>
+          <div style="background:rgba(255,59,92,.06);border:1px solid rgba(255,59,92,.15);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--warn)">${p.viral_score}/10</div>
+            <div style="font-size:.8rem;color:var(--mid)">🔥 Viral Score</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-section">
+        <h4>✅ Strengths</h4>
+        ${p.strengths.map(s => `<div style="padding:.5rem .7rem;margin-bottom:.4rem;background:rgba(0,255,135,.06);border-left:3px solid var(--accent);border-radius:6px;font-size:.86rem;color:var(--ink)">${s}</div>`).join('')}
+      </div>
+      <div class="result-section">
+        <h4>⚠️ Weaknesses</h4>
+        ${p.weaknesses.map(w => `<div style="padding:.5rem .7rem;margin-bottom:.4rem;background:rgba(255,59,92,.06);border-left:3px solid var(--warn);border-radius:6px;font-size:.86rem;color:var(--ink)">${w}</div>`).join('')}
+      </div>
+      <div class="result-section">
+        <h4>⏰ Best Time to Post</h4>
+        <div style="font-size:.9rem;font-weight:600;color:var(--ink)">${p.best_time}</div>
+      </div>
+      <div class="result-section">
+        <h4>💡 How to Improve</h4>
+        <div style="font-size:.88rem;background:rgba(0,255,135,.04);border:1px solid rgba(0,255,135,.12);border-radius:9px;padding:.9rem;color:var(--ink)">${p.improvement}</div>
+      </div>`;
+
+    result.classList.add('show');
+  } catch(err) {
+    result.innerHTML = `<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    result.classList.add('show'); placeholder.style.display = 'block';
+  } finally {
+    loading.classList.remove('show'); btn.disabled = false; spinner.style.display = 'none'; text.textContent = '🎯 Predict Engagement';
+  }
+}
+
+// ════════════════════════════════
+// CONTENT CALENDAR
+// ════════════════════════════════
+async function generateCalendar() {
+  const allowed = await checkUsageLimit();
+  if (!allowed) return;
+
   const industry = document.getElementById('cal-industry').value.trim();
   const goal = document.getElementById('cal-goal').value;
+
   const btn = document.getElementById('cal-btn');
   const spinner = document.getElementById('cal-spinner');
   const text = document.getElementById('cal-text');
   const loading = document.getElementById('cal-loading');
   const result = document.getElementById('cal-result');
   const placeholder = document.getElementById('cal-placeholder');
+
   btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Generating…';
   loading.classList.add('show'); result.innerHTML = ''; placeholder.style.display = 'none';
+
   const prompt = `You are a LinkedIn content strategist. Create a weekly content calendar. Respond ONLY with valid JSON (no markdown):
 Industry: "${industry || 'General'}"
 Goal: "${goal}"
 {"days":[{"day":"Monday","emoji":"📖","style":"Storytelling","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"},{"day":"Tuesday","emoji":"📋","style":"Listicle","topic":"specific topic idea","hook":"opening line idea","best_time":"9:00 AM"},{"day":"Wednesday","emoji":"🔥","style":"Hot Take","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"},{"day":"Thursday","emoji":"📚","style":"How-To","topic":"specific topic idea","hook":"opening line idea","best_time":"7:00 AM"},{"day":"Friday","emoji":"💡","style":"Insight","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"}]}`;
-  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
     const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
     const p = JSON.parse(raw);
-    result.innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem">
-        ${p.days.map(d => `
-          <div class="widget" style="padding:1.2rem">
-            <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem">${d.day}</div>
-            <div style="font-size:1.8rem;margin-bottom:.5rem">${d.emoji}</div>
-            <div style="font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:.4rem">${d.style}</div>
-            <div style="font-size:.82rem;font-weight:600;margin-bottom:.4rem">${d.topic}</div>
-            <div style="font-size:.78rem;color:var(--mid);margin-bottom:.6rem;font-style:italic">"${d.hook}"</div>
-            <div style="font-size:.72rem;color:var(--accent2);font-weight:600">⏰ ${d.best_time}</div>
-          </div>
-        `).join('')}
-      </div>`;
+
+    result.innerHTML = `<div class="cal-grid">
+      ${p.days.map(d => `
+        <div class="cal-day">
+          <div class="cal-day-name">${d.day}</div>
+          <div class="cal-day-emoji">${d.emoji}</div>
+          <div class="cal-day-style">${d.style}</div>
+          <div class="cal-day-topic">${d.topic}</div>
+          <div class="cal-day-hook">"${d.hook}"</div>
+          <div class="cal-day-time">⏰ ${d.best_time}</div>
+        </div>`).join('')}
+    </div>`;
     loading.classList.remove('show');
   } catch(err) {
-    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
-    loading.classList.remove('show'); placeholder.style.display='block';
+    result.innerHTML = `<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
+    loading.classList.remove('show'); placeholder.style.display = 'block';
   } finally {
-    btn.disabled=false; spinner.style.display='none'; text.textContent='📅 Generate Plan';
+    btn.disabled = false; spinner.style.display = 'none'; text.textContent = '📅 Generate Plan';
   }
 }
 
-    async function generateBulkPosts() {
-  const allowed = await checkUsageLimit();
-  if (!allowed) return;
-  const topic = document.getElementById('bulk-topic').value.trim();
-  const industry = document.getElementById('bulk-industry').value.trim();
-  const lang = document.getElementById('bulk-lang').value;
-  if (!topic) { alert('Please enter a topic.'); return; }
-  const btn = document.getElementById('bulk-btn');
-  const spinner = document.getElementById('bulk-spinner');
-  const text = document.getElementById('bulk-text');
-  const loading = document.getElementById('bulk-loading');
-  const result = document.getElementById('bulk-result');
-  const placeholder = document.getElementById('bulk-placeholder');
-  btn.disabled = true; spinner.style.display = 'block'; text.textContent = 'Generating…';
-  loading.classList.add('show'); result.innerHTML = ''; placeholder.style.display = 'none';
-  const prompt = `You are a LinkedIn content expert. Write 3 different LinkedIn posts on the same topic in different styles. Respond ONLY with valid JSON (no markdown):
-Topic: "${topic}"
-Industry: "${industry || 'General'}"
-Language: ${lang}
-{"posts":[{"style":"Storytelling","emoji":"📖","post":"full post here","hook_score":8},{"style":"Listicle","emoji":"📋","post":"full post here","hook_score":8},{"style":"Hot Take","emoji":"🔥","post":"full post here","hook_score":8}]}`;
-  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
-    const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-    const p = JSON.parse(raw);
-    result.innerHTML = p.posts.map((post, idx) => `
-      <div class="widget" style="margin-bottom:1.2rem">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-          <div style="display:flex;align-items:center;gap:.6rem">
-            <span style="font-size:1.4rem">${post.emoji}</span>
-            <span style="font-family:'Syne',sans-serif;font-weight:700">${post.style}</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:1rem">
-            <span style="font-size:.82rem;color:var(--mid)">🎯 Hook: <strong>${post.hook_score}/10</strong></span>
-            <button onclick="copyBulkPost(this, 'bulk-post-${idx}')" style="background:var(--ink);color:white;border:none;padding:.45rem 1rem;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.82rem">📋 Copy</button>
-          </div>
-        </div>
-        <div id="bulk-post-${idx}" style="background:var(--paper);border:1.5px solid var(--border);border-radius:10px;padding:1.2rem;font-size:.88rem;line-height:1.7;white-space:pre-wrap">${post.post}</div>
-      </div>
-    `).join('');
-    loading.classList.remove('show');
-  } catch(err) {
-    result.innerHTML=`<p style="color:var(--warn)">Error: ${err.message}. Please try again.</p>`;
-    loading.classList.remove('show'); placeholder.style.display='block';
-  } finally {
-    btn.disabled=false; spinner.style.display='none'; text.textContent='📦 Generate 3 Posts';
-  }
-}
-
-function copyBulkPost(btn, id) {
-  const text = document.getElementById(id).innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = '📋 Copy', 2000);
-  });
-}
-    let agencyClients = [];
+// ════════════════════════════════
+// AGENCY PANEL
+// ════════════════════════════════
+let agencyClients = [];
 
 function addAgencyClient() {
   const name = document.getElementById('agency-client-name').value.trim();
   const industry = document.getElementById('agency-client-industry').value.trim();
   const headline = document.getElementById('agency-client-headline').value.trim();
   if (!name) { alert('Please enter client name.'); return; }
-  const client = { id: Date.now(), name, industry, headline, status: 'pending', score: null };
-  agencyClients.push(client);
+  agencyClients.push({ id: Date.now(), name, industry, headline, score: null, report: null });
   document.getElementById('agency-client-name').value = '';
   document.getElementById('agency-client-industry').value = '';
   document.getElementById('agency-client-headline').value = '';
@@ -2008,28 +1218,27 @@ function addAgencyClient() {
 function renderAgencyClients() {
   const list = document.getElementById('agency-clients-list');
   if (agencyClients.length === 0) {
-    list.innerHTML = `<div class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)"><div style="font-size:3rem;margin-bottom:1rem">💼</div><h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No clients yet</h3><p style="font-size:.88rem">Add your first client above to get started.</p></div>`;
+    list.innerHTML = `<div class="widget" style="text-align:center;padding:3rem 2rem;color:var(--mid)"><div style="font-size:3rem;margin-bottom:1rem">💼</div><h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.5rem">No clients yet</h3><p style="font-size:.88rem">Add your first client above to get started.</p></div>`;
     return;
   }
   list.innerHTML = agencyClients.map(c => `
     <div class="widget" style="margin-bottom:1rem">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
         <div style="display:flex;align-items:center;gap:1rem">
-          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:.9rem">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}</div>
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#08080f;font-size:.9rem">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}</div>
           <div>
-            <div style="font-weight:600;font-size:.95rem">${c.name}</div>
+            <div style="font-weight:600;font-size:.95rem;color:var(--ink)">${c.name}</div>
             <div style="font-size:.8rem;color:var(--mid)">${c.industry || 'No industry'} · ${c.headline || 'No headline'}</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:.7rem">
-          ${c.score ? `<div style="background:rgba(0,87,255,.08);border:1px solid rgba(0,87,255,.15);border-radius:8px;padding:.4rem .9rem;font-size:.85rem;font-weight:700;color:var(--accent)">Score: ${c.score}/100</div>` : ''}
+          ${c.score ? `<div style="background:rgba(0,255,135,.08);border:1px solid rgba(0,255,135,.15);border-radius:8px;padding:.4rem .9rem;font-size:.85rem;font-weight:700;color:var(--accent)">Score: ${c.score}/100</div>` : ''}
           <button onclick="analyzeAgencyClient(${c.id})" class="btn-primary" style="padding:.5rem 1.2rem;font-size:.82rem">🔍 Analyze</button>
-          <button onclick="removeAgencyClient(${c.id})" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:.5rem .8rem;cursor:pointer;font-size:.85rem;color:var(--mid)">🗑</button>
+          <button onclick="removeAgencyClient(${c.id})" style="background:none;border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;cursor:pointer;font-size:.85rem;color:var(--mid)">🗑</button>
         </div>
       </div>
-      ${c.report ? `<div style="margin-top:1rem;padding:1rem;background:var(--paper);border-radius:10px;font-size:.85rem;line-height:1.6">${c.report}</div>` : ''}
-    </div>
-  `).join('');
+      ${c.report ? `<div style="margin-top:1rem;padding:1rem;background:rgba(255,255,255,.03);border-radius:10px;font-size:.85rem;line-height:1.6;color:var(--ink);border-left:2px solid var(--accent)">${c.report}</div>` : ''}
+    </div>`).join('');
 }
 
 async function analyzeAgencyClient(id) {
@@ -2037,16 +1246,19 @@ async function analyzeAgencyClient(id) {
   if (!client) return;
   const allowed = await checkUsageLimit();
   if (!allowed) return;
-  const KEY = atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
-  const prompt = `You are a LinkedIn profile expert. Analyze this client profile and respond ONLY with valid JSON (no markdown):
-Name: "${client.name}"
-Industry: "${client.industry}"
-Headline: "${client.headline}"
-{"score":75,"grade":"B","summary":"2 sentence summary","top_issue":"most critical issue","improved_headline":"better headline","report_html":"<p>Full HTML report for client</p>"}`;
+
+  const prompt = `LinkedIn profile expert. Respond ONLY valid JSON no markdown:
+Name:"${client.name}" Industry:"${client.industry}" Headline:"${client.headline}"
+{"score":75,"grade":"B","summary":"2 sentence summary","top_issue":"most critical issue","improved_headline":"better headline"}`;
+
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 500, messages: [{ role: 'user', content: prompt }] })
+    });
     const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
     const p = JSON.parse(raw);
     client.score = p.score;
     client.report = `<strong>Grade ${p.grade}</strong> · ${p.summary}<br><br><strong>Top Issue:</strong> ${p.top_issue}<br><strong>Better Headline:</strong> "${p.improved_headline}"`;
@@ -2058,6 +1270,63 @@ function removeAgencyClient(id) {
   agencyClients = agencyClients.filter(c => c.id !== id);
   renderAgencyClients();
 }
+
+// ════════════════════════════════
+// INIT — Load user session
+// ════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  const raw = sessionStorage.getItem('lb_user');
+  if (raw) {
+    const u = JSON.parse(raw);
+    const first = u.name ? u.name.split(' ')[0] : 'there';
+    const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() : 'U';
+
+    document.getElementById('user-avatar').textContent = initials;
+    document.getElementById('user-name').textContent = u.name || 'User';
+    document.getElementById('user-email').textContent = u.email || '';
+    document.getElementById('banner-name').textContent = first;
+
+    const upgradeBtn = document.getElementById('upgrade-btn');
+    if (upgradeBtn) {
+      upgradeBtn.style.display = (u.plan === 'pro' || u.plan === 'agency') ? 'none' : 'block';
+    }
+
+    const planEl = document.getElementById('sidebar-plan-text');
+    if (planEl) {
+      if (u.plan === 'pro') planEl.textContent = '⭐ Pro Plan';
+      else if (u.plan === 'agency') planEl.textContent = '💎 Agency Plan';
+      else planEl.textContent = '🌟 Free Plan';
+    }
+
+    const agencyNav = document.getElementById('agency-nav');
+    if (agencyNav) {
+      agencyNav.style.display = (u.plan === 'agency') ? 'flex' : 'none';
+    }
+
+    const planName = document.getElementById('current-plan-name');
+    if (planName) {
+      if (u.plan === 'pro') planName.textContent = 'Pro Plan';
+      else if (u.plan === 'agency') planName.textContent = 'Agency Plan';
+      else planName.textContent = 'Free Plan';
+    }
+
+    if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
+    if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
+
+    getUsageCount(u.email).then(usage => {
+      const fill = document.getElementById('usage-fill');
+      const count = document.getElementById('usage-count');
+      if (u.plan === 'pro' || u.plan === 'agency') {
+        if (count) count.textContent = '∞';
+        if (fill) fill.style.width = '0%';
+      } else {
+        const pct = Math.min((usage.count / FREE_LIMIT) * 100, 100);
+        if (fill) fill.style.width = pct + '%';
+        if (count) count.textContent = usage.count + '/' + FREE_LIMIT;
+      }
+    });
+  }
+});
 </script>
 </body>
 </html>
