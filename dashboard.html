@@ -871,15 +871,14 @@ async function incrementUsage(email) {
 
 async function checkUsageLimit() {
   // Aylık sayacı kontrol et ve gerekirse sıfırla
-const user = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
-if (user.email) {
-  await fetch('https://linkedboost-backend-production.up.railway.app/api/check-reset', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: user.email })
-  });
-}
   const user = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
+  if (user.email) {
+    await fetch('https://linkedboost-backend-production.up.railway.app/api/check-reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: user.email })
+    });
+  }
   if (!user.email) return true;
   if (user.plan === 'pro' || user.plan === 'agency') return true;
   const usage = await getUsageCount(user.email);
