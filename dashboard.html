@@ -570,32 +570,8 @@
       <button class="btn-primary" onclick="showPage('generate')">⚡ Generate New Post</button>
     </div>
     <div id="posts-list">
-      <div class="post-card">
-        <div class="post-card-header"><span class="post-type-badge badge-story">Storytelling</span><span style="font-size:.78rem;color:var(--mid)">Generated 2 days ago</span></div>
-        <div class="post-card-text">I spent 3 years building the wrong thing on LinkedIn.<br><br>I was posting every day. Engagement: zero. Connections: barely moving.<br><br>Then one mentor told me something that changed everything: "Stop writing for LinkedIn. Start writing for humans."<br><br>Here are the 5 things I changed that tripled my profile views in 30 days 👇</div>
-        <div class="post-card-footer">
-          <div class="post-metrics"><span class="metric">🎯 Hook: <strong>9/10</strong></span><span class="metric">📈 Reach: <strong>2,100–4,500</strong></span><span class="metric">⏰ <strong>Tue 8am</strong></span></div>
-          <div class="post-card-actions"><button class="btn-sm" onclick="copyText(this)">📋 Copy</button><button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button></div>
-        </div>
-      </div>
-      <div class="post-card">
-        <div class="post-card-header"><span class="post-type-badge badge-tips">Listicle</span><span style="font-size:.78rem;color:var(--mid)">Generated 3 days ago</span></div>
-        <div class="post-card-text">5 things nobody tells you about Product Management in 2025 🧵<br><br>1. Your roadmap is a lie (and that's okay)<br>2. The best PMs are professional "No" sayers<br>3. Data without context is just noise<br>4. Stakeholder management = 70% of the job<br>5. Your biggest competitor is the status quo<br><br>Which one hit hardest? 👇</div>
-        <div class="post-card-footer">
-          <div class="post-metrics"><span class="metric">🎯 Hook: <strong>8/10</strong></span><span class="metric">📈 Reach: <strong>3,400–7,200</strong></span><span class="metric">⏰ <strong>Wed 7am</strong></span></div>
-          <div class="post-card-actions"><button class="btn-sm" onclick="copyText(this)">📋 Copy</button><button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button></div>
-        </div>
-      </div>
-      <div class="post-card">
-        <div class="post-card-header"><span class="post-type-badge badge-hottake">Hot Take</span><span style="font-size:.78rem;color:var(--mid)">Generated 5 days ago</span></div>
-        <div class="post-card-text">Hot take: 90% of LinkedIn advice is keeping you invisible. 🔥<br><br>Everyone tells you to "be consistent." Post every day. Use hashtags. Add emojis.<br><br>But here's what the algorithm actually rewards: Specificity. Controversy. Genuine emotion.<br><br>Generic posts get generic results. The people blowing up on LinkedIn right now? They're saying things that make people uncomfortable.<br><br>Agree? Disagree? Let me know ↓</div>
-        <div class="post-card-footer">
-          <div class="post-metrics"><span class="metric">🎯 Hook: <strong>10/10</strong></span><span class="metric">📈 Reach: <strong>4,800–12,000</strong></span><span class="metric">⏰ <strong>Thu 9am</strong></span></div>
-          <div class="post-card-actions"><button class="btn-sm" onclick="copyText(this)">📋 Copy</button><button class="btn-sm btn-sm-primary">↗ Post to LinkedIn</button></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="posts-loading" style="text-align:center;padding:3rem;color:var(--mid)">Loading posts...</div>
+</div>
 
   <!-- ═══ AI GENERATOR PAGE ═══ -->
   <div class="page" id="page-generate">
@@ -806,6 +782,7 @@ function showPage(id, navEl) {
     if (document.getElementById('settings-name')) document.getElementById('settings-name').value = u.name || '';
     if (document.getElementById('settings-email')) document.getElementById('settings-email').value = u.email || '';
   }
+  if (id === 'posts') loadMyPosts();
 }
 
 function logout() {
@@ -1071,8 +1048,72 @@ function copyGeneratedPost(btn) {
   });
 }
 
-function saveToMyPosts() {
-  alert('Post saved to My Posts!');
+async function saveToMyPosts() {
+  const user = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
+  if (!user.email) { alert('Please sign in first.'); return; }
+  const postText = document.getElementById('generated-post')?.innerText;
+  if (!postText) { alert('No post to save.'); return; }
+  try {
+    await fetch(`https://roxdpqfkylloirdeocbo.supabase.co/rest/v1/saved_posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD',
+        'Authorization': `Bearer ${user.token}`
+      },
+      body: JSON.stringify({ user_email: user.email, content: postText })
+    });
+    alert('Post saved!');
+  } catch(e) { alert('Could not save post.'); }
+}
+
+async function loadMyPosts() {
+  const user = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
+  const list = document.getElementById('posts-list');
+  if (!user.email) { list.innerHTML = '<p style="color:var(--mid);padding:2rem">Please sign in.</p>'; return; }
+  try {
+    const res = await fetch(`https://roxdpqfkylloirdeocbo.supabase.co/rest/v1/saved_posts?user_email=eq.${encodeURIComponent(user.email)}&order=created_at.desc`, {
+      headers: {
+        'apikey': 'sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD',
+        'Authorization': `Bearer ${user.token}`
+      }
+    });
+    const posts = await res.json();
+    if (!posts || posts.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--mid)">No saved posts yet. Generate a post and save it!</div>';
+      return;
+    }
+    list.innerHTML = posts.map(p => `
+      <div class="post-card">
+        <div class="post-card-header">
+          <span class="post-type-badge badge-story">Saved Post</span>
+          <span style="font-size:.78rem;color:var(--mid)">${new Date(p.created_at).toLocaleDateString()}</span>
+        </div>
+        <div class="post-card-text">${p.content}</div>
+        <div class="post-card-footer">
+          <div class="post-card-actions">
+            <button class="btn-sm" onclick="navigator.clipboard.writeText(this.closest('.post-card').querySelector('.post-card-text').innerText)">📋 Copy</button>
+            <button class="btn-sm" style="color:var(--red);border-color:var(--red)" onclick="deletePost('${p.id}', this)">🗑 Delete</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) { list.innerHTML = '<p style="color:var(--red);padding:2rem">Could not load posts.</p>'; }
+}
+
+async function deletePost(id, btn) {
+  const user = JSON.parse(sessionStorage.getItem('lb_user') || '{}');
+  if (!confirm('Delete this post?')) return;
+  try {
+    await fetch(`https://roxdpqfkylloirdeocbo.supabase.co/rest/v1/saved_posts?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': 'sb_publishable_SxT3GKijgatmurfJDz1uXw_5h6x_wnD',
+        'Authorization': `Bearer ${user.token}`
+      }
+    });
+    btn.closest('.post-card').remove();
+  } catch(e) { alert('Could not delete post.'); }
 }
 
 // ════════════════════════════════
