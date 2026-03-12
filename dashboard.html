@@ -915,7 +915,7 @@ Career Goal: "${goal}"
 {"score":75,"grade":"B","summary":"2 sentence summary","issues":[{"severity":"critical","text":"issue 1"},{"severity":"warning","text":"issue 2"},{"severity":"good","text":"good thing"},{"severity":"warning","text":"issue 3"}],"headline_a":"keyword focused headline","headline_a_why":"why it works","headline_b":"value focused headline","headline_b_why":"why it works","improved_headline":"best headline","about_tip":"one tip","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"]}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://linkedboost-backend-production.up.railway.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
@@ -1012,7 +1012,7 @@ Respond ONLY with valid JSON (no markdown):
 {"post":"full post here use \\n for line breaks","hook_score":8,"predicted_reach":"1200-4500 impressions","best_day":"Tuesday","best_time":"8:00 AM","hashtags":["#tag1","#tag2","#tag3","#tag4","#tag5"],"tip":"one specific tip to boost this post's performance"}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://linkedboost-backend-production.up.railway.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
@@ -1095,7 +1095,7 @@ Industry: "${industry || 'General'}"
 {"hook_score":8,"predicted_likes":"45-120","predicted_comments":"8-25","predicted_reach":"2000-5000","viral_score":7,"strengths":["strength 1","strength 2","strength 3"],"weaknesses":["weakness 1","weakness 2"],"best_time":"Tuesday 8:00 AM","improvement":"one specific tip to boost engagement"}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://linkedboost-backend-production.up.railway.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
@@ -1177,7 +1177,7 @@ Goal: "${goal}"
 {"days":[{"day":"Monday","emoji":"📖","style":"Storytelling","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"},{"day":"Tuesday","emoji":"📋","style":"Listicle","topic":"specific topic idea","hook":"opening line idea","best_time":"9:00 AM"},{"day":"Wednesday","emoji":"🔥","style":"Hot Take","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"},{"day":"Thursday","emoji":"📚","style":"How-To","topic":"specific topic idea","hook":"opening line idea","best_time":"7:00 AM"},{"day":"Friday","emoji":"💡","style":"Insight","topic":"specific topic idea","hook":"opening line idea","best_time":"8:00 AM"}]}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://linkedboost-backend-production.up.railway.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
@@ -1260,7 +1260,7 @@ Name:"${client.name}" Industry:"${client.industry}" Headline:"${client.headline}
 {"score":75,"grade":"B","summary":"2 sentence summary","top_issue":"most critical issue","improved_headline":"better headline"}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://linkedboost-backend-production.up.railway.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 500, messages: [{ role: 'user', content: prompt }] })
