@@ -205,7 +205,8 @@ async function doLogin(){
   try{
     const res=await fetch(`${SUPA_URL}/auth/v1/token?grant_type=password`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({email,password})});
     const data=await res.json();
-    if(data.error||data.error_description){err.textContent=data.error_description||data.error;err.classList.add('show');return;}
+    if(data.error||data.error_description){err.textContent=data.error_description||data.error||'Invalid email or password.';err.classList.add('show');return;}
+if(!data.access_token){err.textContent='Invalid email or password.';err.classList.add('show');return;}
     const token=data.access_token;
     const profRes=await fetch(`${SUPA_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=name,plan`,{headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${token}`}});
     const profData=await profRes.json();
