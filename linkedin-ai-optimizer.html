@@ -554,12 +554,12 @@ async function runDemo(){
   const result=document.getElementById('d-result');
   btn.disabled=true;spinner.style.display='block';btnText.textContent='Analyzing…';
   result.classList.remove('show');
-  const KEY=atob('c2stYW50LWFwaTAzLXduOUkzc191Qi1fODlYaldxSlAtMkMwUFZrc05ST0cyMkZKQ1lnMkIyWDlMVjAzNjZ2di1qQUw0NHIxeFhRMXlaQ0RvRzFGR1dQX3Z6R0VreFkxSWhnLUhMaDhtZ0FB');
+ 
   const prompt=`LinkedIn profile expert. Respond ONLY valid JSON no markdown:
 Headline:"${headline}" About:"${about}" Industry:"${industry}"
 {"score":72,"grade":"B","summary":"2 short sentences.","headline_a":"keyword headline","headline_b":"value headline","top_issue":"most critical issue in one sentence"}`;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://linkedboost-backend-production.up.railway.app/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({max_tokens:500,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     const raw=data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
     const p=JSON.parse(raw);
